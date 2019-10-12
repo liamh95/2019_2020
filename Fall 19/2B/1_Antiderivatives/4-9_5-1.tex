@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}  
+%%Read the manual for other options. 
+
+\pagestyle{empty} %%Eliminates page numbers
+%%\input rmb_macros
+%%Collect your favorite macros in a 
+%%separate file
+
+%\input amssym.def
+%\input amssym
+%\input mssymb
+%%Defines additional symbols
+
+
+
+\usepackage{graphics}
+\usepackage{amsmath,amssymb,amsthm, multicol}
+\usepackage[pdftex]{graphicx}
+\usepackage{epsf}
+%%Use to include pictures. 
+
+%\newcommand{\comment}[1]{}
+%\newcommand{\sobolev}[2]{W^{#1,#2}}
+%\newcommand{\sobolev}[2]{L^#2_#1}
+%%Some examples of macros or new commands.
+
+\addtolength{\oddsidemargin}{-.75in}
+\addtolength{\evensidemargin}{-.75in}
+\addtolength{\textwidth}{1.5in}
+\addtolength{\topmargin}{-1in}
+\addtolength{\textheight}{2.25in}
+%%Set margins, defaults are ok. 
+
+\begin{document}
+\begin{center}
+{\bf \Large MATH 2B: 4.9 - 5.1: Antiderivatives and Area}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item Find the most general antiderivative for the following functions.\\
+	$f(x) = 4x+7$\hspace{2cm} $f(x) = 7x^{2/4}+8x^{-4/5}$\hspace{2cm} $h(x) = 2\sin x - \sec^2x$
+	\vfill
+	$f(s) = 2^s + \sec s \tan s$ \hspace{2cm} $h(v) = 1 + 2\cos v + 3/\sqrt{v}$
+	\vfill
+	\item Find $f$.\\
+	$f''(x) = 20x^3 - 12x^2 + 6x$ \hspace{2cm} $f'(x) = 5x^4 - 3x^2 + \dfrac{3}{1+x^2},\ f(0) = 0$
+	\vfill
+	$f'(x) = \dfrac{x+1}{\sqrt{x}}$\hspace{2cm} $f''(x) = e^x - 2\sin x,\ f(0) = 3,\ f(\pi/2) = 3$
+	\vfill
+	\pagebreak
+
+	\item Consider the curve $y = x^2$ on the interval $[1,3]$.
+	\begin{enumerate}
+		\item Is $y$ increasing or decreasing on this interval?
+		\vspace{1cm}
+		\item Estimate the area under $y$ on $[1,3]$ using left endpoints and 4 rectangles. Is your estimate an underestimate or an overestimate?
+		\vfill
+		\item Repeat part (b) using right endpoints. Is this an underestimate or an overestimate?
+		\vfill
+		\item If a function $f$ is increasing on $[a,b]$, then based upon your answers above, choose ``Over'' or ``Under'' in each part below.
+		\begin{enumerate}
+			\item Estimating the area under $f$ using left endpoints will result in an (Over/Under) estimate.
+			\item Estimating the area under $f$ using right endpoints will result in an (Over/Under) estimate.
+		\end{enumerate}
+		\item What do you think will happen when estimating the area under the curve of a function $g$ that is decreasing on $[a,b]$? Test this by estimating the area under $g(x) = 6-x^2$ on $[0,2]$ using both left and right endpoints and 4 rectangles.
+		\vfill
+	\end{enumerate}
+\end{enumerate}
+
+\end{document}

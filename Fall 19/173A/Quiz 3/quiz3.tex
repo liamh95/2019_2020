@@ -1,0 +1,78 @@
+\documentclass[12pt]{article}  
+%%Read the manual for other options. 
+
+\pagestyle{empty} %%Eliminates page numbers
+%%\input rmb_macros
+%%Collect your favorite macros in a 
+%%separate file
+
+%\input amssym.def
+%\input amssym
+%\input mssymb
+%%Defines additional symbols
+
+
+
+\usepackage{graphics}
+\usepackage{amsmath,amssymb,amsthm, multicol}
+\usepackage[pdftex]{graphicx}
+\usepackage{epsf}
+%%Use to include pictures. 
+
+%\newcommand{\comment}[1]{}
+%\newcommand{\sobolev}[2]{W^{#1,#2}}
+%\newcommand{\sobolev}[2]{L^#2_#1}
+%%Some examples of macros or new commands.
+
+\addtolength{\oddsidemargin}{-.75in}
+\addtolength{\evensidemargin}{-.75in}
+\addtolength{\textwidth}{1.5in}
+\addtolength{\topmargin}{-1in}
+\addtolength{\textheight}{2.25in}
+%%Set margins, defaults are ok. 
+\newcommand{\integers}{\mathbb{Z}}
+
+\begin{document}
+\begin{flushleft} 
+%%Paragraphs will not be indented in this 
+%%environment
+\centerline{\LARGE{Quiz 3}} 
+\vspace{5 mm}
+{Student ID Number:}\hfill  
+%%\hfill forces following text 
+%%to right margin
+{Name \rule {2 in}{0.01in}}\\
+Math 173A, 3PM
+\\
+%%gives a line of length 2in and 
+%%thickness 0.01in
+{Please justify all your answers}\hfill {July 5, 2019}
+\\
+{Please also write your full name on the back} 
+
+\medskip
+\end{flushleft}
+
+\begin{enumerate}
+	\item Fill in the blank.
+	\begin{enumerate}
+		\item Given a prime $p$, $g$, $g^a \pmod{p}$ and $g^b\pmod{p}$ for some $g\in \mathbb{F}_p^\times$ and integers $a$ and $b$, the task of finding $g^{ab}\pmod{p}$ is called the \rule{3.5cm}{.15mm} problem.
+
+		\item Given a prime $p$, $g$, and $g^a \pmod{p}$ for some $g\in \mathbb{F}_p^\times$ and integer $a$, the task of finding $a \pmod{p-1}$ is called the \rule{3.5cm}{.15mm} problem.
+
+		\item True or false? If $g^a \equiv g^b \pmod{p}$ for some prime $p$, $g\in \mathbb{F}_p^\times$ and integers $a$ and $b$, then $a = b$.
+
+		\item In the ElGamal cryptosystem, Alice chooses a prime $p$ and an element $g\in \mathbb{F}_p^\times$. She then secretly chooses an element $a\in \integers/(p-1)\integers$ and publishes $g^a \pmod{p}$, called her \rule{3.5cm}{.15mm}.
+	\end{enumerate}
+
+	\item Suppose you know that
+	\[
+	3^5 \equiv 44 \pmod{137},\quad 3^{10}\equiv 2 \pmod{137}.
+	\]
+	Find a value of $x$ with $0\leq x \leq 135$ such that $3^x \equiv 11\pmod{137}$. \textit{Hint: this can be done quickly without a calculator.}
+	\vfill
+\end{enumerate}
+
+%\vfill will divide page evenly
+%use \begin{enumerate} environment for ordered lists
+\end{document}

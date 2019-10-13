@@ -26,6 +26,7 @@
 \newcommand{\essinf}{\text{ess inf }}
 \newcommand{\affine}{\mathbb{A}}
 \newcommand{\E}{\mathbb{E}}
+\newcommand{\prob}{\mathbb{P}}
 
 \newenvironment{solution}
 {\begin{proof}[Solution]}
@@ -50,9 +51,69 @@
 	\item \begin{enumerate}
 		\item Let $\Delta_1$, $\Delta_2, \ldots$ be independent random variables with mean 0 and variance 1. Let $X_1 = \Delta_1$ and for $n = 1, 2, \ldots$ let $X_{n+1} = X_n + \Delta_{n+1}f_n(X_1, \ldots, X_n)$ for $f_n$ given bounded deterministic functions. Show that $\{X_n\}$ is a martingale (specify the filtration).
 		\begin{solution}
-			
+			Let $\{\mcal{F}_n\}$ be the filtration given by $\mcal{F}_n = \sigma(X_1, \ldots, X_n)$. We have that $\E[|X_1|] = \E[|\Delta_1|]<\infty$, since $\Delta_1$ has finite mean. Suppose now that $\E[|X_n|]<\infty$ for all $n \leq k$ for some $k$. We then have
+			\begin{align*}
+				\E[|X_{k+1}|] &= \E[|X_k + \Delta_{k+1}f_k(X_1, \ldots, X_k)|]\\
+				&\leq \E[|X_k|] + \Lp{f_k}{\infty}\cdot\E[|\Delta_{k+1}|]\\
+				&<\infty.
+			\end{align*}
+			By induction, each $X_n$ is integrable. Since we're dealing with a discrete stochastic process, it suffices to check the martingale property on consecutive variable-filtration pairs, $\E[X_{n+1}|\mcal{F}_n]$. Here's a computation.
+			\begin{align*}
+				\E[X_{n+1}| \mcal{F}_n] &= \E[X_{n+1} - X_n + X_n | \mcal{F}_n]\\
+				&= \E[\Delta_{n+1}f_n(X_1, \ldots, X_n)|\mcal{F}_n] + X_n\\
+				&= \E[\Delta_{n+1}|\mcal{F}_n]\cdot f_n(X_1, \ldots, X_n) + X_n \quad(f_n(X_1, \ldots, X_n)\text{is }\mcal{F}_n\text{ measurable})\\
+				&= \E[\Delta_{n+1}]\cdot f_n(X_1, \ldots, X_n) +X_n\quad (\Delta_{n+1}\text{ is independent of }\mcal{F}_n)\\
+				&= X_n.
+			\end{align*}
+			Thus, $\{X_n\}$ is a martingale adapted to the filtration $\{\mcal{F}_n\}$.
+		\end{solution}
+
+		\item Let $Y_1, \ldots$ be independent random variables with mean 0 and variance $\sigma^2$. Let $X_n = (\sum_{k=1}^nY_k)^2 - n\sigma^2$ and show that $\{X_n\}$ is a martingale.
+		\begin{solution}
+			Let $\mcal{F}_n = \sigma(X_1, \ldots, X_n)$. Let's verify that the variables $X_n$ are integrable.
+			\begin{align*}
+				\E[|X_n|] & \leq \sum_{k=1}^n \E[Y_k^2] + 2\sum_{1\leq i<j\leq n}\E[Y_iY_j] + n\sigma^2\\
+				&= 2n\sigma^2\quad (\text{since }Y_i \text{ and }Y_j\text{ are independent for }i \neq j).
+			\end{align*}
+			Great. Now let's show that $\E[X_{n+1}|\mcal{F}_n] = X_n$.
+			\begin{align*}
+				\E[X_{n+1}|\mcal{F}_n] &= \E[X_{n+1} - X_n + X_n|\mcal{F}_n]\\
+				&= \E\left[\left(\sum_{k=1}^{n+1}Y_k\right)^2 - \left(\sum_{k=1}^nY_k\right)^2 \bigg|\mcal{F}_n\right] - \sigma^2 + X_n\\
+				&= \E\left[Y_{n+1}\left(2\sum_{k=1}^nY_k + Y_{n+1}\right)\bigg|\mcal{F}_n\right] - \sigma^2 + X_n\\
+				&= \E[Y_{n+1}^2|\mcal{F}_n] + 2\sum_{k=1}^n\E[Y_{n+1}Y_k|\mcal{F}_n] - \sigma^2 + X_n\\
+				&= \sigma^2 + 0 - \sigma^2 + X_n\quad \text{(since the }Y_k\text{'s are independent)}\\
+				&= X_n.
+			\end{align*}
 		\end{solution}
 	\end{enumerate}
+
+	\item \begin{enumerate}
+		\item Show that if $X_n\to X$ in $L^p$, $p\geq 1$, then
+		\[
+		X_n\to X\text{ in probability.}
+		\]
+		\begin{solution}
+			Suppose that the random variables $X_n$ are defined on the probability space $(\Omega, \mcal{F}, \prob)$. First, we claim that if $X_n\to X$ in $L^1$. This follows from H\"older's inequality and the finiteness of $\prob(\Omega)$.
+			\begin{align*}
+				\int_\Omega|X_n - X|\ d\prob &\leq \Lp{X_n - X}{p}\cdot \prob(\Omega)^{1/q}\\
+				&\to 0,
+			\end{align*}
+			where $q$ is the H\"older conjugate of $p$. Now suppose that $X_n$ didn't converge to $X$ in probability. Then for some $\epsilon>0$, there are infinitely many $n$ such that $\prob[E_n>\epsilon] > \epsilon$, where $E_n$ is the event $E_n = \{|X_n - X|>\epsilon\}$. Check this out
+			\begin{align*}
+				\int_\Omega|X_n - X|\ d\prob &\geq \int_{E_n}|X_n - X|\ d\prob\\
+				& \int_{E_n}\epsilon\ d\prob\\
+				&= \epsilon^2.
+			\end{align*}
+			Then $X_n$ \textit{doesn't} converge to $X$ in $L^1$. We conclude that $X_n\to X$ in probability.
+		\end{solution}
+
+		\item Construct an example with a sequence $X_n$ of random variables that converges in $L^p$, but not almost surely.
+		\begin{solution}
+			Consider the typewriter sequence $f_{n,k}$ given by $f_{n,k}(x) = \chi_{[k2^{-n}, (k+1)2^{-n}]}(x)$, where $n = 1, 2, \ldots$ and $k = 0, 1, \ldots 2^n-1$. Since $f_{n,k}$ is supported on a set of measure $2^{-n}$, $f_{n,k}\to 0$ in $L^1$. But $f_{n,k}(x)$ doesn't converge for any $x$, since for any fixed $n$, $f_{n,k}(x) = 1$ for some $k$. Consequently, $f_{n,k}$ doesn't converge almost surely.
+		\end{solution}
+	\end{enumerate}
+
+	\item Prove that $B^2(t) - t$ is a martingale, where $B(t)$ is a standard Brownian motion.
 \end{enumerate}
 
 \end{document}

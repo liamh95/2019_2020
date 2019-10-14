@@ -114,6 +114,49 @@
 	\end{enumerate}
 
 	\item Prove that $B^2(t) - t$ is a martingale, where $B(t)$ is a standard Brownian motion.
+	\begin{proof}
+		Define the filtration $\mcal{F}_t = \sigma(B_s: s\leq t)$. Let's verify that $B_t^2 -t$ is integrable.
+		\begin{align*}
+		 	\E[|B_t^2 - t|] &\leq \E[B_t^2] + t\\
+		 	&= 2t.
+		\end{align*} 
+		Here we've used the fact that $B_t - B_s \sim \mcal{N}(0, t-s)$. Check this out.
+		\begin{align*}
+			\E[B_t^2 - t| \mcal{F}_s] &= \E[(B_t - B_s + B_s)^2 - t| \mcal{F}_s]\\
+			&= \E[(B_t-B_s)^2|\mcal{F}_s] + 2B_s\E[B_t-B_s|\mcal{F}_s] + B_s^2 - t\\
+			&= \E[(B_t-B_s)^2] + 2B_s\E[B_t-B_s] + B_s^2 - t\quad\text{(since increments are independent)}\\
+			&= (t-s) + 0 + B_s^2 - t\\
+			&= B_s^2 - s.
+		\end{align*}
+		We conclude that $B_t^2 - t$ is a martingale.
+	\end{proof}
+
+	\item Let $W_t$ be a standard $n$-dimensional Brownian motion and fix $t_0\geq 0$. Prove that
+	\[
+	\tilde{W}(t) = U[W(t_0+t) - W(t_0)]:\ t\geq 0,
+	\]
+	is a standard $n$-dimensional Brownian motion for $U$ an orthogonal matrix.
+	\begin{proof}
+		Intuitively, re-centering coordinates and rotating a Brownian motion should yield another Brownian motion. $\tilde{W}$ starts at zero.
+		\begin{align*}
+			\tilde{W}(0) &= U[W(t_0) - W(t_0)]\\
+			&= U(0)\\
+			&= 0.
+		\end{align*}
+		$U$ is a linear transformation, so $x\mapsto Ux$ is continuous. Since $t\mapsto W(t)$ is almost surely continuous, $t\mapsto U[W(t_0+t) - W(t_0)]$ is almost surely continuous. Fix $t_1\leq t_2 \leq \cdots \leq t_m$. Since $\{W(t_k) - W(t_{k-1}): k = 1, \ldots, m\}$ are independent and $x\mapsto Ux$ is a bijection, $\{\tilde{W}(t_k) - \tilde{W}(t_{k-1})\} = \{U[W(t_k+t_0) - W(t_{k-1}+t_0)\}$ are also independent.\\
+
+		\noindent Let $\tilde{W}^{(1)}, \ldots, \tilde{W}^{(n)}$ be the components of $\tilde{W}$. Since $W(t+t_0) - W(t_0)$ is a standard Brownian motion, the components of the increments $\tilde{W}(t) - \tilde{W}(s)$ are given by
+		\[
+		\tilde{W}^{(i)}(t)- \tilde{W}^{(i)}(s) = u_{i,1}\xi_1 + u_{i,2}\xi_2 + \cdots + u_{i,n}\xi_n,
+		\]
+		where $u_{i,j}$ is the $i,j$-th entry of $U$ and each $\xi_j$ has distribution $\mcal{N}(0, t-s)$. Since the components of $W$ are independent, so are the $\xi_k$'s. Because $U$ is an orthogonal matrix, $u_{i,1}^2 + \cdots +u_{i,n}^2 = 1$ and we have
+		\begin{align*}
+			\xi_j &\sim u_{i,1}\mcal{N}(0, t-s) + u_{i,2}\mcal{N}(0, t-s) + \cdots + u_{i,n}\mcal{N}(0, t-s)\\
+			&= \mcal{N}(0, (u_{i,1}^2 + \cdots + u_{i,n}^2)(t-s))\\
+			&= \mcal{N}(0, t-s).
+		\end{align*}
+		We conclude that $\tilde{W}$ is a Brownian motion.
+	\end{proof}
 \end{enumerate}
 
 \end{document}

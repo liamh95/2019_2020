@@ -1,0 +1,98 @@
+%% Please change the file name by replacing N with the apporpriate number
+%% corresponding to the current homework and XX with your initials.
+%% https://www.math.uci.edu/~gpatrick/jsOnline/hw1.html
+
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz} %This package offers the ability to draw pictures
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\exreals}{\overline{\mathbb{R}}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\mable}{measurable}
+\newcommand{\quats}{\mathbb{H}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\norm}{\trianglelefteq}
+\newcommand{\Aut}{\text{Aut}}
+\newcommand{\disk}{\mathbb{D}}
+\newcommand{\halfplane}{\mathbb{H}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\supp}[1]{\text{supp}({#1})}
+\newcommand{\Hom}[2]{\text{Hom}_{{#1}}({#2})}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\field}[1]{\mathbb{F}_{{#1}}}
+\newcommand{\Gal}[1]{\text{Gal}\left({#1}\right)}
+\newcommand{\esssup}{\text{ess sup }}
+\newcommand{\essinf}{\text{ess inf }}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\prob}{\mathbb{P}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{October 23, 2019} }
+% Please give relevant information
+\begin{center}
+{\bf \Large 271A- Homework 2} %Replace N with the appropriate number
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item Use Jensen's inequality to show that for $p\geq 1$.
+	\[
+	\Lp{\E[X|\mcal{G}]}{p} \leq \Lp{X}{p}.
+	\]
+	\begin{proof}
+		Let's look at the $p$-norm to the $p$-th power.
+		\begin{align*}
+			\Lp{\E[X|\mcal{G}]}{p}^p &= \int |\E[X|\mcal{G}]|^p\ d\prob\\
+			&\leq \int\E[|X|^p|\mcal{G}]\ d\prob\quad\text{(by Jensen's inequality)}\\
+			&= \int |X|^p\ d\prob\quad\text{(by definition of conditional expectation)}\\
+			&= \Lp{X}{p}^p.
+		\end{align*}
+		Taking the $p$-th root of both sides establishes the claim.
+	\end{proof}
+
+	\item Let $(X_n: n\in \naturals)$ be a sequence of independent random variables, each exponentially distributed:
+	\[
+	\prob[X_n>x] =e^{-x},\quad x\geq 0.
+	\]
+	\begin{enumerate}
+		\item A random variable $\tau$ has the lack of memory property if
+		\[
+		\prob[\tau>a+b\ |\ \tau>a] = \prob[\tau>b].
+		\]
+		Show that a random variable has the memoryless property if and only if it is exponentially distributed.
+		\begin{proof}
+			Suppose $\tau$ is exponentially distributed, i.e.
+			\[
+			\prob[\tau > x] = \begin{cases}
+				e^{-\lambda x},&\text{if }x\geq 0,\\
+				1,&\text{if }x <0.
+			\end{cases}
+			\]
+			By the definition of conditional probability we have 
+			\begin{align*}
+				\prob[\tau>a+b\ |\ \tau > a] &= \frac{\prob[(\tau>a+b) \land (\tau>a)]}{\prob[\tau>a]}\\
+			\end{align*}
+			Now if $b<0$
+		\end{proof}
+	\end{enumerate}
+\end{enumerate}
+
+\end{document}

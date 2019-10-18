@@ -1,0 +1,74 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\exreals}{\overline{\mathbb{R}}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\mable}{measurable}
+\newcommand{\quats}{\mathbb{H}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\norm}{\trianglelefteq}
+\newcommand{\Aut}{\text{Aut}}
+\newcommand{\disk}{\mathbb{D}}
+\newcommand{\halfplane}{\mathbb{H}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\supp}[1]{\text{supp}({#1})}
+\newcommand{\Hom}[2]{\text{Hom}_{{#1}}({#2})}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\field}[1]{\mathbb{F}_{{#1}}}
+\newcommand{\Gal}[1]{\text{Gal}\left({#1}\right)}
+\newcommand{\esssup}{\text{ess sup }}
+\newcommand{\essinf}{\text{ess inf }}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{October 28, 2019} }
+\begin{center}
+{\bf \Large 270A - Homework 1}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item \begin{enumerate}
+		\item Let $\mcal{F}$ be the family of all finite subsets of $\Omega$ and their complements. Is $\mcal{F}$ a $\sigma$-algebra?
+		\begin{solution}
+			If $\Omega$ is finite then $\mcal{F}$ is simply the power set of $\Omega$, which is definitely a $\sigma$-algebra. However, if $\mcal{F}$ is infinite, then $\mcal{F}$ is never a $\sigma$-algebra. To see this, let $(x_n)$ be a countable sequence of distinct elements in $\Omega$ and consider the set of even-indexed terms
+			\[
+				F = \{x_n: n = 2k,\ k\in \naturals\}.
+			\]
+			This set is a countable union of singletons and all singletons belong to $\mcal{F}$. $F$ is clearly infinite, but so is its complement, which contains the (infinite) set of odd-indexed terms. We conclude that $F$ is neither finite nor co-finite, so $\mcal{F}$ is not closed under countable unions when $\Omega$ is an infinite set.
+		\end{solution}
+
+		\item Let $\mcal{F}$ be the family of all countable subsets of $\Omega$ and their complements. Is $\mcal{F}$ a $\sigma$-algebra?
+		\begin{solution}
+			$\mcal{F}$ is indeed a $\sigma$-algebra. The empty set is clearly countable, and $\Omega^C = \emptyset$. Let $F_n$ be a countable collection of sets in $\mcal{F}$ and consider their union, $F = \cup_{n=1}^\infty F_n$. If each $F_n$ is countable, then $F$ is just a countable union of countable sets: countable. If one of the $F_n$'s, say $F_k$, were co-countable, then $F^C \subseteq F_k^C$, which is countable, so $F$ is co-countable. Since $\mcal{F}$ contains the empty set and $\Omega$ and is closed under countable unions and complements, it is a $\sigma$-algebra.
+		\end{solution}
+
+		\item Let $\mcal{F}$ and $\mcal{G}$ be two $\sigma$-algebras of subsets of $\Omega$. Is $\mcal{F}\cap \mcal{G}$ always a $\sigma$-algebra?
+		\begin{solution}
+			$\mcal{F}$ is a $\sigma$-algebra. Since $\mcal{F}$ and $\mcal{G}$ both contain $\emptyset$ and $\Omega$, so does their intersection. Let $E_n$ be a countable collection of sets in $\mcal{F}\cap \mcal{G}$. Since $\mcal{F}$ and $\mcal{G}$ are both $\sigma$-algebras, the union $E = \cup_{n=1}^\infty E_n$ is in both $\mcal{F}$ and $\mcal{G}$ and each $E_n^C$ is in both $\mcal{F}$ and $\mcal{G}$ as well.
+		\end{solution}
+
+		\item Let $\mcal{F}$ and $\mcal{G}$ be two $\sigma$-algebras of subsets of $\Omega$. Is $\mcal{F}\cup \mcal{G}$ always a $\sigma$-algebra?
+	\end{enumerate}
+\end{enumerate}
+
+\end{document}

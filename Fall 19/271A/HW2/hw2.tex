@@ -31,6 +31,7 @@
 \newcommand{\affine}{\mathbb{A}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
 
 \newenvironment{solution}
 {\begin{proof}[Solution]}
@@ -90,8 +91,94 @@
 			\begin{align*}
 				\prob[\tau>a+b\ |\ \tau > a] &= \frac{\prob[(\tau>a+b) \land (\tau>a)]}{\prob[\tau>a]}\\
 			\end{align*}
-			Now if $b<0$
+			Now if $b\geq 0$, $\prob[(\tau>a+b)\land (\tau>a)] = \prob[\tau>a+b]$. This gives
+			\begin{align*}
+				\prob[\tau>a+b\ |\ \tau > a] &= \frac{\prob[\tau>a+b]}{\prob[\tau>a]}\\
+				&= \frac{e^{-\lambda(a+b)}}{e^{-\lambda a}}\\
+				&= e^{-\lambda b}\\
+				&= \prob[\tau>b].
+			\end{align*}
+			On the other hand, if $b<0$, $\prob[(\tau>a+b)\land(t>a)] = \prob[\tau>a]$, which gives
+			\begin{align*}
+				\prob[\tau>a+b\ |\ \tau > a] &=\frac{\prob[\tau>a]}{\prob[\tau>a]}\\
+				&= 1\\
+				&= \prob[\tau>b].
+			\end{align*}
+			Conversely, suppose that $\tau$ is memoryless. If $b$ is positive then we have
+			\[
+			\prob[\tau>a+b] = \prob[\tau>a]\cdot \prob[\tau>b].
+			\]
+			If we let $F(x)= \prob[\tau>x]$, then $F$ satisfies the exponential property:
+			\[
+			F(a+b) = F(a)F(b).
+			\]
+			Setting $a=b$, we have $F(2a) = F(a)^2$. Inductively, we obtain $F(na) = F(a)^n$ for any positive integer $n$. Taking the $n$-th root of both sides gives $F(a/n) = F(a)^{1/n}$. Combining these gives $F(\frac{m}{n}a) = F(a)^{m/n}$. For any rational $\frac{m}{n}$.\\
+
+			\noindent Since any real number is a limit of rational numbers, we obtain $F(ra)= F(a)^{r}$ for any real $r$ by continuity. Since this holds for any $a\geq 0$, we can set $a=1$ to obtain $F(r) = F(1)^r$, so $F$, the distribution of $\tau$, is exponential.
 		\end{proof}
+
+		\item Compute the expectation and variance of $X_n$. Let $Y = X_n + X_{n+1}$. Find the correlation coefficient between $Y$ and $X_n$. Find $\E[Y|X_{n+1}]$.
+		\begin{solution}
+			Let's compute the first two moments.
+			\begin{align*}
+				\E[X_n] &= \int_0^\infty e^{-x}\ dx\\
+				&= 1.
+			\end{align*}
+			\begin{align*}
+				\E[X_n^2] &= 2\int_0^\infty xe^{-x}\ dx\\
+				&= 2.
+			\end{align*}
+			We then have $\E[X_n] = 1$ and $\Var[X_n] = \E[X_n^2] -\E[X_n]^2 = 1$.\\
+
+			\noindent Let $Y = X_n+X_{n+1}$. We'll need the mean and variance of $Y$ to compute the correlation coefficient.
+			\begin{align*}
+				\E[Y] &= \E[X_n] + \E[X_{n+1}] = 2.
+			\end{align*}
+			Since $X_n$ and $X_{n+1}$ are independent, we also have
+			\[
+			\Var[Y] = \Var[X_n] + \Var[X_{n+1}] = 2.
+			\]
+			Now let's compute the correlation coefficient.
+			\begin{align*}
+				\rho_{Y, X_{n+1}} &= \frac{\E[(Y - \mu_Y)(X_{n+1} - \mu_{n+1})]}{\sigma_Y\sigma_{n+1}}\\
+				&= \frac{\E[YX_{n+1}] - \mu_{n+1}\E[Y] - \mu_Y\E[X_{n+1}]  +\mu_Y\mu_{n+1}}{\sqrt{2}}\\
+				&= \frac{\E[X_nX_{n+1}] + \E[X_{n+1}^2]-2-2+2}{\sqrt{2}}\\
+				&= \frac{1}{\sqrt{2}}.
+			\end{align*}
+			Now for the conditional expectation. Since conditional expectation is linear and $X_n$ and $X_{n+1}$ are independent,
+			\begin{align*}
+				\E[Y|X_{n+1}] &= \E[X_n|X_{n+1}] + \E[X_{n+1}|X_{n+1}]\\
+				&= \E[X_n] + X_{n+1}\\
+				&= 1+X_{n+1}.
+			\end{align*}
+		\end{solution}
+		\item Show that
+		\[
+		\prob[X_n > \alpha \log n\text{ for infinitely many }n] = \begin{cases}
+			0&\text{for }\alpha>1,\\
+			1&\text{else}
+		\end{cases}.
+		\]
+		\begin{proof}
+			Let $E_n$ be the event $E_n = \{X_n > \alpha \log n\}$. Let's sum these events
+			\begin{align*}
+				\sum_{n=1}^\infty \prob[E_n] &= \sum_{n=1}^\infty e^{-\alpha \log n}\\
+				&= \sum_{n=1}^\infty \frac{1}{n^\alpha}.
+			\end{align*}
+			This is summable if and only if $\alpha>1$. By Borel-Cantelli, we have
+			\[
+			\prob[\limsup E_n] = \prob[X_n>\alpha \log n\text{ for infinitely many }n] = 0.
+			\]
+			Since the $X_n$'s are given to be independent, if the above sum diverges, $\prob[\limsup E_n] = 1$ by the converse of Borel-Cantelli.
+		\end{proof}
+	\end{enumerate}
+
+	\item Let $B_t$ be a standard Brownian motion.
+	\begin{enumerate}
+		\item Find a matrix $A$ so that in distribution $[B_{t_1}, B_{t_2}, \ldots, B_{t_n}]^T = A[Z_1, Z_2, \ldots, Z_n]^T$, where the $Z_j$'s are iid standard normal random variables.
+		\begin{solution}
+			
+		\end{solution}
 	\end{enumerate}
 \end{enumerate}
 

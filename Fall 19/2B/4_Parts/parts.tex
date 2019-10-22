@@ -1,0 +1,115 @@
+\documentclass[12pt]{article}  
+%%Read the manual for other options. 
+
+\pagestyle{empty} %%Eliminates page numbers
+%%\input rmb_macros
+%%Collect your favorite macros in a 
+%%separate file
+
+%\input amssym.def
+%\input amssym
+%\input mssymb
+%%Defines additional symbols
+
+
+
+\usepackage{graphics}
+\usepackage{amsmath,amssymb,amsthm, multicol}
+\usepackage[pdftex]{graphicx}
+\usepackage{epsf}
+%%Use to include pictures. 
+
+%\newcommand{\comment}[1]{}
+%\newcommand{\sobolev}[2]{W^{#1,#2}}
+%\newcommand{\sobolev}[2]{L^#2_#1}
+%%Some examples of macros or new commands.
+
+\addtolength{\oddsidemargin}{-.75in}
+\addtolength{\evensidemargin}{-.75in}
+\addtolength{\textwidth}{1.5in}
+\addtolength{\topmargin}{-1in}
+\addtolength{\textheight}{2.25in}
+%%Set margins, defaults are ok. 
+
+\begin{document}
+\begin{center}
+{\bf \Large MATH 2B - Integration By Parts}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{multicols*}{2}
+	\begin{enumerate}
+		\item Evaluate the integrals by parts.
+		\begin{enumerate}
+			\item \[
+			\int t^2 \sin (4t)\ dt
+			\]
+			\vfill
+			\item \[
+			\int ye^{9y}dy
+			\]
+			\vfill
+			\item \[
+			\int \tan^{-1}(2y)\ dy
+			\]
+		\end{enumerate}
+		\vfill
+		\item Make a substitution and then integrate by parts.
+		\begin{enumerate}
+			\item \[
+			\int e^{\sqrt x}dx
+			\]
+			\vfill
+			\item \[
+			\int e^s\cos(1+s)\ ds
+			\]
+			\vfill
+			\item \[
+			\int x\sin x\cos x\ dx
+			\]
+			\vfill
+		\end{enumerate}
+		\item Use integration by parts to prove the reduction formula
+		\[
+		\int (\ln x)^n\ dx = x(\ln x)^n - n\int(\ln x)^{n-1}dx.
+		\]
+		Find a similar formula for $\int x^ne^x\ dx$.
+		\vfill\null\columnbreak
+		\item Evaluate the integral (not just integration by parts).
+		\begin{enumerate}
+			\item \[
+			\int \frac{1}{\sqrt{e^{2x}-1}}dx
+			\]
+			\vfill
+			\item \[
+			\int \cos(\log x) dx
+			\]
+			\vfill
+			\item \[
+			\int \frac{\arctan x}{1+x^2}dx
+			\]
+			\vfill
+			\item \[
+			\int \log \sqrt{1+x^2}\ dx
+			\]
+			\vfill
+			\item \[
+			\int \arctan x\ dx
+			\]
+			\vfill
+			\item \[
+			\int x\arctan x\ dx
+			\]
+			\vfill
+		\end{enumerate}
+		\item This result (the Riemann-Lebesgue lemma) is really important in a branch of mathematics called harmonic analysis. Assuming $f'$ is continuous on $[a,b]$, use integration by parts to prove that
+		\[
+		\lim_{n\to \infty}\int_a^bf(t)\sin(nt)\ dt = 0.
+		\]
+		\vfill
+	\end{enumerate}	
+\end{multicols*}
+
+
+\end{document}

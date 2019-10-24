@@ -6,6 +6,7 @@
 \usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
 \usepackage{tikz} %This package offers the ability to draw pictures
 \usepackage{amsthm}
+\usepackage{bbm}
 
 \newcommand{\naturals}{\mathbb{N}}
 \newcommand{\integers}{\mathbb{Z}}
@@ -24,14 +25,16 @@
 \newcommand{\supp}[1]{\text{supp}({#1})}
 \newcommand{\Hom}[2]{\text{Hom}_{{#1}}({#2})}
 \newcommand{\tr}{\text{tr}}
-\newcommand{\field}[1]{\mathbb{F}_{{#1}}}
+\newcommand{\field}[1]{\mathbb{F}_{{#1}}}{}
 \newcommand{\Gal}[1]{\text{Gal}\left({#1}\right)}
 \newcommand{\esssup}{\text{ess sup }}
 \newcommand{\essinf}{\text{ess inf }}
 \newcommand{\affine}{\mathbb{A}}
 \newcommand{\E}{\mathbb{E}}
-\newcommand{\prob}{\mathbb{P}}
+\newcommand{\prob}{\mathbb{P}}{}
 \newcommand{\Var}{\text{Var}}
+\newcommand{\cov}{\text{cov}}
+\newcommand{\ind}{\mathbbm{1}}
 
 \newenvironment{solution}
 {\begin{proof}[Solution]}
@@ -48,7 +51,7 @@
 \noindent{\em Liam Hardiman\hfill{October 23, 2019} }
 % Please give relevant information
 \begin{center}
-{\bf \Large 271A- Homework 2} %Replace N with the appropriate number
+{\bf \Large 271A - Homework 2} %Replace N with the appropriate number
 \vspace{0.2cm}
 \hrule
 \end{center}
@@ -175,9 +178,106 @@
 
 	\item Let $B_t$ be a standard Brownian motion.
 	\begin{enumerate}
-		\item Find a matrix $A$ so that in distribution $[B_{t_1}, B_{t_2}, \ldots, B_{t_n}]^T = A[Z_1, Z_2, \ldots, Z_n]^T$, where the $Z_j$'s are iid standard normal random variables.
+		\item Find a matrix $A$ so that in distribution $y = [B_{t_1}, B_{t_2}, \ldots, B_{t_n}]^T = A[Z_1, Z_2, \ldots, Z_n]^T$, where the $Z_j$'s are iid standard normal random variables.
 		\begin{solution}
-			
+			Call $x = [Z_1, \ldots, Z_n]^T$. The $i$-th component of the product $Ax$ has distribution $(Ax)_i\sim \mcal{N}(0, a_{i,1}^2 + \cdots + a_{i,n}^2)$. Since $y_i = B_{t_i}\sim \mcal{N}(0, t_i)$ and we want $y = Ax$, we must then have
+			\begin{equation}\label{rows}
+				a_{i,1}^2 + \cdots + a_{i,n}^2 = t_i
+			\end{equation}
+			Without loss of generality and for notational convenience, assume that $t_1\leq t_2\leq \cdots \leq t_n$. We know that $\cov(B_{t_i}, B_{t_j}) = t_i\land t_j = t_{i\land j}$, so, we know that the matrix $\cov(y)$ has entries $\cov(y)_{i,j} = t_{i\land j}$. We also know that
+			\[
+			\cov(Ax) = A\cdot \cov(x)\cdot A^T = AA^T.
+			\]
+			Since we want $y = Ax$, we must then have $(AA^T)_{i,j} = t_{i\land j}$. Note that this implies (\ref{rows}).\\
+
+			\noindent In summary, we've reduced the problem to finding $A$ subject to $(AA^T)_{i,j} = t_{i\land j}$. The matrix $t_{i\land j}$ is clearly symmetric and it's positive definite by our reordering of the $t_i$'s and Sylvester's criterion. If we define the matrix $T$ to have entries $(T)_{i,j} = t_{i\land j}$, we can diagonalize $T$:
+			\[
+				T = UDU^T,
+			\]
+			where $U$ is orthogonal and $D$ is diagonal with nonnegative entries. If we set $A = UD^{1/2}$, then $AA^T = T$ as desired.
+		\end{solution}
+
+		\item Show that $e^{-at}B_{e^{2at}}$ is a Gaussian process. Find its covariance function.
+		\begin{solution}
+			This immediately follows from part (a). For any $t_1, \ldots, t_n$ there is a matrix $A$ so that
+			\[
+			[B_{e^{2at_1}}, \ldots, B_{e^{2at_n}}]^T = A[Z_1, \ldots, Z_n]^T,
+			\]
+			where the $Z_i$'s are iid standard normal random variables. Multiply both sides by the diagonal matrix whose $i$-th entry is $e^{-at_i}$ and we're done.\\
+
+			\noindent Let's compute the covariance function.
+			\begin{align*}
+				\text{cov}(s,t) &= \cov(e^{-as}B_{e^{2as}}, e^{-at}B_{e^{2at}})\\
+				&= e^{-a(s+t)}\E[B_{e^{2as}}B_{e^{2at}}]\\
+				&= e^{-a(s+t)}(e^{2as}\land e^{2at}).
+			\end{align*}
+		\end{solution}
+	\end{enumerate}
+	\item Consider the random vector $x = [X_1, \ldots, X_n]\in \reals^n$.
+	\begin{enumerate}
+		\item Prove Chebyshev's inequality: for $p>0$ we have
+		\[
+		\prob\left[\sum_i|X_i|^p\geq \lambda^p\right]\leq \lambda^{-p}\E\left[\sum_i|X_i|^p\right].
+		\]
+		\begin{proof}
+			Let's integrate.
+			\begin{align*}
+				\lambda^{-p}\E\left[\sum_i|X_i|^p\right]&\geq \lambda^{-p}\E\left[\sum_i|X_i|^p\cdot \ind_{\sum_i|X_i|^p \geq \lambda^p} \right]\\
+				&\geq \lambda^{-p}\cdot \lambda^p\cdot \prob\left[\sum_i|X_i|^p\geq \lambda^p\right].
+			\end{align*}
+		\end{proof}
+
+		\item Suppose there exists $k>0$ so that
+		\[
+		M = \E[\exp(k(\sum_i|X_i|^p)^{1/p})]<\infty.
+		\]
+		Prove that $\prob[\sum_i|X_i|^p\geq \lambda^p]\leq Me^{-k\lambda}$ for all $\lambda\geq 0$.
+		\begin{proof}
+			The function $t\mapsto e^{kt^{1/p}}$ is nondecreasing, so if we let $E_\lambda = \{\sum_i|X_i|^p\geq \lambda^p\}$, then
+			\begin{align*}
+				0\leq e^{k\lambda}\ind_{E_\lambda}\leq \exp(k(\sum_i|X_i|^p)^{1/p})]\ind_{E_\lambda}.
+			\end{align*}
+			Now we just take the expectation.
+			\begin{align*}
+				e^{k\lambda}\prob[E_\lambda]\leq M.
+			\end{align*}
+		\end{proof}
+	\end{enumerate}
+
+	\item Let $\Omega = \{1, 2, 3, 4, 5\}$ and let $\mcal{U}$ be the collection
+	\[
+	\mcal{U} = \{\{1, 2, 3\}, \{3, 4, 5\}\},
+	\]
+	of subsets of $\Omega$.
+	\begin{enumerate}
+		\item Find $\sigma(\mcal{U})$, the $\sigma$-algebra generated by $\mcal{U}$.
+		\begin{solution}
+			Taking complements gives us $\{4, 5\}$ and $\{1, 2\}$. Intersecting gives $\{3\}$. We can take a union to get $\{1, 2, 4, 5\}$. We can't get anything new from unions, intersections, or complements here, so we conclude that
+			\[
+			\sigma(\mcal{U}) = \{\{1, 2, 3\}, \{3, 4, 5\}, \{3\}, \{4, 5\}, \{1, 2\}, \{1, 2, 4, 5\}, \Omega, \emptyset\}.
+			\]
+		\end{solution}
+
+		\item Define a random variable by $X(1) = X(2) = 0$, $X(3) = 10$, $X(4) = X(5) = 1$. Is $X$ measurable wrt $\sigma(\mcal{U})$?
+		\begin{solution}
+			$X$ is $\sigma(\mcal{U})$ measurable.
+			\[
+			X^{-1}(-\infty, \alpha] = \begin{cases}
+				\emptyset,&\alpha<0\\
+				\{1, 2\},&\alpha\in[0,1)\\
+				\{1,2,4,5\},&\alpha\in[1, 10)\\
+				\Omega,&\alpha\geq 10
+			\end{cases}.
+			\]
+			Each of these preimages is measurable, so $X$ is measurable.
+		\end{solution}
+
+		\item Define another random variable by $Y(1) = 0$, $Y(2) = Y(3) = Y(4) = Y(5) = 1$. Find the $\sigma$-algebra generated by $Y$.
+		\begin{solution}
+			$\sigma(Y)$ is the $\sigma$-algebra generated by sets of the form $Y^{-1}(-\infty, \alpha]$ for $\alpha\in \reals$. As $\alpha$ ranges of $\reals$, we pick up the sets $\emptyset$, $\{1\}$, and $\Omega$. Taking complements gives
+			\[
+			\sigma(Y) = \{\emptyset, \{1\}, \{2, 3,4, 5\}, \Omega\}.
+			\]
 		\end{solution}
 	\end{enumerate}
 \end{enumerate}

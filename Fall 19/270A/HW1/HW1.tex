@@ -2,6 +2,7 @@
 \usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
 \usepackage{tikz}
 \usepackage{amsthm}
+\usepackage{bbm}
 
 \newcommand{\naturals}{\mathbb{N}}
 \newcommand{\integers}{\mathbb{Z}}
@@ -26,6 +27,8 @@
 \newcommand{\essinf}{\text{ess inf }}
 \newcommand{\affine}{\mathbb{A}}
 \newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\ind}{\mathbbm{1}}
 
 \newenvironment{solution}
 {\begin{proof}[Solution]}
@@ -79,8 +82,78 @@
 	\]
 	exists. Let $\mcal{F}$ be the collection of subsets of $\naturals$ for which the asymptotic density exists. Is $\mcal{F}$ a $\sigma$-algebra?
 	\begin{solution}
-		
+		$\mcal{F}$ is not a $\sigma$-algebra. First let's construct a set not in $\mcal{F}$. The idea is to build a set that has long gaps followed by even longer ``runs''. Let $F_0 = \{1\}$ and $F_i = \{2^i, \ldots, 2^{i+1}-1\}$. Define the set $A$ by $A = \cup_{j=0}^\infty F_{2j}$. $A$ consists of a run of length $2^{2j}$ followed by a gap of length $2^{2j+1}$ for each $j = 0, 1, \ldots$. Our set $A$ does not have asymptotic density since
+		\begin{align*}
+			\frac{|A\cap [2^{2k}]|}{2^{2k}} &= \frac{\sum_{j=0}^{k-1}2^{2j}+1}{2^{2k}}\\
+			&= \frac{1}{3}
+		\end{align*}
+		while on the other hand,
+		\begin{align*}
+			\frac{|A\cap [2^{2k+1}]|}{2^{2k+1}} &= \frac{\sum_{j=0}^{k}2^{2j}}{2^{2k+1}}\\
+			&= \frac{1}{3}\left(2 - \frac{1}{2^{2k+1}}\right)\\
+			&\to \frac{2}{3}.
+		\end{align*}
+		Hence, $A$ is not in $\mcal{F}$. Since $A$ is a countable union of singletons, which clearly have asymptotic density zero, we conclude that $\mcal{F}$ is not a $\sigma$-algebra.\\
 	\end{solution}
+
+	\item Let $X$ and $Y$ be two random variables on the same probability space $(\Omega, \mcal{F}, \Prob)$, and let $E\in \mcal{F}$ be an event. Define
+	\[
+	Z = \begin{cases}
+		X&\text{if }E\text{ occurs}\\
+		Y&\text{otherwise.}
+	\end{cases}
+	\]
+	Prove that $Z$ is a random variable.
+	\begin{proof}
+		We can write $Z = X\cdot \ind_E + Y\cdot \ind_{E^c}$. Since $E$ is an event, the indicator functions $\ind_E$ and $\ind_{E^c}$ are measurable. Since $X$ and $Y$ are measurable and products and sums of measurable functions are measurable, we have that $Z$ is measurable, and hence a random variable.
+	\end{proof}
+
+	\item Let $X$ be a random variable with density $f$. Compute the density of $X^2$.
+	\begin{solution}
+		First let's compute the distribution of $X^2$. Let $t\geq 0$.
+		\begin{align*}
+			\Prob[X^2<t] &= \Prob[-\sqrt{t}<X<\sqrt{t}]\\
+			&= \int_{-\sqrt{t}}^{\sqrt{t}}f(s)\ ds.
+		\end{align*}
+		By the Lebesgue differentiation theorem, the above integral is an almost everywhere differentiable function of $t$ and we can apply the fundamental theorem of calculus. If we let $g$ be the density of $X^2$ then
+		\begin{align*}
+			g(t) &= \frac{d}{dt}\int_{-\sqrt{t}}^{\sqrt{t}}f(s)\ ds\\
+			&= \frac{1}{2\sqrt{t}}[f(\sqrt{t}) + f(-\sqrt{t})],
+		\end{align*}
+		for $t\geq 0$. Since $X^2$ is clearly nonnegative, we then have
+		\[
+		g(t) = \begin{cases}
+			\frac{1}{2\sqrt{t}}[f(\sqrt{t})+f(-\sqrt{t})],&t>0\\
+			0,&t\leq 0.
+		\end{cases}
+		\]
+	\end{solution}
+
+	\item Let $X$ be a nonnegative random variable. Show that
+	\[
+	\E[X] = \int_0^\infty \Prob[X>t]\ dt.
+	\]
+	\begin{proof}
+		Since $X$ is nonnegative (this is important -- the Lebesgue integral is orientation-independent, unlike the Riemann integral!),
+		\begin{align*}
+			X &= \int_0^Xdt.
+		\end{align*}
+		We can then take the expectation of both sides and apply Fubini's theorem.
+		\begin{align*}
+			\E[X] &= \int_\Omega\int_0^Xdt\ d\Prob\\
+			&= \int_\Omega\int_0^\infty \ind_{X>t}(t)\ dt\ d\Prob\\
+			&= \int_0^\infty \int_\Omega\ind_{X>t}(x)\ d\Prob\ dt\\
+			&= \int_0^\infty \Prob[X>t]\ dt.
+		\end{align*}
+	\end{proof}
+
+	\item Let $\varphi:\reals\to \reals$ be a strictly convex function. Let $X$ be a random variable such that $\E[|X|]<\infty$ and $\E[|\varphi(X)|]\leq \infty$. Show that
+	\[
+	\varphi(\E[X]) = \E[\varphi(X)] \implies X = \E[X]\text{ a.s.}
+	\]
+	\begin{proof}
+		
+	\end{proof}
 \end{enumerate}
 
 \end{document}

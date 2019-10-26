@@ -142,7 +142,7 @@
 		\begin{align*}
 			\E[X] &= \int_\Omega\int_0^Xdt\ d\Prob\\
 			&= \int_\Omega\int_0^\infty \ind_{X>t}(t)\ dt\ d\Prob\\
-			&= \int_0^\infty \int_\Omega\ind_{X>t}(x)\ d\Prob\ dt\\
+	 		&= \int_0^\infty \int_\Omega\ind_{X>t}(x)\ d\Prob\ dt\\
 			&= \int_0^\infty \Prob[X>t]\ dt.
 		\end{align*}
 	\end{proof}
@@ -152,8 +152,18 @@
 	\varphi(\E[X]) = \E[\varphi(X)] \implies X = \E[X]\text{ a.s.}
 	\]
 	\begin{proof}
-		
+		Since $\varphi$ is strictly convex, for every $t\in \reals$ there exists an affine linear function $F_t(x)$ such that $F_t(t) = \varphi(t)$ and $F_t(x)<\varphi(x)$ for all $x\neq t$. We can set $t = \E[X]$ compose with $X$ to obtain $F_t(X)\leq\varphi(X)$, with equality if and only if $X = \E[X]$. Note that since $F_t$ is affine linear we have that $\E[F_t(X)] = F_t(\E[X])$.\\
+
+		\noindent Suppose that $\varphi(\E[X]) = \E[\varphi(X)]$. When $t = \E[X]$, $F_t$ and $\varphi$ agree at $\E[X]$, so $\varphi(\E[X]) = F_t(\E[X])$, yielding
+		\begin{align*}
+			\E[\varphi(X)] &= \varphi(\E[X])\\
+			&= F_t(\E[X])\\
+			&= \E[F_t(X)].
+		\end{align*}
+		By the linearity of expectation we then have $\E[\varphi(X) - F_t(X)] = 0$. By convexity, $\varphi(X) - F_t(X)\geq 0$, so since this expectation is zero, we must have that $\varphi(X) = F_t(X)$ almost surely. By strict convexity, this implies that $X = t = \E[X]$ almost surely.
 	\end{proof}
+
+	\item Suppose $0\leq p_n\leq 1$ and put $\alpha_n = \min(p_n, 1-p_n)$. Show that if $\sum_n\alpha_n$ diverges, then no discrete probability space can contain independent events $A_1, A_2, \ldots$ such that $\Prob[A_n] = p_n$.
 \end{enumerate}
 
 \end{document}

@@ -29,6 +29,7 @@
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Prob}{\mathbb{P}}
 \newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Var}{\text{Var}}
 
 \newenvironment{solution}
 {\begin{proof}[Solution]}
@@ -164,6 +165,141 @@
 	\end{proof}
 
 	\item Suppose $0\leq p_n\leq 1$ and put $\alpha_n = \min(p_n, 1-p_n)$. Show that if $\sum_n\alpha_n$ diverges, then no discrete probability space can contain independent events $A_1, A_2, \ldots$ such that $\Prob[A_n] = p_n$.
+	\begin{proof}
+		First let's strengthen the Borel-Cantelli lemma by proving a partial converse. Consider the tail $\cup_{n=M}^\infty A_n$ for $M$ large. We compute the probability of the tail's complement using the fact that $1-x\leq e^{-x}$.
+		\begin{align*}
+			\Prob[\cap_{n=M}^NA_n^c] &= \prod_{n=M}^N(1-\Prob[A_n])\\
+			&\leq \exp\left(-\sum_{n=M}^N\Prob[A_n]\right)\\
+			&\to 0\quad\text{as }N\to \infty.
+		\end{align*}
+		Since the complement of the tail goes to zero in probability, we have that $\Prob[\cup_{n=M}^\infty A_n] = 1$ for all $M$. Since $\limsup A_n = \cap_{M=1}^\infty \cup_{n=M}^\infty A_n$, continuity of measure tells us that $\Prob[\limsup A_n] = 1$.\\
+
+		\noindent Suppose that these events live in a discrete probability space $\Omega$ (equipped with the power set $\sigma$-algebra). Since $\Omega$ is discrete, there must be some $\omega\in \Omega$ with $\Prob[\{\omega\}] > 0$. Define the sequence of events $E_n$ by
+		\[
+		E_n = \begin{cases}
+			A_n^c,&\text{if }\omega\in A_n\\
+			A_n,&\text{if }\omega \notin A_n.
+		\end{cases}
+		\]
+		In particular, each $E_n$ misses $\omega$ and the $E_n$'s are independent. We also have that
+		\[
+		\sum \Prob[E_n] \geq \sum\alpha_n = \infty.
+		\]
+		By our strengthened Borel-Cantelli lemma, $\Prob[\limsup E_n] = 1$. By discreteness, we must then have that $\Omega = \limsup E_n$. But $\omega$, which has positive probability, isn't in $\limsup E_n$ -- a contradiction. We conclude that $\Omega$ is not discrete.
+	\end{proof}
+
+	\item Prove that if random variables $X$ and $Y$ are independent, then so are $f(X)$ and $g(Y)$, for any Borel measurable functions $f,g:\reals\to \reals$.
+	\begin{proof}
+		We need to show that for any Borel sets $B_1, B_2\in \mcal{B}(\reals)$, the events $(f\circ X)^{-1}[B_1]$ and $(g\circ Y)^{-1}[B_2]$ are independent. We can rewrite these preimages as
+		\[
+		(f\circ X)^{-1}[B_1] = X^{-1}[f^{-1}[B_1]],\quad (g\circ Y)^{-1}[B_2] = Y^{-1}[g^{-1}[B_2]].
+		\]
+		Since $f$ and $g$ are measurable, the preimages $f^{-1}[B_1]$ and $g^{-1}[B_2]$ are Borel sets. Similarly, since $X$ and $Y$ are random variables, the preimages $X^{-1}[f^{-1}[B_1]]$ and $Y^{-1}[g^{-1}[B_2]]$ are events. Since $X$ and $Y$ are independent, any preimage under $X$ is independent of any preimage under $Y$.
+	\end{proof}
+
+	\item Let $p\geq 3$ be prime. Let $X$ and $Y$ be independent random variables that are uniformly distributed on $\{0, \ldots, p-1\}$. Define
+	\[
+	Z_n = (X+nY)\pmod{p},\quad n = 0, \ldots, p-1.
+	\]
+	Show that the random variables $Z_n$ are pairwise independent, but not jointly independent.
+	\begin{proof}
+		First, we claim it suffices to prove that for all $s,t$ in $S = \{0, \ldots, p-1\}$ we have
+		\begin{equation}\label{sufficient}
+		\Prob[Z_{n_1} = s,\ Z_{n_2} = t] = \Prob[Z_{n_1} = s]\cdot \Prob[Z_{n_2} = t].
+		\end{equation}
+		Define $\mcal{A}_1$ and $\mcal{A}_2$ as follows.
+		\[
+		\mcal{A}_i = \{\Omega\}\cup \big\{\{Z_{n_i} = s\}: s\in S\big\}.
+		\]
+		$\mcal{A}_i$ is a $\pi$-system that contains $\Omega$. Since the singletons generate the power set $\sigma$-algebra, we have that $\sigma(\mcal{A}_i) = \sigma(Z_{n_i})$. Since (\ref{sufficient}) says that $\mcal{A}_1$ and $\mcal{A}_2$ are independent, we have that $Z_{n_1}$ and $Z_{n_2}$ are independent by the $\pi-\lambda$ theorem.\\
+
+		\noindent Now let's actually verify (\ref{sufficient}).
+		Let's start with the right-hand side. Since $X$ and $Y$ are independent, we have
+		\begin{align*}
+			\Prob[Z_{n_1} = s] &= \Prob[X = s-n_1Y]\\
+			&= \sum_{y=0}^{p-1}\Prob[X=s-n_1y,\ Y=y]\\
+			&= \frac{1}{p}\sum_{y=0}^{p-1}\Prob[X = s-n_1y]\\
+			&= \frac{1}{p}.
+		\end{align*}
+		The right-hand side of (\ref{sufficient}) is then $\frac{1}{p^2}$.
+		Now for the joint. If we assume that $n_1\neq n_2$ then the system
+		\[
+		\begin{array}{lllll}
+			X &+& n_1Y &=& s\\
+			X &+& n_2Y &=& t\\
+		\end{array}
+		\]
+		has a unique solution $(\alpha, \beta)$ for $X,Y$ since $\integers/p\integers$ is a field. Sine $X$ and $Y$ are independent, the joint probability becomes
+		\begin{align*}
+			\Prob[Z_{n_1}=s,\ Z_{n_2}=t]&= \Prob[X = \alpha,\ Y = \beta]\\
+			&= \Prob[X = \alpha]\cdot \Prob[Y = \beta]\\
+			&= \frac{1}{p^2}.
+		\end{align*}
+		We have then verified (\ref{sufficient}), so the $Z_{n_i}$'s are pairwise independent.\\
+
+		\noindent To see that the $Z_{n_i}$'s are not jointly independent, consider three variables $Z_{n_1}$, $Z_{n_2}$, $Z_{n_3}$, with distinct $n_i$. Such a trio exists since we've assumed $p\geq 3$. The joint event $\Prob[Z_{n_1}= r,\ Z_{n_2} = s,\ Z_{n_3} = t]$ represents the overdetermined system
+		\[
+		\begin{array}{lllll}
+			X &+& n_1Y &=& r\\
+			X &+& n_2Y &=& s\\
+			X &+& n_3Y &=& t\\
+		\end{array}.
+		\]
+		For any $[r\ s\ t]^T$ not in the span of $[1\ 1\ 1]^T$ and $[n_1\ n_2\ n_3]^T$, this system will have no solutions and $\Prob[Z_{n_1}=r,\ Z_{n_2}=s,\ Z_{n_3}=t] = 0$. However, $\Prob[Z_{n_1}=r]\cdot\Prob[Z_{n_2}=s]\cdot \Prob[Z_{n_3}=t] = \frac{1}{p^3}$. We conclude that the $Z_{n_i}$'s are not jointly independent.
+	\end{proof}
+
+	\item \begin{enumerate}
+		\item For any given $\mu\in\reals$, $\sigma>0$, $k\geq 1$, show that there exists a random variable $X$ with mean $\mu$ and variance $\sigma^2$ for which Chebyshev's inequality becomes an equality:
+		\[
+		\Prob[|X-\mu|\geq k\sigma] = \frac{1}{k^2}.
+		\]
+		\begin{proof}
+			Let's construct a random variable $X$ that takes values in $\{-k\sigma, 0, k\sigma\}$. To make things simple, let's construct $X$ to have zero mean (we'll shift it to $\mu$ later). In order for this to work, we need $\Prob[X = -k\sigma] = \Prob[X = k\sigma] = \beta$ and $\Prob[X = 0] = \alpha$ for some nonnegative $\alpha,\beta$ with $\alpha+2\beta = 1$. The variance of $X$ will then be given by
+			\begin{align*}
+				\Var[X] &= \E[X^2] = 2\beta k^2\sigma^2.
+			\end{align*}
+			In order for $\Var[X] = \sigma^2$ to hold, we need $\beta = \frac{1}{2k^2}$. Consider then the variable $X$ with
+			\[
+			X = \begin{cases}
+				-k\sigma,&\text{with probability }\frac{1}{2k^2}\\
+				0,&\text{with probability }1-\frac{1}{k^2}\\
+				k\sigma,&\text{with probability }\frac{1}{2k^2}
+			\end{cases}.
+			\]
+			We then have
+			\begin{align*}
+				\Prob[|X|\geq k\sigma] &= \Prob[X = \pm k\sigma]\\
+				&= \frac{1}{k^2}.
+			\end{align*}
+			By linearity of expectation, the variable $X + \mu$ will have mean $\mu$, variance $\sigma^2$ and the above equality will still hold.
+		\end{proof}
+
+		\item Show that for any random variable $X$ with mean $\mu$ and variance $\sigma^2$, one has
+		\[
+		\Prob[|X-\mu|\geq k\sigma] = o\left(\frac{1}{k^2}\right)\text{ as }k\to \infty.
+		\]
+		\begin{proof}
+			By Markov's inequality we have
+			\begin{equation}\label{mark}
+			\begin{split}
+				k^2\cdot \Prob[|X-\mu|\geq k\sigma] &= k^2\cdot \Prob[(X-\mu)^2\geq k^2\sigma^2]\\
+				&\leq \frac{1}{\sigma^2}\int_{|X-\mu|\geq k\sigma}(X-\mu)^2\ d\Prob.
+			\end{split}
+			\end{equation}
+			Since $X$ has finite variance, the function $(X-\mu)^2$ is integrable. Consequently, the set function $E\mapsto \int_E(X-\mu)^2\ d\Prob$ is a measure absolutely continuous with respect to $\Prob$. This means that for any $\epsilon$, there is a $\delta$ so that $\Prob[E]<\delta$ implies that $\int_E(X-\mu)^2\ d\Prob<\epsilon$.\\
+
+			\noindent Fix $\epsilon>0$. If we can show that for $k$ sufficiently large, $\Prob[|X-\mu|\geq k\sigma]<\delta$, then the last line in (\ref{mark}) will tend to zero as $k\to \infty$ by the above discussion. Consider the inequality
+			\[
+			\frac{|X-\mu|}{\sigma}-1 \leq \sum_{k=1}^\infty\ind_{|X-\mu|\geq k\sigma} \leq \frac{|X-\mu|}{\sigma}.
+			\]
+			Integrating through this inequality with respect to $\Prob$ and using the fact that $\Prob$ is a finite measure shows that $|X-\mu|/\sigma$ is integrable if and only if $\sum_{k=1}^\infty\Prob[|X-\mu|\geq k\sigma]<\infty$. Since $|X-\mu|/\sigma$ is indeed integrable, we have that $\Prob[|X-\mu|\geq k\sigma]\to 0$ as $k\to \infty$. We can then pick $k$ sufficiently large so that $\int_{|X-\mu|\geq k\sigma}(X-\mu)^2\ d\Prob<\epsilon$ so that
+			\begin{align*}
+			k^2\cdot \Prob[|X-\mu|\geq k\sigma] &\leq \frac{1}{\sigma^2}\int_{|X-\mu|\geq k\sigma}(X-\mu)^2\ d\Prob\\
+			&\leq \frac{\epsilon}{\sigma^2}.
+			\end{align*}
+			We conclude that $\Prob[|X-\mu|\geq k\sigma]$ is $o(1/k^2)$ as $k\to \infty$.
+		\end{proof}
+	\end{enumerate}
 \end{enumerate}
 
 \end{document}

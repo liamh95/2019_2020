@@ -30,6 +30,7 @@
 \newcommand{\Prob}{\mathbb{P}}
 \newcommand{\Var}{\text{Var}}
 \newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
 
 \newenvironment{solution}
 {\begin{proof}[Solution]}
@@ -57,7 +58,19 @@ Show that the conditions of Kolmogorov's extension/consistency theorem are satis
 	\[
 	\nu_{t_1, \ldots, t_k}(F_1\times \cdots \times F_k) = \Prob[B_{t_1}\in F_1,\ldots, B_{t_k}\in F_k],
 	\]
-	where the $F_j$'s are arbitrary Borel subsets of $\reals$.
+	where the $F_j$'s are arbitrary Borel subsets of $\reals$. For any $\sigma\in S_k$ we have
+	\begin{align*}
+		\nu_{t_{\sigma 1}, \ldots, t_{\sigma k}}(F_1\times \cdots \times F_k) &= \Prob[B_{t_{\sigma 1}}\in  F_1, \ldots, B_{t_{\sigma k}}\in F_k]\\
+		&= \Prob[B_{t_1}\in F_{\sigma^{-1}(1)}, \ldots, B_{t_k}\in F_{\sigma^{-1}(k)}]\\
+		&= \nu_{t_1, \ldots, t_k}(F_{\sigma^{-1}(1)}\times \cdots \times F_{\sigma^{-1}(k)}).
+	\end{align*}
+	This is the first condition required by the Kolmogorov extension theorem. As for the second, we have
+	\begin{align*}
+		\nu_{t_1, \ldots, t_k, t_{k+1}, \ldots, t_n}(F_1\times \cdots\times F_k\times \reals\times \cdots \times \reals) &= \Prob[B_{t_1}\in F_1, \ldots, B_{t_k}\in F_k, B_{t_{k+1}}\in \reals, \ldots, B_{t_n}\in \reals]\\
+		&= \Prob[B_{t_1}\in F_1, \ldots, B_{t}\in F_k]\\
+		&= \nu_{t_1, \ldots, t_k}(F_1\times \cdots \times F_k).
+	\end{align*}
+	Thus, the finite-dimensional distributions associated with the Brownian motion paths satisfy the conditions of Kolmogorov's extension theorem.
 \end{proof}
 
 \section*{Problem 2}
@@ -93,9 +106,93 @@ Let $B_t$ be a Brownian motion. Show that
 \begin{enumerate}[(a.)]
 	\item $Y_t = B_T - B_{T-t}$ is a Brownian motion on $[0,T]$.
 	\begin{proof}
-		We have that $Y_0 = B_T - B_T = 0$. 
+		We have that $Y_0 = B_T - B_T = 0$. By linearity of expectation we have that
+		\[
+		\E[Y_t] = \E[B_T] - \E[B_{T-t}] = 0.
+		\]
+		As for the distributions of the increments we have
+		\begin{align*}
+			Y_s - Y_t &= B_{T-t} - B_{T-s} \sim \mcal{N}(0, |s-t|).
+		\end{align*}
+		Suppose now that $0\leq s_1<t_1\leq s_2<t_2 \leq \cdots \leq s_k<t_k\leq  T$. We then have
+		\begin{align*}
+			Y_{t_i} - Y_{s_i} &= B_{T-s_i}-B_{T-t_i}.
+		\end{align*}
+		Since $0< T-T_k\leq T-s_k\leq\cdots \leq T-t_1\leq T-s_1\leq T$ and $B$ is a Brownian motion, the above increments are jointly independent. Finally, since $t\mapsto B_t$ is almost surely continuous, so is $t\mapsto B_T - B_{T-t}$. We conclude that $Y$ is a Brownian motion.
+	\end{proof}
+
+	\item Show that $Y'_t = -B_t$ is also a Brownian motion.
+	\begin{proof}
+		Since $t\mapsto B_t$ is almost surely continuous, so is $t\mapsto -B_t$. We also have $Y'_0 = -B_0 = 0$. We also have by linearity of expectation
+		\[
+		\E[Y'_t] = -\E[B_t] = 0.
+		\]
+		As for the increments we have 
+		\[
+		Y'_s-Y'_t = B_t - B_s \sim \mcal{N}(0, |t-s|).
+		\]
+		Let $0\leq s_1<t_1\leq \cdots \leq s_k<t_k$. We then have
+		\[
+		Y'_{t_i} - Y'_{s_i} = B_{s_i} - B_{t_i}.
+		\]
+		Since $B$ is a Brownian motion, these increments are jointly independent. We conclude that $Y'$ is a Brownian motion.
+	\end{proof}
+
+	\item Show that
+	\[
+	Y''_t = \begin{cases}
+		tB_{1/t},&0<t<\infty\\
+		0,&t=0
+	\end{cases}
+	\]
+	is a Brownian motion, assuming that $B_t = o(t)$ as $t\to \infty$ almost surely.
+	\begin{proof}
+		We're explicitly given that $Y''_0 = 0$ and since $B_t = o(t)$ as $t\to \infty$, we have that $Y''$ is almost surely continuous at zero. Again, by the linearity of expectation, we have that $\E[Y''_t] = 0$ for all $t$. As for the variance of the increments, let $s<t$. We have
+		\begin{align*}
+			\Var[Y''_t-Y''_s] &= \Var[tB_{1/t}] + \Var[sB_{1/s}] - 2\cdot \Cov(tB_{1/t}, sB_{1/s})\\
+			&= t + s - 2st\cdot \min\left\{\frac{1}{t}, \frac{1}{s}\right\}\\
+			&= t-s.
+		\end{align*}
+		It remains to show that the increments are independent. Let $0<s_1<t_1\leq \cdots \leq s_k<t_k$. For $i<j$ we have
+		\begin{align*}
+			\Cov(Y''_{t_i}-Y''_{s_i}, Y''_{t_j}-Y''_{s_j})&\\
+			= t_it_j\Cov(B_{1/t_i}, B_{1/t_j}) - t_is_j\Cov(B_{1/t_i}, B_{1/s_j}) - s_it_j\Cov(B_{1/s_i}, B_{1/t_j}) + s_is_j\Cov(B_{1/s_i}, B_{1/s_j})\\
+			= 0.
+		\end{align*}
+		We then have that the increments are uncorrelated, and therefore independent since they are normal. We conclude that $tB_{1/t}$ is a Brownian motion.
 	\end{proof}
 \end{enumerate}
 
+\section*{Problem 4}
+(Kat Dover and Lee Fisher showed me how to do this one.) Let $\tau_i$ be iid exponentially distributed random variables with parameter $\lambda$. Let $S_0 = 0$ and $S_n = \sum_{i=1}^n\tau_i$, $n\geq 1$. Define
+	\[
+	N_t = \max(n\geq 0: S_n\leq t).
+	\]
+\begin{enumerate}[(a.)]
+	\item Show that the process $N_t$ is right continuous.
+	\begin{proof}
+		Fix $\epsilon>0$. We want to show that for all $t\geq 0$, there exists a $\delta_t>0$ such that
+		\[
+		\Prob[N_{t+\delta}>N_t]<\epsilon.
+		\]
+		Since exponential processes are memoryless, we have
+		\begin{align*}
+			\Prob[N_{t+\delta}-N_t>0] &= 1-\Prob[N_{t+\delta}-N_t = 0]\\
+			&= 1-\sum_{k=0}^\infty \Prob[N_{t+\delta}=k,\ N_t=k]\\
+			&= 1-\sum_{k=0}^\infty\Prob[N_t=k]\cdot\Prob[N_{t+\delta}=k\ |\ N_t=k]\\
+			&= 1-\sum_{k=0}^\infty\Prob[N_t=k]\cdot \Prob[N_\delta=0].
+		\end{align*}
+		We can choose $\delta$ small enough so that $\Prob[N_\delta=0]$ is small, so the above quantity can be made less than $\epsilon$. We conclude that the process is right-continuous.
+	\end{proof}
+
+	\item Show that $N_t$ is a Poisson random variable with parameter $\lambda t$.
+	\begin{proof}
+		Let's compute the probability mass function.
+		\begin{align*}
+			\Prob[N_t = n] &= \Prob\left[\sum_{k=0}^\infty\ind_{\{S_k\leq t\}} = n\right].
+		\end{align*}
+		
+	\end{proof}
+\end{enumerate}
 
 \end{document}

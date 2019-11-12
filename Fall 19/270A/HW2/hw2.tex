@@ -1,0 +1,219 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{bbm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\exreals}{\overline{\mathbb{R}}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\mable}{measurable}
+\newcommand{\quats}{\mathbb{H}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\norm}{\trianglelefteq}
+\newcommand{\Aut}{\text{Aut}}
+\newcommand{\disk}{\mathbb{D}}
+\newcommand{\halfplane}{\mathbb{H}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\supp}[1]{\text{supp}({#1})}
+\newcommand{\Hom}[2]{\text{Hom}_{{#1}}({#2})}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\field}[1]{\mathbb{F}_{{#1}}}
+\newcommand{\Gal}[1]{\text{Gal}\left({#1}\right)}
+\newcommand{\esssup}{\text{ess sup }}
+\newcommand{\essinf}{\text{ess inf }}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{November 13, 2019} }
+\begin{center}
+{\bf \Large 270A - Homework 2}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\noindent\textbf{Problem 1. }
+The total variation distance between the distributions of random variables $X$ and $Y$ is defined by
+\[
+d_{TV}(X, Y) = \sup_{B\in \mcal{B}}|\Prob[X\in B] - \Prob[Y\in B]|
+\]
+where the supremum is over all Borel subsets $B\subset \reals$.
+
+\begin{enumerate}[(a)]
+	\item Show that $d_{TV}$ is indeed a metric on the set of distributions.
+	\begin{proof}
+		The absolute value in the definition of $d_{TV}(X,Y)$ ensures that it is symmetric. We also have that if $d_{TV}(X,Y) = 0$, then $\Prob[X\in B] = \Prob[Y\in B]$ for all Borel sets, which happens if and only if $X$ is equal to $Y$ in distribution. Finally, for any triple $X, Y, Z$, the triangle inequality follows from the triangle inequality on $|\cdot|$:
+		\begin{align*}
+			d_{TV}(X, Z) &= \sup_{B\in \mcal{B}}|\Prob[X\in B] - \Prob[Z\in B]|\\
+			&\leq \sup_{B\in \mcal{B}}\big(|\Prob[X\in B] - \Prob[Y\in B]| + |\Prob[Y\in B]- \Prob[Z\in B]\big)\\
+			&\leq \sup_{B\in \mcal{B}}|\Prob[X\in B] - \Prob[Y\in B]| + \sup_{B\in \mcal{B}}|\Prob[Y\in B] - \Prob[Z\in B]|\\
+			&= d_{TV}(X,Y) + d_{TV}(Y, Z).
+		\end{align*}
+	\end{proof}
+
+	\item Suppose $X$ and $Y$ are integer-valued random variables. Prove that
+	\[
+	d_{TV}(X, Y) = \frac{1}{2}\sum_{k\in \integers}|\Prob[X = k] - \Prob[Y = k]|.
+	\]
+	\begin{proof}
+		First, we claim that in this case, the supremum defining $d_{TV}(X,Y)$ is actually achieved. Let $E$ be the event defined by
+		\[
+		E = \{k: \Prob[X = k] \geq  \Prob[Y = k]\}.
+		\]
+		For any event $A$ we have
+		\begin{equation}\label{forward}
+		\begin{split}
+			\Prob[X\in A]-\Prob[Y\in A] &\leq \Prob[X\in (A\cap E)] - \Prob[Y\in (A\cap E)]\\
+			&\leq \Prob[X\in E] - \Prob[Y\in E].
+		\end{split}
+		\end{equation}
+		The first inequality follows from the fact that for any $a\in A\setminus E$, $\Prob[X = a]-\Prob[Y=a]<0$. The second inequality follows from the fact that $\Prob[X=k]-\Prob[Y=k]\geq 0$ for any $k\in E$. The exact same reasoning shows that
+		\begin{equation}\label{reverse}
+		\Prob[Y\in A] - \Prob[X\in A] \leq \Prob[Y\in E^c] - \Prob[X\in E^c].
+		\end{equation}
+		We quickly see that the right-hand sides of (\ref{forward}) and (\ref{reverse}) are equal:
+		\begin{align*}
+			&(\Prob[X\in E] - \Prob[Y\in E]) - (\Prob[Y\in E^c] - \Prob[X\in E^c])\\
+			=& (\Prob[X\in E] + \Prob[X\in E^c]) - (\Prob[Y\in E] + \Prob[Y\in E^c])\\
+			=&1-1 = 0.
+		\end{align*}
+		Inequalities (\ref{forward}) and (\ref{reverse}) are equalities in the case of $A = E$ and $A = E^c$, so this upper bound is actually achieved. We conclude that
+		\[
+		d_{TV}(X,Y) = \Prob[X\in E] - \Prob[Y\in E] = \Prob[Y\in E^c] - \Prob[X\in E^c].
+		\]
+		The desired result follows from summing:
+		\begin{align*}
+			\sum_{k\in \integers}\big|\Prob[X=k]-\Prob[Y=k]\big| &= \sum_{k\in E}\big|\Prob[X=k]-\Prob[Y=k]\big| + \sum_{k\in E^c}\big|\Prob[X=k]-\Prob[Y=k]\big|\\
+			&= 2\cdot d_{TV}(X,Y).
+		\end{align*}
+	\end{proof}
+\end{enumerate}
+
+\noindent\textbf{Problem 2. }
+Let $X$ and $Y$ be independent random variables taking values in the positive integers and having the same distribution given by
+\[
+\Prob[X=n] = \Prob[Y=n] = 2^{-n}
+\]
+for all $n\in \naturals$. Find $\Prob[X\text{ divides }Y]$.
+\begin{solution}
+	Let $f(x,y) = \Prob[X=x,\ Y=y]$ be the joint probability mass function and let $E$ be the event that $X$ divides $Y$. By independence and Fubini's theorem we have
+	\begin{align*}
+		\Prob[X\text{ divides }Y] &= \sum_{x,y}f(x,y)\ind_E(x,y)\\
+		&= \sum_{x=1}^\infty\sum_{x|y}2^{-x}\cdot 2^{-y}\\
+		&= \sum_{x=1}^{\infty}\sum_{k=1}^\infty2^{-x}\cdot 2^{-kx}\\
+		&= \sum_{k=1}^\infty\sum_{x=1}^\infty 2^{-x(k+1)}\\
+		&= \sum_{k=1}^\infty\frac{1}{2^{k+1}-1}.
+	\end{align*}
+\end{solution}
+
+\noindent\textbf{Problem 3. }
+A total of $n$ bar magnets are placed end to end in a line with random independent orientations. Adjacent like poles repel, ends with opposite polarities join to form blocks. Find the expected number of blocks of joint magnets.
+\begin{solution}
+	Let $E_k$ be the event that there are $k$ blocks.
+	\begin{align*}
+		\E[\text{number of blocks}] &= \sum_{k=1}^nk\cdot \Prob[\text{there are $k$ blocks}]\\
+		&= \sum_{k=1}^nk\cdot \Prob[E_k].
+	\end{align*}
+	Let's compute $\Prob[E_k]$. In how many ways can we arrange $k$ blocks? Such an arrangement consists of a sequence of blocks whose lengths are positive integers that sum to $n$. We can then identify block-length sequences with $k$-tuples of positive integers that sum to $n$. Each block-length sequence corresponds to exactly two magnet configurations, where each magnet in one configuration is oriented opposite to the corresponding magnet in the other.\\
+
+	\noindent Assuming that each magnet is oriented according to a uniform distribution, any particular configuration occurs with probability $2^{-n}$. Since each block-length sequence corresponds to exactly two magnet configurations, we have
+	\[
+	\Prob[E_k] = 2^{1-n}\cdot n_k,
+	\]
+	where $n_k$ is the number of block-length sequences of length $k$.\\
+
+	\noindent Now to find $n_k$. This is essentially the stars and bars problem. We want to count the number of ways to arrange our $n$ magnets into $k$ blocks so that each block has at least one magnet in it. This is the same as counting the number of ways to place $k-1$ ``dividers'' in the $n-1$ gaps between consecutive magnets. This gives
+	\[
+	n_k = \binom{n-1}{k-1}.
+	\]
+	Putting it all together, we have
+	\[
+	\E[\text{number of blocks}] = 2^{1-n}\cdot \sum_{k=1}^nk\cdot \binom{n-1}{k-1}.
+	\]
+\end{solution}
+
+\noindent\textbf{Problem 4. }
+Let $X$ and $Y$ be random variables with mean 0, variance 1, and covariance $\Cov(X,Y) = \rho$. Show that
+\[
+\E[\max(X^2, Y^2)]\leq 1+\sqrt{1-\rho^2}.
+\]
+\begin{proof}
+	Since $\max(u, v) = \frac{1}{2}(u+v) + \frac{1}{2}|u-v|$, we have
+	\begin{align*}
+		\E[\max(X^2, Y^2)] &= \E\left[\frac{1}{2}(X^2+Y^2) + \frac{1}{2}|X^2-Y^2|\right]\\
+		&= 1 + \frac{1}{2}\E[|X^2-Y^2|].
+	\end{align*}
+	By Cauchy-Schwarz, we have
+	\begin{align*}
+		\E[|X^2-Y^2|] &\leq \Lp{X-Y}{2}\cdot \Lp{X+Y}{2}\\
+		&= \sqrt{2-2\rho}\cdot \sqrt{2+2\rho}\\
+		&= 2\sqrt{1-\rho^2}.
+	\end{align*}
+	Substituting into the above equality, we obtain
+	\[
+	\E[\max(X^2, Y^2)]\leq 1+\sqrt{1-\rho^2}.
+	\]
+	Note that this is well-defined, since $|\rho| = |\Cov(X,Y)|\leq \sqrt{\Var[X]\cdot \Var[Y]} = 1$.
+\end{proof}
+
+\noindent\textbf{Problem 5. }
+A \textit{median} of a random variable $X$ is a number $m\in \reals$ such that
+\[
+\Prob[X\leq m]\geq \frac{1}{2}\quad\text{and}\quad \Prob[X\geq m]\geq \frac{1}{2}.
+\]
+\begin{enumerate}[(a)]
+	\item Prove that a median exists for every random variable $X$.
+	\begin{proof}
+		The idea is that continuity of measure should ensure that $\Prob[X\leq t]$ eventually ``flips'' from being at most $\frac{1}{2}$ to being at least $\frac{1}{2}$. To this end, let $a$ and $b$ be defined by
+		\[
+		a = \inf\left\{t: \Prob[X\leq t]\geq \frac{1}{2}\right\},\quad b = \sup\left\{t: \Prob[X\geq t]\geq \frac{1}{2}\right\}.
+		\]
+		That $a$ and $b$ are finite follows from the fact that $\lim_{t\to -\infty}\Prob[X\leq t] = 0$ and $\lim_{t\to \infty}\Prob[X\geq t] = 0$. First, we claim that $a\leq b$. If there were some $c$ with $b<c<a$, then we'd have $\Prob[X\leq c]< 1/2$ since $c<a$ and $\Prob[X\geq c]<1/2$. We'd then have $\Prob[X\leq c] + \Prob[X\geq c]<1$, which can't happen.\\
+
+		\noindent Finally, we have that any $m\in [a,b]$ is a median, since
+		\begin{align*}
+			m\geq a\implies & \Prob[X\leq m]\geq \frac{1}{2},\\
+			m\leq b\implies & \Prob[X\geq m]\geq \frac{1}{2}.
+		\end{align*}
+	\end{proof}
+
+	\item Show that the mean $\mu$, median $m$, and variance $\sigma^2$ of a random variable $X$ satisfy
+	\[
+	|\mu-m|\leq C\sigma
+	\]
+	for some absolute constant $C$.
+	\begin{proof}
+		We can prove a not-so-tight version with Chebyshev's inequality. For any $C>\sqrt{2}$, we have by Chebyshev,
+		\[
+		\Prob[|X-\mu|\geq C\sigma]\leq \frac{1}{C^2}<\frac{1}{2}.
+		\]
+		Fix a median $m$. Then since $\Prob[X\geq m]\geq 1/2$ and $\Prob[X\geq \mu+C\sigma]<1/2$, we must have $\mu+k\sigma\geq m$. Similarly, since $\Prob[X\leq m]\geq 1/2$ and $\Prob[X\leq \mu-k\sigma]<1/2$, we must have $m\geq \mu-k\sigma$. Putting these together gives
+		\[
+		|\mu-m|\leq C\sigma
+		\]
+		for any $C>\sqrt{2}$. Taking the infimum over $C>\sqrt{2}$ gives $|\mu-m|\leq \sqrt{2}\sigma$.\\
+
+		\noindent I found this neat argument for ho
+	\end{proof}
+\end{enumerate}
+
+\end{document}

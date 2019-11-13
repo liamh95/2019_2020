@@ -211,9 +211,74 @@ A \textit{median} of a random variable $X$ is a number $m\in \reals$ such that
 		|\mu-m|\leq C\sigma
 		\]
 		for any $C>\sqrt{2}$. Taking the infimum over $C>\sqrt{2}$ gives $|\mu-m|\leq \sqrt{2}\sigma$.\\
-
-		\noindent I found this neat argument for ho
 	\end{proof}
 \end{enumerate}
+
+\noindent\textbf{Problem 6. }
+Let $X_1, \ldots, X_n$ be independent, identically distributed random variables for which $\E[1/X_i]<\infty$. Consider the partial sums
+\[
+S_m = X_1 + \cdots + X_m.
+\]
+Show that
+\[
+\E[S_m/S_n] = m/n\quad\text{for all }m\leq n.
+\]
+\begin{proof}
+	\begin{align*}
+		\E\left[\frac{S_m}{S_n}\right] &= \sum_{i=1}^m\E\left[\frac{X_i}{X_1 + \cdots + X_n}\right]\\
+		&= m\cdot \E\left[\frac{X_1}{X_1 + \cdots + X_n}\right]\quad\text{(since the $X_k$'s  are iid)}\\
+		&= \frac{m}{n}\sum_{i=1}^n\E\left[\frac{X_1 + \cdots + X_n}{X_1 + \cdots + X_n}\right]\\
+		&= \frac{m}{n}.
+	\end{align*}
+\end{proof}
+
+
+\noindent\textbf{Problem 7. }
+Suppose the joint density $f(x_1, \ldots, x_n)$ of random variables $X_1, \ldots, X_n$ can be represented as
+\[
+f(x_1, \ldots, x_n) = f_1(x_1)\cdots f_n(x_n)
+\]
+for some measurable functions $f_i:\reals\to [0, \infty)$. Prove that the $X_1, \ldots, X_n$ are independent.
+\begin{proof}
+	Let $S = \{i_1, \ldots, i_m\}\subset [n]$ and let $B_1, \ldots, B_m$ be arbitrary Borel sets. Set $E_S = A_1\times \cdots \times A_n$ where $A_{i_j} = B_j$ if $i_j\in S$ and $A_i = \reals$ otherwise. We then have
+	\begin{equation}\label{joint}
+	\begin{split}
+		\Prob[X_{i_1}\in B_1, \ldots, X_{i_m}\in B_m] &= \int_{E_S} f(x_1, \ldots, x_n)\ dx\\
+		&= \left(\int_{B_1}f_{i_1}(x_{i_1})\ dx_{i_1}\right)\cdots\left(\int_{B_m}f_{i_m}(x_{i_m})\ dx_{i_m}\right) \prod_{j\notin S}\left(\int f_j(x_j)\ dx_j\right).
+	\end{split}
+	\end{equation}
+	On the other hand, if we let $E_{i_j} = A_1\times \cdots \times A_n$ where $A_{i_j} = B_j$ and $A_i = \reals$ otherwise, we have
+	\begin{equation}\label{product}
+	\begin{split}
+		\Prob[X_{i_1}\in B_1] \cdots \Prob[X_{i_m}\in B_m] &= \left(\int_{E_{i_1}}f(x_1, \ldots, x_n)\ dx\right)\cdots \left(\int_{E_{i_m}}f(x_1, \ldots, x_n)\ dx\right)\\
+		&= \left(\int_{B_1}f_{i_1}(x_{i_1})\ dx_{i_1}\right)\left(\prod_{j\neq i_1}\int f_j(x_j)\ dx_j\right)\\
+		&\cdots \left(\int_{B_m}f_{i_m}(x_{i_m})\ dx_{i_m}\right)\left(\prod_{j\neq i_m}\int f_j(x_j)\ dx_j\right).
+	\end{split}
+	\end{equation}
+	Now to compare the bottom-most expressions in (\ref{joint}) and (\ref{product}). Both contain the same $\int_{B_j}f_{i_j}(x_{i_j})\ dx_{i_j}$ terms, so it's a matter of matching up the other terms. Since $f$ is a probability distribution, we have
+	\[
+	1 = \int f(x_1, \ldots, x_n)\ dx = \prod_{i=1}^n\left(\int f_i(x_i)\ dx_i\right).
+	\]
+	Using this, the relevant terms in the last expression in (\ref{product}) becomes
+	\begin{align*}
+		\left(\prod_{j\neq i_1}\int f_j(x_j)\ dx_j\right)\cdots \left(\prod_{j\neq i_m}\int f_j(x_j)\ dx_j\right) &= \left(\prod_{j=1}^n\int f_j(x_j)\ dx_j\right)^{m-1}\left(\prod_{j\notin S}\int f_j(x_j)\ dx_j\right)\\
+		&= \left(\prod_{j\notin S}\int f_j(x_j)\ dx_j\right),
+	\end{align*}
+	which is what appears in the last expression in (\ref{joint}).
+\end{proof}
+
+\noindent\textbf{Problem 8. }
+Let $X,Y$ be independent random variables taking nonnegative values. Express the density of $XY$ in terms of the densities of $X$ and $Y$.
+\begin{solution}
+	Let $f_X$ and $f_Y$ be the densities of $X$ and $Y$, respectively. Let's look at the distribution $\Prob[XY\leq t]$. Since $f_X$ and $f_Y$ are both integrable, we have by Fubini's theorem
+	\begin{align*}
+		\Prob[XY\leq t] &= \int_{xy\leq t}f_X(x)f_Y(y)\ dydx\\
+		&= \int_0^\infty\int_0^{t/x}f_X(x)f_Y(y)\ dydx.
+	\end{align*}
+	Since $f_X$ and $f_Y$ are integrable, the function $\int_0^sf_X(x)f_Y(y)\ dy$ is absolutely continuous and we can apply the fundamental theorem of calculus -- provided that we can differentiate under the integral with respect to $x$. We obtain the density
+	\begin{align*}
+		\frac{d}{dt}\Prob[XY\leq t] &= \int_0^\infty \frac{1}{x}f_X(x)f_Y(t/x)\ dx.
+	\end{align*}
+\end{solution}
 
 \end{document}

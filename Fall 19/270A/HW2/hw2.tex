@@ -281,4 +281,58 @@ Let $X,Y$ be independent random variables taking nonnegative values. Express the
 	\end{align*}
 \end{solution}
 
+\noindent\textbf{Problem 9. }
+Find an example of a discrete random variable with finite expectation and infinite variance.
+\begin{solution}
+	Consider the discrete probability mass function defined on the nonzero integers given by
+	\[
+	P[X = n] = \frac{C}{|n|^3},\quad n\neq 0,
+	\]
+	where $C = \frac{1}{2\zeta(3)}$. The probability mass function is integrable since
+	\begin{align*}
+		\E[|X|] &= C\cdot \sum_{n\neq 0}\frac{|n|}{|n|^3}\\
+		&= C\cdot \sum_{n\neq 0}\frac{1}{n^2}\\
+		&<\infty.
+	\end{align*}
+	We can then compute the mean
+	\begin{align*}
+		\E[X] &= C\cdot \sum_{n\neq 0}\frac{n}{|n|^3}\\
+		&= C\cdot \sum_{n<0}\frac{n}{|n|^3} + C\cdot \sum_{n>0}\frac{n}{|n|^3}\\
+		&= 0.
+	\end{align*}
+	Now let's compute the variance
+	\begin{align*}
+		\Var[X] &= C\cdot \sum_{n\neq 0}\frac{n^2}{|n|^3}\\
+		&= C\cdot \sum_{n\neq 0}\frac{1}{|n|}\\
+		&= +\infty.
+	\end{align*}
+\end{solution}
+
+\noindent\textbf{Problem 10. }
+Consider the probability space $(\Omega, \mcal{F}, \Prob)$ where $\Omega = (0,1)$, $\mcal{F}$ is the Borel sigma-algebra, and $\Prob$ is the Lebesgue measure. Let
+\[
+X_n(\omega) = \begin{cases}
+	1,&\text{if }\lfloor 2^n\omega\rfloor\text{ is odd}\\
+	0,&\text{if }\lfloor 2^n\omega\rfloor\text{ is even}.
+\end{cases}
+\]
+Show that $X_1, X_2, \ldots$ are independent random variables with distribution Ber$(1/2)$.
+\begin{proof}
+	First we'll show that $X_n\sim$ Ber$(1/2)$. Divide the interval $(0,1)$ into subintervals of length $\frac{1}{2^n}$:
+	\[
+	(0,1) = \left(\bigcup_{k=0}^{2^n-1}\left[\frac{k}{2^n}, \frac{k+1}{2^n}\right)\right)\setminus\{0\} = \left(\cup_{k=0}^{2^n-1}A_{n,k}\right)\setminus \{0\},
+	\]
+	where $A_{n,k} = [k/2^n, (k+1)/2^n)$. We have that $X_n(\omega) = 0$ if and only if $\omega \in A_{n,2k}$ for some $k$. We then have
+	\[
+	\Prob[X_n = 0] = \sum_{k=0}^{2^{n-1}-1}\Prob[A_{n,2k}] = \frac{1}{2}.
+	\]
+	The same argument shows that $\Prob[X_n = 1] = 1/2$, so $X\sim$ Ber$(1/2)$.\\
+
+	\noindent Now to show that $X_1, \ldots$ are independent. Let $n_1, \ldots, n_k$ be positive integers and let $\epsilon_1, \ldots, \epsilon_k$ be 0 or 1. We clearly have that
+	\[
+	\Prob[X_{n_1} = \epsilon_1]\cdots \Prob[X_{n_k} = \epsilon_k] = \frac{1}{2^k}.
+	\]
+	Without loss of generality, assume that $n_1<n_2<\cdots<n_k$.
+\end{proof}
+
 \end{document}

@@ -203,7 +203,63 @@ Let $X_0 = 1$ and define $X_n$ inductively by choosing $X_{n+1}$ uniformly at ra
 \]
 a.s. and find the value of $c$.
 \begin{solution}
-	Let $U_1, U_2, \ldots$ be iid Unif$[0,1]$ random variables. We claim that $X_n$ and $U_1\cdot U_2\cdots U_n$ have the same distribution. This is clearly true for $X_1$, so suppose that $X_n$ and $U_1 \cdots U_n$ have the same distribution and consider $X_{n+1}$. 
+	Let $U_1, U_2, \ldots$ be iid Unif$[0,1]$ random variables. We claim that $X_n$ and $U_1\cdot U_2\cdots U_n$ have the same distribution. This is clearly true for $X_1$, so suppose that $X_n$ and $U_1 \cdots U_n$ have the same distribution and consider $X_{n+1}$. We have that
+	\[
+	\Prob[X_{n+1} \leq t] = \frac{t}{X_n},\quad\text{for all }t\leq X_n.
+	\]
+	On the other hand, we have
+	\[
+	\Prob[U_{n+1}\cdot X_n \leq t] = \Prob[U_{n+1}\leq t/X_n] = \frac{t}{X_n}.
+	\]
+	We then have
+	\[
+	\frac{\log X_n}{n} = \frac{1}{n}\sum_{k=1}^n\log U_k.
+	\]
+	Let's compute an expectation
+	\begin{align*}
+		\E[\log U_k] &= \int_0^1 \log x\ dx\\
+		&= -1.
+	\end{align*}
+	By the strong law of large numbers, we have that
+	\[
+	\frac{\log X_n}{n} = \frac{1}{n}\sum_{k=1}^n\log U_k \to -1\text{ a.s.}
+	\]
 \end{solution}
+
+\noindent\textbf{Problem 10. }
+Let $X_1, X_2, \ldots$ be independent random variables such that $X_n$ takes value $n$ with probability $1/(2n\log n)$ and value $-n$ with the same probability, and the value 0 with the remaining probability $1- 1/(n\log n)$. Show that this sequence obeys the weak law, but not the strong law in the sense that
+\[
+\frac{1}{n}\sum_{i=1}^nX_i\to 0
+\]
+in probability but not a.s.
+\begin{proof}
+	Let $S_n = \sum_{i=2}^{n+1} X_i$. Since the $X_i$ are centered, so is $S_n$ and $\E[S_n/n] = 0$. Let's compute the variance of $X_n$.
+	\begin{align*}
+		\Var[X_n] &= \frac{n^2}{2n\log n} + \frac{(-n)^2}{2n\log n}\\
+		&= \frac{n}{\log n}.
+	\end{align*}
+	Since the $X_n$'s are independent, the variances add and we have
+	\[
+	\Var[S_n/n] = \frac{1}{n^2}\sum_{k=2}^{n+1}\frac{k}{\log k}.
+	\]
+	Now let's fix $\epsilon>0$ and use Chebyshev
+	\begin{equation}
+	\begin{split}
+		\Prob\left[\left|\frac{S_n}{n}\right|>\epsilon\right] &\leq \frac{1}{n^2\epsilon^2}\sum_{k=2}^{n+1}\frac{k}{\log k}
+	\end{split}
+	\end{equation}
+	Now $\frac{k}{\log k}$ is increasing for $k\geq 3$, so we can bound the above probability
+	\begin{align*}
+		\Prob\left[\left|\frac{S_n}{n}\right|>\epsilon\right] &\leq \frac{1}{n^2\epsilon^2}\cdot \frac{n(n+1)}{\log(n+1)}\\
+		&\to 0,
+	\end{align*}
+	so $S_n/n \to 0$ in probability.\\
+
+	\noindent Now consider the sum
+	\begin{align*}
+		\sum_{n=2}^\infty \Prob[X_n = n] &= \sum_{n=2}^\infty \frac{1}{2n\log n} = +\infty.
+	\end{align*}
+	Since the $X_n$'s are independent, Borel-Cantelli tells us that $\Prob[X_n = n\text{ infinitely often}] = 1$. Consequently, the $X_n/n = 1$ infinitely often, so the sum $\frac{1}{n}\sum_{k=2}^{n+1}X_n$ cannot converge.
+\end{proof}
 
 \end{document}

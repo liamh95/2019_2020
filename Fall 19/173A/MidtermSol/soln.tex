@@ -1,0 +1,118 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{bbm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\exreals}{\overline{\mathbb{R}}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\mable}{measurable}
+\newcommand{\quats}{\mathbb{H}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\norm}{\trianglelefteq}
+\newcommand{\Aut}{\text{Aut}}
+\newcommand{\disk}{\mathbb{D}}
+\newcommand{\halfplane}{\mathbb{H}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\supp}[1]{\text{supp}({#1})}
+\newcommand{\Hom}[2]{\text{Hom}_{{#1}}({#2})}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Gal}[1]{\text{Gal}\left({#1}\right)}
+\newcommand{\esssup}{\text{ess sup }}
+\newcommand{\essinf}{\text{ess inf }}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+%\noindent{\em Liam Hardiman\hfill{Date} }
+\begin{center}
+{\bf \Large Math 173B: Midterm 1 Solutions}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\noindent\textbf{Problem 2. }
+\begin{enumerate}[(a)]
+	\item Describe each step in the ElGamal cipher.
+	\begin{solution}
+		Say Bob wants to send a message to Alice.
+		\begin{enumerate}[1.]
+			\item Alice and Bob publicly agree on a prime $p$ and element $g$ modulo $p$ (it could be a primitive root, but it's usually chosen to have large prime order).
+			\item Alice chooses a random $a$ with $1\leq a\leq p-1$ and publishes $A = g^a\pmod{p}$.
+			\item Bob chooses his message $m\in \integers/p\integers$. He chooses a random $k$ and computes
+			\[
+			c_1 = g^k\pmod{p},\quad c_2 = mA^k\pmod{p}.
+			\]
+			He sends the pair $(c_1, c_2)$ to Alice.
+			\item Alice decrypts by computing
+			\begin{equation}\label{dec}
+			(c_1^a)^{-1}\cdot c_2 \equiv m\pmod{p}.
+			\end{equation}
+		\end{enumerate}
+	\end{solution}
+
+	\item If eve has an oracle for the discrete log problem, how can she decrypt the message? Give a step-by-step explanation.
+	\begin{solution}
+		Eve knows $p, g, A = g^a\pmod{p}, c_1 = g^k\pmod{p}$, and $c_2 = mg^k\pmod{p}$. She has an oracle, that, given $g, p, h$ returns $x$ such that $g^x\equiv h\pmod{p}$ if it exists. She can then give her oracle $g, p$, and $A$ and it will give her $a\pmod{p-1}$. She can then perform the same decryption calculation (\ref{dec}) as Alice.
+	\end{solution}
+\end{enumerate}
+
+
+\noindent\textbf{Problem 3. }
+Let $p$ be a prime number and let $g$ be a primitive root in $\field_p^\times$.
+\begin{enumerate}[(a)]
+	\item Let $r$ be an integer such that $\gcd(r, p-1) = 1$. Prove that $g^r$ is a primitive root in $\field_p^\times$.
+	\begin{proof}
+		Here's one way to do it. Let $k$ be the order of $g^r$. $g^r$ is a primitive root if and only if its order is $p-1$. Since $(g^r)^{p-1} \equiv 1\pmod{p}$ by Fermat's little theorem, we know that $k|p-1$. Now we also have
+		\[
+		(g^r)^k = g^{rk} \equiv 1\pmod{p},
+		\]
+		so the order of $g$ must divide $rk$. But the order of $g$ is $p-1$ since $g$ is a primitive root, so $p-1|rk$. Since $p-1$ and $r$ are coprime, we must then have that $p-1|k$. We have then shown that $k|p-1$ and $p-1|k$, so $k = p-1$ and $g^r$ is a primitive root.\\
+
+		\noindent Here's a more algebraic way. Consider the map $f: \integers/(p-1)\integers\to \field_p^\times$ given by $f(x) = g^{rx}\pmod{p}$. $g^r$ is a primitive root if and only if $f$ is surjective. We know that $\field_p^\times \cong \integers/(p-1)\integers$, so $f$ is surjective if and only if it is injective (a map from a finite set to itself is surjective if and only if it is injective). Suppose that $f(x) = f(y)$, that is
+		\[
+		g^{rx} \equiv g^{ry}\pmod{p}.
+		\]
+		Since $g$ is a primitive root, this happens if and only if $r(x-y)\equiv 0\pmod{p-1}$. Since $r$ is coprime to $p-1$, it is invertible mod $p-1$ and we obtain $x \equiv y\pmod{p-1}$, so $f$ is injective, and therefore surjective, which makes $g^r$ a primitive root.
+	\end{proof}
+
+	\item Prove that there are $\phi(p-1)$ primitive roots in $\field_p^\times$.
+	\begin{proof}
+		By part (a) we have that $g^r$ is a primitive root when $r$ is coprime to $p-1$. There are then \textit{at least} $\phi(p-1)$ primitive roots in $\field_p^\times$. Suppose that $r$ is \textit{not} coprime to $p-1$. There is then some $d>1$ that divides both $p-1$ and $r$. We'd then have
+		\[
+		(g^r)^{\frac{p-1}{d}} \equiv (g^{r/d})^{p-1}\equiv 1\pmod{p-1}.
+		\]
+		Note that $\frac{p-1}{d}$ and $\frac{r}{d}$ are indeed integers. The order of $g^r$ is then at most $\frac{p-1}{d}$, which is strictly less than $p-1$, so $g^r$ can't be a primitive root when $r$ isn't coprime to $p-1$. We conclude that there are \textit{at most} $\phi(p-1)$ primitive roots. Combining this with part (a), we arrive at \textit{exactly} $\phi(p-1)$ primitive roots.
+	\end{proof}
+
+	\item Find all primitive roots of $\field_{11}^\times$. (HINIT: 2 is a primitive root of $\field_{11}^\times$.)
+	\begin{solution}
+		By parts (a) and (b) and the hint, $2^r \pmod{11}$ is a primitive root if and only if $r$ is coprime to $11-1 = 10$. Our primitive roots are then
+		\[
+		2^1 \equiv 2,\ 2^3\equiv 8,\ 2^7\equiv 7,\ 2^9\equiv 9\pmod{11}.
+		\]
+	\end{solution}
+\end{enumerate}
+
+
+\end{document}

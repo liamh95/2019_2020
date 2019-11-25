@@ -1,0 +1,209 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{bbm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\exreals}{\overline{\mathbb{R}}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\mable}{measurable}
+\newcommand{\quats}{\mathbb{H}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\norm}{\trianglelefteq}
+\newcommand{\Aut}{\text{Aut}}
+\newcommand{\disk}{\mathbb{D}}
+\newcommand{\halfplane}{\mathbb{H}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\supp}[1]{\text{supp}({#1})}
+\newcommand{\Hom}[2]{\text{Hom}_{{#1}}({#2})}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\field}[1]{\mathbb{F}_{{#1}}}
+\newcommand{\Gal}[1]{\text{Gal}\left({#1}\right)}
+\newcommand{\esssup}{\text{ess sup }}
+\newcommand{\essinf}{\text{ess inf }}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\Ber}{\text{Ber}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{November 25, 2019} }
+\begin{center}
+{\bf \Large 270A - Homework 3}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\noindent\textbf{Problem 1. }Show that if $X$ and $Y$ are independent, integer-valued random variables, then for all $n\in \integers$,
+\[
+\Prob[X+Y=n] = \sum_{m\in \integers}\Prob[X=m]\cdot\Prob[Y=n-m].
+\]
+\begin{proof}
+	\begin{align*}
+		\Prob[X+Y=n] &= \Prob[Y = n-X]\\
+		&= \sum_{m\in \integers}\Prob[Y = n-m, X=m]\\
+		&= \sum_{m\in \integers}\Prob[Y=n-m]\cdot \Prob[X=m],
+	\end{align*}
+	where the last line follows from the independence of $X$ and $Y$.
+\end{proof}
+
+\noindent\textbf{Problem 3. }
+Let $X_1, X_2, \ldots$ be independent random variables that satisfy
+\[
+\frac{\Var[X_i]}{i}\to 0
+\]
+as $i\to \infty$. Let $S_n = X_1 + \cdots + X_n$. Prove that
+\[
+\frac{S_n-\E[S_n]}{n}\to 0\quad\text{in probability}.
+\]
+\begin{proof}
+	By Chebyshev's inequality, we have that
+	\begin{align*}
+		\Prob\left[\left|\frac{S_n- \E[S_n]}{n}\right|>\epsilon\right]&\leq \frac{\Var[(S_n - \E[S_n])/n]}{\epsilon^2}\\
+		&= \frac{1}{n^2\epsilon^2}\sum_{i=1}^n\Var[X_i]\\
+		&\leq \frac{1}{n\epsilon^2}\cdot \max_{i\leq n}\Var[X_i]\\
+		&\to 0.
+	\end{align*}
+\end{proof}
+
+\noindent\textbf{Problem 4. }
+\begin{enumerate}[(a)]
+	\item Show that
+	\[
+	d(X, Y) = \E\left[\frac{|X-Y|}{1+|X-Y|}\right]
+	\]
+	defines a metric on the set of random variables.
+	\begin{proof}
+		It's clear that $d$ is symmetric. Since $\frac{|X-Y|}{1+|X-Y|}$ is nonnegative, its expectation is zero if and only if $|X-Y|$ is zero almost surely, which happens if and only if $X = Y$ almost surely. This just leaves the triangle inequality.\\
+
+		\noindent Consider the function $f(t) = \frac{t}{1+t}= 1 - \frac{1}{1+t}$.  Since $\frac{1}{1+t}$ is clearly decreasing, we have that $f$ is increasing for $t\geq 0$. For any three random variables $X$, $Y$, and $Z$, we then have
+		\begin{align*}
+			d(X, Z) &= f(|X-Z|)\\
+			&\leq f(|X-Y| + |Y-Z|)\\
+			&= \frac{|X-Y|}{1+|X-Y| + |Y-Z|} + \frac{|Y-Z|}{1+|X-Y| + |Y-Z|}\\
+			&\leq \frac{|X-Y|}{1+|X-Y|} + \frac{|Y-Z|}{1+|Y-Z|}\\
+			&= d(X, Y) + d(Y, Z).
+		\end{align*}
+	\end{proof}
+
+	\item Show that $d(X_n, X)\to 0$ if and only if $X_n\to X$ in probability.
+	\begin{proof}
+		Suppose that $X_n\to X$ in probability. Fix $\epsilon > 0$ and let $E_n = \{|X_n - X|>\epsilon\}$. For sufficiently large $n$, we have that $\Prob[E_n] < \epsilon$. Let's bound the expectation, using the fact that $\frac{t}{1+t}\leq 1$ for all $t\geq 0$.
+		\begin{align*}
+			d(X_n, X) &= \int_{E_n}\frac{|X_n-X|}{1+|X_n-X|}d\Prob + \int_{E_n^c}\frac{|X_n-X|}{1+|X_n-X|}d\Prob\\
+			&\leq \Prob[E_n]\cdot 1 + \Prob[E_n^c]\cdot \epsilon\\
+			&\leq 2\epsilon.
+		\end{align*}
+		Suppose that $X_n$ doesn't converge to $X$ in probability. Then for some $\epsilon$, there are infinitely many $n$ such that $\Prob[|X_n -X|>\epsilon]>\epsilon$. Since $t\mapsto \frac{t}{1+t}$ is increasing, for such an $n$ we have (with $E_n$ defined as above)
+		\begin{align*}
+			d(X_n, X) &\geq \int_{E_n}\frac{|X_n- X|}{1+|X_n-X|}d\Prob\\
+			&\geq \Prob[E_n]\cdot \frac{\epsilon}{1+\epsilon}\\
+			&\geq \frac{\epsilon^2}{1+\epsilon},
+		\end{align*}
+		so $d(X_n, X)$ doesn't go to zero.
+	\end{proof}
+\end{enumerate}
+
+\noindent\textbf{Problem 5. }
+Let $X_1, X_2, \ldots$ be independent $\Ber(p_n)$ random variables.
+\begin{enumerate}[(a)]
+	\item Show that $X_n\to 0$ in probability if and only if $p_n\to 0$.
+	\begin{proof}
+		Fix $\epsilon > 0$. We then have
+		\begin{align*}
+			\Prob[|X_n| > \epsilon] &= \Prob[X_n = 1]
+			= p_n.
+		\end{align*}
+		We then have that $\Prob[|X_n|>\epsilon]\to 0$ if and only if $p_n\to 0$.
+	\end{proof}
+
+	\item Show that $X_n\to 0$ a.s. if and only if $\sum p_n <\infty$.
+	\begin{proof}
+		Fix $\epsilon > 0$ and let $E_n = \{|X_n| > \epsilon\} = \{X_n = 1\}$. We then have
+		\begin{align*}
+			\sum \Prob[E_n] & = \sum p_n < \infty.
+		\end{align*}
+		By Borel-Cantelli, we have
+		\[
+		\Prob[\limsup E_n] = \Prob[ X_n = 1 \text{ infinitely often}] = 0.
+		\]
+		Taking complements gives
+		\begin{align*}
+			1 = \Prob[\liminf E_n^c]  = \Prob[X_n = 0 \text{ eventually}],
+		\end{align*}
+		so $X_n\to 0$ almost surely. On the other hand, if $\sum p_n = \infty$, then since the $X_j$'s are independent, Borel-Cantelli says that 
+		\[
+		\Prob[\limsup E_n] = \Prob[X_n = 1\text{ infinitely often}] = 1.
+		\]
+		Since $X_n = 1$ infinitely often, $X_n$ doesn't converge to zero almost surely.
+	\end{proof}
+\end{enumerate}
+
+\noindent\textbf{Problem 6. }
+Let $X_1, X_2, \ldots$ be a sequence of random variables on $(\Omega, \mcal{F}, \Prob)$ where $\Omega$ is a countable set and $\mcal{F} = 2^\Omega$. Show that $X_n\to X$ in probability implies $X_n\to X$ a.s.
+\begin{proof}
+	Suppose $X_n$ didn't converge to $X$ almost surely. Then since $\Omega$ is a discrete space, there is some singleton $\{\omega\} \in \mcal{F}$ with $\Prob[\{\omega\}] > 0$ (we'll abuse notation and write $\Prob[\omega]>0$) and $X_n(\omega)$ doesn't converge to $X(\omega)$. We can then find $\epsilon>0$ so that for infinitely many $n$, $|X_n(\omega)-X(\omega)| > \epsilon$. But then $X_n$ can't converge to $X$ in probability since
+	\begin{align*}
+		\Prob[|X_n - X|>\epsilon] \geq \Prob[\omega] > 0,
+	\end{align*}
+	for infinitely many $n$.
+\end{proof}
+
+\noindent\textbf{Problem 7. }
+Show that for any sequence of random variables $X_1, X_2, \ldots$ there exists a sequence of positive real numbers $c_1, c_2, \ldots$ such that $c_nX_n\to 0$ a.s.
+\begin{proof}
+	Since $X_n$ takes values in the real numbers, we have that $\Prob[|X_n|>t] \to 0$ as $t\to \infty$. There is then some $b_n$ so that $\Prob[|X_n|>b_n]<2^{-n}$. Now let $c_n = \frac{1}{n\cdot b_n}$. For any $\epsilon>0$ we have
+	\begin{align*}
+		\sum \Prob[|c_nX_n|>\epsilon] & = \sum \Prob[|X_n| > \epsilon \cdot nb_n].
+	\end{align*}
+	For $n$ sufficiently large, $\epsilon n \geq 1$ and $\Prob[|X_n| >\epsilon n b_n] \leq \Prob[|X_n| > b_n] < 2^{-n}$. The tail of the above series is then summable, and we have
+	\[
+	\Prob[\limsup \{|c_n X_n| > \epsilon\}] = 0
+	\]
+	for all $\epsilon>0$, so $c_nX_n\to 0$ a.s.
+\end{proof}
+
+\noindent\textbf{Problem 8. }
+Let $X_1, X_2, \ldots$ be independent random variables (from $(\Omega, \mcal{F}, \Prob)$ to $\reals$). Show that $\sup_n X_n<\infty$ a.s. if and only if there exists $M\in \reals$ such that
+\[
+\sum_n \Prob[X_n>M]<\infty.
+\]
+\begin{proof}
+	Suppose there exists a real $M$ so that the above sum is finite. Then by Borel-Cantelli we have that $\Prob[X_n >M \text{ infinitely often}] = 0$, or $\Prob[X_n \leq M \text{ eventually}] = 1$. For any $\omega\in \Omega$, there is some $N_\omega$ so that $X_n(\omega)\leq M$ for all $n > N_\omega$. We then have that
+	\[
+	X_n(\omega) \leq \max\{X_1(\omega), X_2(\omega), \ldots, X_{N_\omega}(\omega), M \}.
+	\]
+	Since this holds for a.e. $\omega$, we have that $\sup_n X_n<\infty$ a.s.\\
+
+	\noindent Conversely, suppose that for every $M$ we have $\sum \Prob[X_n>M] = +\infty$. Since the $X_n$'s are independent, Borel-Cantelli tells us that $\Prob[X_n >M\text{ infinitely often}] = 1$. For almost any $\omega\in \Omega$ and for any real number $M$, there are infinitely many $n$ such that $X_n(\omega)>M$. Consequently, $\sup_n X_n(\omega)$ is infinite for almost every $\omega$.
+\end{proof}
+
+\noindent\textbf{Problem 9. }
+Let $X_0 = 1$ and define $X_n$ inductively by choosing $X_{n+1}$ uniformly at random from the interval $[0, X_n]$. Prove that
+\[
+\frac{\log X_n}{n}\to c
+\]
+a.s. and find the value of $c$.
+\begin{solution}
+	Let $U_1, U_2, \ldots$ be iid Unif$[0,1]$ random variables. We claim that $X_n$ and $U_1\cdot U_2\cdots U_n$ have the same distribution. This is clearly true for $X_1$, so suppose that $X_n$ and $U_1 \cdots U_n$ have the same distribution and consider $X_{n+1}$. 
+\end{solution}
+
+\end{document}

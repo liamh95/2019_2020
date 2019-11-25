@@ -332,7 +332,7 @@ Show that $X_1, X_2, \ldots$ are independent random variables with distribution 
 	\[
 	\Prob[X_{n_1} = \epsilon_1]\cdots \Prob[X_{n_k} = \epsilon_k] = \frac{1}{2^k}.
 	\]
-	Without loss of generality, assume that $n_1<n_2<\cdots<n_k$.
+	Without loss of generality, assume that $n_1<n_2<\cdots<n_k$ and let $E_i = \{\omega\in (0,1): X_{n_i} = \epsilon_i\}$. Our goal is to show that $\Prob[\cap_{i=1}^k E_i] = 1/2^k$. We certainly have that $\Prob[E_1] = 1/2$. Now each subinterval of $E_1$ is half-covered by subintervals of $E_2$, and each subinterval of $E_2$ is half-covered by subintervals of $E_3$ and so on. Inductively, we then have that $\Prob[\cap_{i=1}^kE_i] = 1/2^k$.
 \end{proof}
 
 \end{document}

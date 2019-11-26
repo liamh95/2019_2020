@@ -69,8 +69,23 @@ F(x_1, \ldots, x_d) = \Prob[y: y_1\leq x_1, \ldots, y_d\leq x_d].
 	\begin{itemize}
 		\item $\reals^d\in \Lambda$: We can write $\reals^d$ as a union of ray-products, $\reals^d = \bigcup_{n=1}^\infty (-\infty, n]^d$, so $\reals^d$ is indeed in $\sigma(\Pi)$. That $\Prob_1[\reals^d] = \Prob_2[\reals^d]$ follows from the fact that $\Prob_1$ and $\Prob_2$ are probability measures.
 
-		\item Closure under complements: Let $E\in \Lambda$. Since $\Prob_1$ an d
+		\item Closure under complements: Let $E\in \Lambda$. Since $\Prob_1$ and $\Prob_2$ are probability measures, we can write
+		\[
+		\Prob_1[E^c] = 1 - \Prob_1[E] = 1-\Prob_2[E] = \Prob_2[E^c].
+		\]
+
+		\item Closure under countable disjoint union: Let $\{E_n\}_{n=1}^\infty$ be a countable disjoint family in $\Lambda$. By countable additivity of measure, we have
+		\[
+		\Prob_1(\cup_{n=1}^\infty E_n) = \sum_{n=1}^\infty \Prob_1[E_n] = \sum_{n=1}^\infty \Prob_2[E_n] = \Prob_2(\cup_{n=1}^\infty E_n).
+		\]
 	\end{itemize}
+	Hence, $\Lambda$ is a $\lambda$-system. By the $\pi$-$\lambda$ theorem, $\sigma(\Pi)\subseteq \Lambda$. By construction, we also have $\Lambda\subseteq \sigma(\Pi)$, so $\Lambda = \sigma(\Pi)$. But the products of rays generate all of $\mcal{B}(\reals^d)$, so we must have $\Prob_1 = \Prob_2$ on all of $\mcal{B}(\reals^d)$.
+\end{proof}
+
+\noindent\textbf{Problem 2. }
+Show that if a set $A$ of continuous paths on $[0,1]$ is equicontinuous at each point in $[0,1]$ then the set is uniformly equicontinuous.
+\begin{proof}
+	
 \end{proof}
 
 \end{document}

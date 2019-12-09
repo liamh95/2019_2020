@@ -272,7 +272,9 @@ Let $X_1, X_2, \ldots$ be iid random variables with finite mean $\mu$. Prove tha
 \frac{1}{\ln n}\sum_{k=1}^n\frac{X_k}{k}\to \mu\text{ a.s.}
 \]
 \begin{proof}
-	(This proof basically mirrors the proof we did in class for the SLLN with some minor changes.) By splitting $X = X^+ - X^-$, we can assume without loss of generality that $X_k \geq 0$. Let's start by truncating the $X_k$'s and define $Y_k = X_k\cdot \ind_{\{|X_k|\leq k\}}$ and $T_n = \sum_{k=1}^n Y_k/k$. We claim that it suffices to prove that $T_n/\ln n \to \mu $ a.s. The idea is that $X_k = Y_k$ eventually almost surely. To see this, consider the sum
+	When we proved the strong law of large numbers in class, we crucially used the fact that if a sequence of numbers $x_n$ converges to $x$, then it converges in mean. That is, $\frac{1}{n}\sum_{k=1}^n x_k$ converges to $x$ as well. In this problem, we'll show that if $x_n\to x$, then $\frac{1}{\ln n}\sum_{k=1}^n \frac{x_n}{k}\to x$. This fact along with minor modifications to our proof from class will establish the claim.\\
+	\noindent \\
+	\noindent By splitting $X = X^+ - X^-$, we can assume without loss of generality that $X_k \geq 0$. Let's start by truncating the $X_k$'s and define $Y_k = X_k\cdot \ind_{\{|X_k|\leq k\}}$ and $T_n = \sum_{k=1}^n Y_k/k$. We claim that it suffices to prove that $T_n/\ln n \to \mu $ a.s. The idea is that $X_k = Y_k$ eventually almost surely. To see this, consider the sum
 	\[
 	\sum \Prob[|X_k| > k] \leq \int_0^\infty \Prob[|X_1|>t]\ dt = \E[|X_1|]<\infty.
 	\]

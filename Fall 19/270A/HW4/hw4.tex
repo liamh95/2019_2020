@@ -1,0 +1,303 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{bbm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\exreals}{\overline{\mathbb{R}}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\mable}{measurable}
+\newcommand{\quats}{\mathbb{H}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\norm}{\trianglelefteq}
+\newcommand{\Aut}{\text{Aut}}
+\newcommand{\disk}{\mathbb{D}}
+\newcommand{\halfplane}{\mathbb{H}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\supp}[1]{\text{supp}({#1})}
+\newcommand{\Hom}[2]{\text{Hom}_{{#1}}({#2})}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Gal}[1]{\text{Gal}\left({#1}\right)}
+\newcommand{\esssup}{\text{ess sup }}
+\newcommand{\essinf}{\text{ess inf }}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{December 9, 2019} }
+\begin{center}
+{\bf \Large 270A - Homework 4}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\noindent\textbf{Problem 1. }
+Let $E_1, E_2, \ldots$ be events on the same probability space. Assume that
+\[
+\Prob[E_n]\to 0\quad\text{and}\quad \sum_n\Prob[E_n\cap E_{n-1}^c]<\infty.
+\]
+Show that
+\[
+\Prob[E_n\text{ occur infinitely often}] = 0.
+\]
+\begin{proof}
+	By the continuity of measure we have
+	\begin{align*}
+		\Prob[\limsup E_n^c] &= \lim_{N\to \infty}\Prob\left[\bigcup_{n=N}^\infty E_n^c\right]\\
+		&\geq \lim_{N\to \infty}\Prob[E_n^c]\\
+		&= 1,
+	\end{align*}
+	where the last equality follows from the hypothesis that $\Prob[E_n]\to 0$. Now by Borel-Cantelli, $\Prob[E_n\cap E_{n-1}^c\text{ i.o.}] = 0$. Since $\Prob[E_{n-1}^c\text{ i.o.}] = 1$ by the above discussion, we have
+	\begin{align*}
+		\Prob[E_n\text{ i.o.}] = \Prob[E_n\cap E_{n-1}^c\text{ i.o.}]= 0.
+	\end{align*}
+\end{proof}
+
+
+\noindent\textbf{Problem 2. }
+Let $X_1, X_2, \ldots$ be iid random variables with the standard exponential distribution,
+\[
+\Prob[X_i>x] = e^{-x},\quad x\geq 0.
+\]
+\begin{enumerate}[(a)]
+	\item Show that
+	\[
+	\limsup_n \frac{X_n}{\log n} = 1\text{ a.s.}
+	\]
+	\begin{proof}
+		For any positive $t$ we have
+		\[
+		\sum_{n=1}^\infty \Prob[X_n > t\log n] = \sum_{n=1}^\infty \frac{1}{n^t} = \begin{cases}
+			C_t<\infty,&\text{if }t\leq 1\\
+			\infty,&\text{if }t>1
+		\end{cases}.
+		\]
+		By Borel-Cantelli, we then have
+		\[
+		\Prob\left[\frac{X_n}{\log n}>t\text{ infinitely often}\right] = \begin{cases}
+			1,&\text{if }t\leq 1\\
+			0,&\text{if }t>1
+		\end{cases}.
+		\]
+		In particular, we have that $\frac{X_n}{\log n} > 1$ infinitely often almost surely, but $\frac{X_n}{\log n}>t$ only finitely often almost surely for any $t>1$. We conclude that $\limsup \frac{X_n}{\log n} = 1$ almost surely.
+	\end{proof}
+
+	\item Let $M_n = \max_{1\leq k\leq n}X_k$. Show that
+	\[
+	\limsup_n \frac{M_n}{\log n} = 1\text{ a.s.}
+	\]
+	\begin{proof}
+		Fix $t>0$ and let $E_n$ be the event given by $E_n= \{M_n > t\log n\}$. By L'H\^opital's rule, we have
+		\begin{align*}
+			\lim_{n\to \infty}\Prob[E_n] &= \lim_{n\to \infty}\Prob[X_k > t\log n\text{ for at least one }1\leq k\leq n]\\
+			&= \lim_{n\to \infty}1 - \Prob[X_k \leq t\log n\text{ for each }1\leq k\leq n]\\
+			&= \lim_{n\to \infty}1 - (1 - \Prob[X_1 >t\log n])^n\quad \text{(since the $X_k$'s are independent)}\\
+			&= \lim_{n\to \infty}1 - \left(1 - \frac{1}{n^t}\right)^n\\
+			&= 0 \text{ if and only if } t> 1.
+		\end{align*}
+		Now let's compute $\Prob[E_n \setminus E_{n-1}]$.
+		\begin{align*}
+			\Prob[E_n\setminus E_{n-1}] &= \Prob[X_k > t\log n\text{ for at least one }1\leq k \leq n\\
+			&\text{ AND }X_k \leq t\log (n-1)\text{ for each }1\leq k\leq n-1].
+		\end{align*}
+		The only way $X_k \leq t\log (n-1)$ can hold for each $1\leq k\leq n-1$ while still having at least one of $1\leq k\leq n$ satisfy $X_k > t\log n$ is for $X_n >t\log n$ to hold. We then have
+		\begin{align*}
+			\sum \Prob[E_n \setminus E_{n-1}] &= \sum \Prob[X_n > t\log n]= \sum \frac{1}{n^t}<\infty \text{ if and only if }t > 1.
+		\end{align*}
+		By problem 1, we then have $\Prob[M_n > t\log n\text{ infinitely often}] = 0$ if and only if $t > 1$. By the same reasoning we used in part (a), we have that $\limsup \frac{M_n}{\log n} = 1$ almost surely.
+	\end{proof}
+\end{enumerate}
+
+\noindent\textbf{Problem 3. }
+Let
+\[
+\psi(x) = \begin{cases}
+	x^2&\text{if }|x|\leq 1\\
+	|x|&\text{if }|x|\geq 1
+\end{cases}.
+\]
+Let $X_1, X_2, \ldots$ be independent mean zero random variables. Show that if $\sum \E[\psi(X_n)]<\infty$, then $\sum X_n$ converges almost surely.
+\begin{proof}
+	% By the linearity of expectation, the monotone convergence theorem, and our hypothesis, we have
+	% \[
+	% \sum \E[\psi(X_n)] = \E\left[\sum X_n^2\cdot \ind_{|X_n|\leq 1}\right] + \E\left[\sum |X_n|\cdot \ind_{|X_n|\geq 1}\right] <\infty.
+	% \]
+	% Since $\sum |X_n|\cdot \ind_{|X_n|\geq 1}$ has finite expectation, it must converge almost surely. In particular, we have $\sum X_n \cdot \ind_{|X_n|\geq 1}$ converges almost surely. It remains to show that $\sum X_n \cdot \ind_{|X_n| \leq 1}$ converges a.s. too.\\
+
+	By Markov's inequality we have
+	\[
+	\sum \Prob[|X_n| > 1] \leq \sum \E[|X_n| \cdot \ind_{|X_n|> 1}] < \infty.
+	\]
+	By Borel-Cantelli, $|X_n| \leq 1$ eventually almost surely. In other words, $X_n = X_n\cdot \ind_{|X_n| \leq 1}$ eventually almost surely. In particular, we have that $\sum X_n$ converges a.s. if and only if $\sum X_n \cdot \ind_{|X_n|\leq 1}$ converges a.s.\\
+
+	\noindent Now let's look at $\sum \E[X_n \cdot \ind_{|X_n|\leq 1}]$. Since $\E[X_n] = 0$, we have $\E[X_n \cdot \ind_{|X_n|\leq 1}] = -\E[X_n \cdot \ind_{|X_n|>1}]$. This gives
+	\begin{align*}
+		\sum |\E[X_n\cdot \ind_{|X_n|\leq 1}]| = \sum |\E[X_n \cdot \ind_{|X_n| \geq 1}]| \leq \sum \E[|X_n|\cdot \ind_{|X_n|\geq 1}] \leq \sum \E[\psi(X_n)] < \infty.
+	\end{align*}
+	The variances of $X_n \cdot \ind_{|X_n|\leq 1}$ are also summable:
+	\begin{align*}
+		\sum \Var[X_n \cdot \ind_{|X_n|\leq 1}] \leq \sum \E[X_n^2 \cdot \ind_{|X_n| \leq 1}] \leq \sum \E[\psi(X_n)] < \infty.
+	\end{align*}
+	By Kolmogorov's two-series theorem, we have that $\sum X_n \cdot \ind_{|X_n|\leq 1}$ converges almost surely, which shows that $\sum X_n$ converges almost surely by our earlier discussion.
+\end{proof}
+
+\noindent\textbf{Problem 4. }
+Construct a sequence of independent mean zero random variables $X_1, X_2, \ldots$ such that
+\[
+\frac{1}{n}\sum_{k=1}^nX_k\to \infty\text{ a.s.}
+\]
+Why does this example not contradict the strong law of large numbers?
+\begin{solution}
+	Consider the probability triplet $(\Omega, \mcal{F}, \Prob)$ where $\Omega$ is the unit interval $[0,1]$, $\mcal{F}$ is the Borel $\sigma$-algebra, and $\Prob$ is the Lebesgue measure. Define the sequence of random variables $X_k$ by
+	\[
+	X_k = \begin{cases}
+		k(1-k),&\text{if }0\leq x\leq \frac{1}{k}\\
+		k,&\text{if }\frac{1}{k}<x\leq 1.
+	\end{cases}
+	\]
+	Each $X_k$ has zero mean since
+	\[
+	\E[X_k] = \frac{1}{k}\cdot k(1-k) + \left(1 - \frac{1}{k}\right)\cdot k = 0.
+	\]
+	Now for any $\omega\in [0,1]$ we have $\frac{1}{n}< \omega \leq 1$ for all $n$ larger than some $N_\omega$. We then have for $n$ larger than $N_\omega$,
+	\[
+	\frac{1}{n}\sum_{k=1}^n X_k(\omega) = \frac{1}{n}\left(\sum_{k=1}^{N_\omega}k(k-1) + \sum_{k=N_\omega+1}^nk\right) = \frac{1}{n}(C_\omega + \Omega(n^2)) \to \infty,
+	\]
+	for some constant $C_\omega$. This doesn't contradict the strong law of large numbers, since the strong law requires that the variables $X_1, X_2, \ldots$ be iid, whereas the variables $X_k$ defined above are not identically distributed.
+\end{solution}
+
+\noindent\textbf{Problem 5. }
+Suppose disasters occur at random times $X_i$ apart from each other. Precisely, the $k$-th disaster occurs at time $T_k = X_1 + \cdots +X_k$, where the $X_i$ are iid random variables taking positive values with finite mean $\mu$. Let
+\[
+N(t) = \max\{n: T_n\leq t\}
+\]
+be the number of disasters that have occurred by time $t$. Prove that
+\[
+N(t)\to \infty\quad\text{and}\quad \frac{N(t)}{t}\to \frac{1}{\mu}
+\]
+almost surely as $t\to \infty$.
+\begin{proof}
+	First, we claim that $N(t)<n$ if and only if $t<T_n$. This is true since
+	\begin{align*}
+		N(t)<n = \max(m: T_m\leq t)<n \iff T_n > t.
+	\end{align*}
+	From this, we can deduce that $t<T_{N(t)+1}$ since $N(t)<N(t)+1$. Similarly, since $N(t)\leq N(t)$, we have $T_{N(t)}\leq t$. Putting these together gives
+	\begin{equation}\label{compound}
+		T_{N(t)}\leq t< T_{N(t)+1}.
+	\end{equation}
+	Now by the strong law of large numbers we have that $\frac{T_n}{n}\to \mu$ almost surely. Fix $\epsilon>0$. For $n$ sufficiently large, we have that $|\frac{T_n}{n}-\mu| \leq \epsilon$ a.s. From this we deduce that $T_n \leq n(\mu+\epsilon)$ a.s. Since $T_n\leq t$ if and only if $N(t)\geq n$, we have
+	\[
+	N(n(\mu+\epsilon)) \geq n
+	\]
+	for $n$ large. Taking $n$ to infinity and using the fact that $N(t)$ is nondecreasing, we have that $N(t)\to \infty$ as $t\to \infty$. Dividing (\ref{compound}) through by $N(t)$ gives
+	\[
+	\frac{T_{N(t)}}{N(t)} \leq \frac{t}{N(t)} \leq \frac{T_{N(t)+1}}{N(t)} = \frac{T_{N(t)}+X_{N(t)+1}}{N(t)}.
+	\]
+	By the strong law of large numbers and the fact that $N(t)\to \infty$, we have that $T_{N(t)}/N(t)\to \mu$ a.s. as $t\to \infty$. Since the $X_k$'s are identically distributed with finite mean, we have that $X_{N(t)+1}/N(t)\to 0$ a.s. Both sides of the above inequality then tend to $\mu$ a.s., so $\frac{N(t)}{t}\to \frac{1}{\mu}$ a.s.
+\end{proof}
+
+\noindent\textbf{Problem 6. }
+Let $X_1, X_2, \ldots$ be independent random variables. Show that $\sum X_n$ converges in probability if and only if $\sum X_n$ converges almost surely.
+\begin{proof}
+	Almost sure convergence always implies convergence in probability, so it just remains to show the converse. To this end, let $S_n = \sum_{k=1}^n X_k$ be the $n$-th partial sum. Let's show that $S_n$ is Cauchy a.s. Fix $n$ and some $N$ and apply Etemadi's inequality to the variables $X_{n+1}, X_{n+1}, \ldots, X_N$:
+	\begin{align*}
+		\Prob\left[\max_{n+1\leq m\leq N}|X_{n+1} + \cdots + X_m|>3\epsilon\right] \leq 3\cdot \max_{n+1\leq m\leq N}\Prob[|X_{n+1} + \cdots + X_m| > \epsilon].
+	\end{align*}
+	Letting $N\to \infty$, we have
+	\[
+	\Prob\left[\sup_{m>n}|X_{n+1} + \cdots + X_m|>3\epsilon\right] \leq 3\cdot \sup_{m>n}\Prob[|X_{n+1} + \cdots + X_m| > \epsilon].
+	\]
+	Now since $\sum X_n$ converges in probability, its partial sums are Cauchy in probability. Consequently, as we take $n$ to infinity, the right-hand side of the above inequality tends to zero as $n\to \infty$. We have then shown that $\sup_{m>n}|S_m - S_n| \to 0$ in probability. Since this quantity is decreasing in $n$, it must converge a.s. as well. Since the partial sums are a.s. Cauchy, we have that $\sum X_n$ converges a.s.
+\end{proof}
+
+\noindent\textbf{Problem 7. }
+Let $X_1, X_2, \ldots$ be iid random variables taking non-negative values, such that $\Prob[X_i>0]>0$. Prove that
+\[
+\sum X_n  = \infty \text{ a.s.}
+\]
+\begin{proof}
+	Since $\Prob[X_i>0]>0$, we can find $\delta$ and $\epsilon$ both positive such that $\Prob[X_i> \delta]>\epsilon$. We then have
+	\[
+	\sum \Prob[X_i > \delta] > \sum \epsilon = +\infty.
+	\]
+	By Borel-Cantelli, we then have that $\Prob[X_i > \delta\text{ infinitely often}] = 1$. Let $A = \{X_i > \delta \text{ infinitely often}\}$. For any $\omega \in A$, we have that $\sum X_n(\omega)$ is a sum that contains infinitely many terms of size at least $\delta$. Since each $X_n$ takes only nonnegative values, this sum must diverge at $\omega$. Since $\Prob[A] = 1$, we have that $\sum X_n = \infty$ almost surely.
+\end{proof}
+
+
+\noindent\textbf{Problem 8. }
+Call a number $x\in [0,1]$ badly approximable by rationals if there exists $c(x)>0$ and $\epsilon(x)>0$ such that for any $p,q\in \naturals$ we have
+\[
+\left|x - \frac{p}{q}\right| >\frac{c}{q^{2+\epsilon}}.
+\]
+Prove that almost all numbers in $[0,1]$ are badly approximable.
+\begin{proof}
+	Fix any positive $\epsilon$ and $c$. Let $E_q$ be the set of rationals that are \textit{not} badly approximable by a rational with denominator $q$:
+	\[
+	E_q = \left\{x\in [0,1]: \left|x - \frac{p}{q}\right| \leq \frac{c}{q^{2+\epsilon}}\text{ for some }0\leq p\leq q\right\} = \bigcup_{p = 0}^q\left\{x\in [0,1]: \left|x - \frac{p}{q}\right| \leq \frac{c}{q^{2+\epsilon}}\right\}.
+	\]
+	The set of not badly approximable numbers is the union of the $E_q$'s. Let's compute the measure of this set, $E_{c, \epsilon} = \cup_q E_q$
+	\begin{align*}
+		m(E_{c, \epsilon}) &= \sum_q\sum_{p=0}^qm\left\{x\in [0,1]: \left|x - \frac{p}{q}\right|\leq \frac{c}{q^{2+\epsilon}}\right\}\\
+		&\leq \sum_q\sum_{p=0}^q\frac{2c}{q^{2+\epsilon}}\\
+		&= 2c\sum_q \frac{q+1}{q^{2+\epsilon}}\\
+		&<\infty.
+	\end{align*}
+	By Borel-Cantelli, we have that for any fixed $\epsilon, c > 0$, almost every $x\in [0,1]$ satisfies $|x - p/q| \leq C/q^{2+\epsilon}$ for only finitely many $p$ and $q$.
+\end{proof}
+
+
+\noindent\textbf{Problem 9. }
+Let $X_1, X_2, \ldots$ be iid random variables with finite mean $\mu$. Prove that
+\[
+\frac{1}{\ln n}\sum_{k=1}^n\frac{X_k}{k}\to \mu\text{ a.s.}
+\]
+\begin{proof}
+	(This proof basically mirrors the proof we did in class for the SLLN with some minor changes.) By splitting $X = X^+ - X^-$, we can assume without loss of generality that $X_k \geq 0$. Let's start by truncating the $X_k$'s and define $Y_k = X_k\cdot \ind_{\{|X_k|\leq k\}}$ and $T_n = \sum_{k=1}^n Y_k/k$. We claim that it suffices to prove that $T_n/\ln n \to \mu $ a.s. The idea is that $X_k = Y_k$ eventually almost surely. To see this, consider the sum
+	\[
+	\sum \Prob[|X_k| > k] \leq \int_0^\infty \Prob[|X_1|>t]\ dt = \E[|X_1|]<\infty.
+	\]
+	By Borel-Cantelli, we have that $|X_k|\leq k$ eventually almost surely. If $|X_k|\leq k$, then by definition we have $X_k = Y_k$. Consequently, the difference $\sum_{k=1}^n \frac{1}{k}|X_k(\omega) - Y_k(\omega)|<C_\omega<\infty$ for all $n$.\\
+
+	\noindent Let $\epsilon>0$ be arbitrary and let $k(n) = \lceil 2^{(1+\epsilon)^n}\rceil$. Let $\delta>0$. By Chebyshev's inequality we have
+	\begin{align*}
+		\sum_{n = 1}^\infty \Prob[|T_{k(n)} - \E[T_{k(n)}]| > \delta \ln k(n)] &\leq \frac{1}{\delta^2}\sum_n \frac{\Var[T_{k(n)}]}{(1+\epsilon)^{2n}}\\
+		&= \frac{1}{\delta^2}\sum_n (1+\epsilon)^{-2n}\sum_{m = 1}^{k(n)}\Var\left[\frac{Y_m}{m}\right]\\
+		&= \frac{1}{\delta^2}\sum_{m=1}^\infty \frac{1}{m^2}\Var[Y_m]\sum_{n: k(n)>m}(1+\epsilon)^{-2n}\\
+		&\leq \frac{C_\epsilon}{\delta^2}\sum_m\frac{1}{m^2}\Var[Y_m].
+	\end{align*}
+	Now we showed in class that $\sum \Var[Y_m]/m^2<\infty$, so the above sum is finite. Since $\delta$ was arbitrary, we have that
+	\begin{equation}\label{diff}
+	\frac{T_{k(n)} - \E[T_{k(n)}]}{\ln k(n)}\to 0\text{ a.s.}
+	\end{equation}
+	By dominated convergence we have that $\E[Y_k] \to \E[X_1] = \mu$. By the same argument one uses to show $x_n\to x \implies \frac{1}{n}\sum_{k=1}^n x_k \to x$, we have that $x_n\to x \implies \frac{1}{\ln n}\sum_{k=1}^n \frac{x_k}{k}\to x$. Consequently, we have
+	\[
+	\frac{\E[T_{k(n)}]}{\ln k(n)} \to \mu\text{ a.s.}
+	\]
+	By (\ref{diff}), we have that $\frac{T_{k(n)}}{\ln k(n)}\to \mu$ a.s. Now we interpolate: suppose $k(n)\leq m< k(n+1)$. Since we're assuming that $Y_k\geq 0$ for all $k$, we have
+	\[
+	\frac{T_{k(n)}}{\ln k(n+1)}\leq \frac{T_m}{\ln m}\leq \frac{T_{k(n+1)}}{\ln k(n)}
+	\]
+\end{proof}
+
+
+\end{document}

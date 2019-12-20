@@ -272,9 +272,31 @@ Let $X_1, X_2, \ldots$ be iid random variables with finite mean $\mu$. Prove tha
 \frac{1}{\ln n}\sum_{k=1}^n\frac{X_k}{k}\to \mu\text{ a.s.}
 \]
 \begin{proof}
-	When we proved the strong law of large numbers in class, we crucially used the fact that if a sequence of numbers $x_n$ converges to $x$, then it converges in mean. That is, $\frac{1}{n}\sum_{k=1}^n x_k$ converges to $x$ as well. In this problem, we'll show that if $x_n\to x$, then $\frac{1}{\ln n}\sum_{k=1}^n \frac{x_n}{k}\to x$. This fact along with minor modifications to our proof from class will establish the claim.\\
-	\noindent \\
-	\noindent By splitting $X = X^+ - X^-$, we can assume without loss of generality that $X_k \geq 0$. Let's start by truncating the $X_k$'s and define $Y_k = X_k\cdot \ind_{\{|X_k|\leq k\}}$ and $T_n = \sum_{k=1}^n Y_k/k$. We claim that it suffices to prove that $T_n/\ln n \to \mu $ a.s. The idea is that $X_k = Y_k$ eventually almost surely. To see this, consider the sum
+	When we proved the strong law of large numbers in class, we crucially used the fact that if a sequence of numbers $x_n$ converges to $x$, then it converges in mean: $\frac{1}{n}\sum_{k=1}^n x_k$ converges to $x$ as well. In this problem, we'll show that if $x_n\to x$, then $\frac{1}{\ln n}\sum_{k=1}^n \frac{x_k}{k}\to x$. This fact along with minor modifications to our proof from class will establish the claim.\\
+
+	\noindent From the monotonicity of $f(x) = \frac{1}{x}$, we have that
+	\[
+	\ln n + \frac{1}{n} \leq \sum_{k=1}^n \frac{1}{k}\leq \ln n + 1.
+	\]
+	Dividing through by $\ln n$ and taking the limit establishes
+	\[
+	\frac{1}{\ln n}\sum_{k=1}^n \frac{1}{k} \to 1.
+	\]
+	\noindent Now suppose a sequence of real numbers $x_n$ converges to $x$. By the above reasoning, we have
+	\[
+	\frac{1}{\ln n}\sum_{k=1}^n \frac{x}{k} = x\left(\frac{1}{\ln n}\sum_{k=1}^n\frac{1}{k}\right)\to x.
+	\]
+	Fix $\epsilon>0$ and choose $N$ such that $|x_n - x|<\epsilon$ for all $n > N$. If $n> N$ we have
+	\begin{align*}
+		\left|\frac{1}{\ln n}\sum_{k=1}^n\frac{x_k}{k} - \frac{1}{\ln n}\sum_{k=1}^n\frac{x}{k}\right| &\leq \frac{1}{\ln n}\sum_{k = 1}^N\frac{|x_k - x|}{k} + \frac{1}{\ln n}\sum_{k=N+1}^n\frac{|x_k-x|}{k}\\
+		&\leq \frac{1}{\ln n}\sum_{k=1}^N\frac{|x_k-x|}{k} + \epsilon \cdot \frac{1}{\ln n}\sum_{k=1}^n\frac{1}{k}.
+	\end{align*}
+	The first sum has only finitely many terms in it, so as $n\to \infty$ it vanishes. The second sum approaches $\epsilon$ as $n$ tends to infinity. We've then shown that the terms of $\frac{1}{\ln n}\sum_{k=1}^n\frac{x_k}{k}$ and $\frac{1}{\ln n}\sum_{k=1}^n\frac{x}{k}$ become arbitrarily close to one another. Since the latter sequence limits to $x$, we must then have
+	\begin{equation}\label{harm_avg}
+	\frac{1}{\ln n }\sum_{k=1}^n\frac{x_k}{k}\to x.
+	\end{equation}
+
+	\noindent Returning to the problem at hand, by splitting $X = X^+ - X^-$, we can assume without loss of generality that $X_k \geq 0$. Let's start by truncating the $X_k$'s and define $Y_k = X_k\cdot \ind_{\{|X_k|\leq k\}}$ and $T_n = \sum_{k=1}^n Y_k/k$. We claim that it suffices to prove that $T_n/\ln n \to \mu $ a.s. The idea is that $X_k = Y_k$ eventually almost surely. To see this, consider the sum
 	\[
 	\sum \Prob[|X_k| > k] \leq \int_0^\infty \Prob[|X_1|>t]\ dt = \E[|X_1|]<\infty.
 	\]
@@ -291,14 +313,19 @@ Let $X_1, X_2, \ldots$ be iid random variables with finite mean $\mu$. Prove tha
 	\begin{equation}\label{diff}
 	\frac{T_{k(n)} - \E[T_{k(n)}]}{\ln k(n)}\to 0\text{ a.s.}
 	\end{equation}
-	By dominated convergence we have that $\E[Y_k] \to \E[X_1] = \mu$. By the same argument one uses to show $x_n\to x \implies \frac{1}{n}\sum_{k=1}^n x_k \to x$, we have that $x_n\to x \implies \frac{1}{\ln n}\sum_{k=1}^n \frac{x_k}{k}\to x$. Consequently, we have
+	By dominated convergence we have that $\E[Y_k] \to \E[X_1] = \mu$. By our earlier discussion and (\ref{harm_avg}), we have
 	\[
-	\frac{\E[T_{k(n)}]}{\ln k(n)} \to \mu\text{ a.s.}
+	\frac{\E[T_{k(n)}]}{\ln k(n)} = \frac{1}{\ln k(n)}\sum_{k = 1}^{k(n)}\frac{\E[Y_k]}{k} \to \mu.
 	\]
-	By (\ref{diff}), we have that $\frac{T_{k(n)}}{\ln k(n)}\to \mu$ a.s. Now we interpolate: suppose $k(n)\leq m< k(n+1)$. Since we're assuming that $Y_k\geq 0$ for all $k$, we have
+	By (\ref{diff}), we must have that $\frac{T_{k(n)}}{\ln k(n)}\to \mu$ a.s. Now we interpolate: suppose $k(n)\leq m< k(n+1)$. Since we're assuming that $Y_k\geq 0$ for all $k$, we have
+	\begin{align}
+	&\frac{T_{k(n)}}{\ln k(n+1)} \leq \frac{T_m}{\ln m}\leq \frac{T_{k(n+1)}}{\ln k(n)}.
+	\end{align}
+	Now $\ln k(n+1)/ \ln k(n) \to (1+\epsilon)$, so after taking limits we have
 	\[
-	\frac{T_{k(n)}}{\ln k(n+1)}\leq \frac{T_m}{\ln m}\leq \frac{T_{k(n+1)}}{\ln k(n)}
+	\frac{1}{1+\epsilon}\mu \leq \liminf_{m\to \infty}\frac{T_m}{\ln m}\leq \limsup_{m\to \infty}\frac{T_m}{\ln m}\leq (1+\epsilon)\mu.
 	\]
+	Taking $\epsilon\to 0$ establishes $\frac{T_m}{\ln m}\to \mu$. By our previous discussion, this implies that $\frac{1}{\ln n}\sum_{k=1}^n\frac{X_k}{k}\to \mu$ a.s.
 \end{proof}
 
 

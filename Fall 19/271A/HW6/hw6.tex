@@ -53,13 +53,137 @@
 \end{center}
 
 \noindent\textbf{Problem 1. }
-Consider the discrete time process $X_n = a+bt+\zeta_n$ with $\zeta_n$, $n = 0, \pm 1, \pm 2, \ldots$ being iid centered with variance $\sigma^2$ and $a,b$ constants. Define
+Consider the discrete time process $X_n = a+bn+\zeta_n$ with $\zeta_n$, $n = 0, \pm 1, \pm 2, \ldots$ being iid centered with variance $\sigma^2$ and $a,b$ constants. Define
 \[
 W_n = (2q+1)^{-1}\sum_{j=-q}^qX_{n+j}.
 \]
 Compute the autocovariance function of $W_n: \gamma(n,m) = \Cov(W_n, W_m)$ and the autocorrelation function $\rho(n,m) = \Corr(W_n, W_m)$. Consider $Y_n = W_n - W_{n-1}$ and compute the autocovariance and autocorrelation functions for this process. Are either of these processes stationary?
 \begin{solution}
-	
+	We start by computing the covariance of $X_i$ and $X_j$.
+	\begin{align*}
+		\Cov(X_i, X_j) = \Cov(a+bi+\zeta_i, a+bj+\zeta_j) = \Cov(\zeta_i, \zeta_j) = \delta_{i,j}\sigma^2,
+	\end{align*}
+	where $\delta_{i,j}$ is the Kronecker $\delta$. Let's compute the variance while we're at it.
+	\begin{align*}
+		\Var[W_n] &= \frac{1}{(2q+1)^2}\sum_{i=-q}^q\Var[X_{n_j}] = \frac{\sigma^2}{2q+1}.
+	\end{align*}
+	Now we can compute the autocovariance of $W_m$ and $W_n$.
+	\begin{align*}
+		\gamma_W(m, n) &= \frac{1}{(2q+1)^2}\Cov\left(\sum_{i = -q}^qX_{m+i}, \sum_{j=-q}^qX_{n+j}\right)\\
+		&= \frac{1}{(2q+1)^2}\sum_{-q\leq i,j\leq q}\Cov(X_{m+i}, X_{n+j})\\
+		&= \frac{\sigma^2}{(2q+1)^2}\sum_{-q\leq i,j\leq q}\delta_{m+i, n+j}\\
+		&= \frac{\sigma^2}{(2q+1)^2}\#\{-q\leq i,j\leq q: i-j = n-m\}.
+	\end{align*}
+	For any fixed $i$, $i-j = n-m$ if and only if $j = i - (n-m)$. Such a $j$ exists if and only if
+	\[
+	-q \leq i-(n-m)\leq q \iff (n-m)-q \leq i \leq (n-m)+q.
+	\]
+	We then need the size of the intersection $[-q, q] \cap [(n-m)-q, (n-m)+q]$. Since $[(n-m)-q, (n-m)+q]$ is simply $[-q, q]$ shifted over by $(n-m)$, their intersection has size $(2q+1) - |n-m|$ if $|n-m|\leq 2q+1$ and zero otherwise. We then have
+	\[
+	\gamma_W(m,n) = \begin{cases}
+		0,&\text{if }|n-m|> 2q+1\\
+		\frac{\sigma^2}{(2q+1)^2}[(2q+1) - |n-m|],&\text{else}.
+	\end{cases}
+	\]
+	Now for the autocorrelation
+	\begin{align*}
+		\rho_W(m,n) &= \frac{\Cov(W_m, W_n)}{\sqrt{\Var[W_m]\cdot \Var[W_n]}} = \begin{cases}
+		0,&\text{if }|n-m|> 2q+1\\
+		\frac{1}{2q+1}[(2q+1) - |n-m|],&\text{else}.
+		\end{cases}
+	\end{align*}
+	Now let's take care of $Y_n$. By definition we have
+	\[
+	Y_n = W_n - W_{n-1} = \frac{1}{2q+1}\left(\sum_{i=-q}^qX_{n+i} - \sum_{j=-q}^qX_{n-1+j}\right) = \frac{1}{2q+1}(X_{n+q} - X_{n-1-q}).
+	\]
+	We'll need the variance
+	\[
+	\Var[Y_n] = \frac{1}{(2q+1)^2}(\Var[X_{n+q}] + \Var[X_{n-1-q}]) = \frac{2\sigma^2}{(2q+1)^2}.
+	\]
+	First the autocovariance.
+	\begin{align*}
+		\gamma_Y(m,n) &= \frac{1}{(2q+1)^2}\Cov(X_{m+q} - X_{m-1-q}, X_{n+q} - X_{n-1-q})\\
+		&= \frac{\sigma^2}{(2q+1)^2}(\delta_{m+q, n+q} - \delta_{m+q, n-1-q} - \delta_{m-1-q, n+q} + \delta_{m-1-q, n-1-q})\\
+		&= \frac{\sigma^2}{(2q+1)^2}(2\delta_{m,n} - \delta_{|n-m|, 2q+1}).
+	\end{align*}
+	And finally, the autocorrelation.
+	\begin{align*}
+		\rho_Y(m,n) &= \frac{\Cov(Y_m, Y_n)}{\sqrt{\Var[Y_m]\cdot \Var[Y_n]}} = \frac{1}{2}(2\delta_{m,n} - \delta_{|n-m|, 2q+1}).
+	\end{align*}
+	Let's check for stationarity. For any $\Delta\in \integers$ we have
+	\[
+	W_{n+\Delta} = \frac{1}{2q+1}\sum_{i = -q}^q(a + b(n+\Delta + i) + \zeta_{n+i+\Delta}) = a +b(n+\Delta) + \frac{1}{2q+1}\sum_{i=-q}^q\zeta_{n+i+\Delta}.
+	\]
+	On the other hand,
+	\[
+	W_n = a + bn + \frac{1}{2q+1}\sum_{i=-q}^q\zeta_{n+i}.
+	\]
+	Since the deterministic parts of these sums differ while the random parts are equal in distribution, we have that $W$ is not stationary. $Y_n$, however, is stationary since
+	\[
+	Y_{n+\Delta} = \frac{1}{2q+1}(X_{n+\Delta+q} - X_{n+\Delta-1-q}) = b + \frac{\zeta_{n+\Delta+q} - \zeta_{n+\Delta-1-q}}{2q+1} \overset{D}{=}Y_n.
+	\]
 \end{solution}
+
+\noindent\textbf{Problem 2. }
+For $H\in (0,1)$ and $B^H$ fractional Brownian motion and $t_0\in (0, \infty)$ show that
+\[
+\limsup_{t\to t_0}\left|\frac{B_t^H - B_{t_0}^H}{t-t_0}\right| = \infty
+\]
+with probability one.
+\begin{proof}
+	By the stationarity of the increments of fractional Brownian motion we have
+	\[
+	\Prob\left[\limsup_{t\to t_0}\left|\frac{B^H_t - B^H_{t_0}}{t-t_0}\right|=\infty\right] = \Prob\left[\limsup_{t\to 0}\left|\frac{B_t^H}{t}\right|=\infty\right].
+	\]
+	By self-similarity, we have $B_t^H \overset{D}{=}t^HB^H_1$. Since $H\in (0,1)$ and $B^H_1$ is finite, we have
+	\[
+	\Prob\left[\limsup_{t\to t_0}\left|\frac{B^H_t - B^H_{t_0}}{t-t_0}\right|=\infty\right] = \Prob\left[\limsup_{t\to 0}|t^{H-1}B_1^H| = \infty\right] = 1.
+	\]
+\end{proof}
+
+\noindent\textbf{Problem 3. }
+Consider L\'evy's method for simulating Brownian motion on the interval $[0,1]$. Let $B_t$ be the limit process and $B^{(n)}_t$ be the process after depth iteration $n$ in the procedure. Find a bound for $\E[|B_t - B^{(n)}_t|^2]$.
+\begin{solution}
+	Let $S^{(n)}_k$ denote the $k$-th element in the $n$-th level of the Schauder basis:
+	\[
+	S^{(n)}_k(t) = \begin{cases}
+		2^{-\frac{n+1}{2}}(1 + 2^{n+1}(x-k2^{-k})),&\text{if }k2^{-k}-2^{-(n+1)}\leq x<k2^{-k}\\
+		2^{-\frac{n+1}{2}}(1 - 2^{n+1}(x-k2^{-k})),&\text{if }k2^{-k}\leq x<k2^{-k} + 2^{-(n+1)},
+	\end{cases}
+	\]
+	where $n = 0, 1, 2, \ldots$ and $k \in \{1, 3, \ldots, 2^n-1\} =: I(n)$. In L\'evy's construction, we define
+	\[
+	B^{(N)}_t = \sum_{n\leq N,\ k\in I(n)} S^{(n)}_k(t)\cdot \zeta^{(n)}_k
+	\]
+	and argue that $B^{(N)}_t$ converges uniformly to a standard Brownian motion almost surely. Since the $\zeta^{(n)}_k$'s are independent, centered, and have unit variance, we have
+	\begin{align*}
+		\E[|B_t - B^{(N)}_t|^2] &= \E\left[\left|\sum_{n>N,\ k\in I(n)}S^{(n)}_k(t)\zeta_k^{(n)}\right|^2\right]\\
+		&= \sum_{n>N,\ k\in I(n)}(S^{(n)}_k(t))^2.
+	\end{align*}
+	Within any fixed level $n$, the Schauder basis elements $S^{(n)}_j$ and $S^{(n)}_k$ have disjoint support for $j\neq k$. We then have
+	\[
+	\E[|B_t-B^{(N)}_t|^2] \leq \sum_{n>N}\Lp{S^{(n)}_k}{\infty}^2 = \sum_{n>N}2^{-(n+1)} = 2^{-(N+1)}.
+	\]
+\end{solution}
+
+\noindent\textbf{Problem 5. }
+Let $\{X^{(m)}\}_{m=1}^\infty$ be a sequence of continuous stochastic processes on $t\in [0, \infty)$ satisfying
+\begin{enumerate}[(i)]
+	\item $X^{(m)}_0 = x_0$, with $x_0$ deterministic.
+	\item $\sup_{m\geq 1}\E[|X^{(m)}_t - X^{(m)}_s|^\alpha]\leq C_T|t-s|^{1+\beta}$ for all $T>0$ and $0\leq s,t\leq T$
+\end{enumerate}
+for some global positive constants $\alpha, \beta$ and some $C_T$ depending on $T$. show that the induced probability measures on $(C[0, \infty), \mcal{B}(C[0, \infty)))$ form a tight sequence.
+\begin{proof}
+	The induced probability measures $P_n$ form a tight sequence if and only if the following two conditions hold
+	\begin{gather}
+		\lim_{\lambda \to \infty}\sup_{n\geq 1}P_n[\omega: |\omega(0)|>\lambda] = 0\\
+		\lim_{\delta\to 0}\sup_{n\geq 1}P_n[\omega: m^T(\omega, \delta)>\epsilon] = 0;\quad \forall T>0, \epsilon>0.
+	\end{gather}
+	Since $X^{(n)}_0 = x_0$ for all $n$, $P_n[\omega: |\omega(0)|>\lambda] = 0$ for all $\lambda \geq |x_0|$, so the first condition holds. Now by Kolmogorov's continuity theorem, $\E|X^{(m)}_t - X^{(m)}_s|^\alpha \leq C_T|t-s|^{1+\beta}$ for all $m$ implies that each $X^{(m)}$ has a continuous modification that is locally H\"older continuous with exponent $\gamma$ for every $\gamma\in (0, \beta/\alpha)$. That is,
+	\[
+	\Prob\left[\omega: \sup_{0\leq |t-s|\leq h(\omega)} \frac{|X^{(n)}_t - X^{(n)}_s|}{|t-s|^\gamma} \leq K_m\right] = 1.
+	\]
+	for all $m$ and for some a.s. positive $h(\omega)$ and some $K_m>0$. The idea is to use the a.s. H\"older continuity of the paths $X^{(m)}(\omega)$ to force the modulus of continuity $m^T(\omega, \delta)$ to be small in $\delta$ with probability small in $\delta$.
+\end{proof}
 
 \end{document}

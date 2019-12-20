@@ -1,0 +1,323 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{bbm}
+\usepackage{hyperref}
+\usepackage{mathtools}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\exreals}{\overline{\mathbb{R}}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\mable}{measurable}
+\newcommand{\quats}{\mathbb{H}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\norm}{\trianglelefteq}
+\newcommand{\Aut}{\text{Aut}}
+\newcommand{\disk}{\mathbb{D}}
+\newcommand{\halfplane}{\mathbb{H}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\supp}[1]{\text{supp}({#1})}
+\newcommand{\Hom}[2]{\text{Hom}_{{#1}}({#2})}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Gal}[1]{\text{Gal}\left({#1}\right)}
+\newcommand{\esssup}{\text{ess sup }}
+\newcommand{\essinf}{\text{ess inf }}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\weak}{\xrightarrow{w}}
+\newcommand{\dist}{\xrightarrow{D}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section] % reset theorem numbering for each chapter
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition} % definition numbers are dependent on theorem numbers
+\newtheorem{example}[theorem]{Example} % same for example numbers
+
+% \theoremstyle{definition}
+% \newtheorem{definition}{Definition}[section]
+
+% \theoremstyle{definition}
+% \newtheorem{example}{Example}[section]
+
+% %\theoremstyle{theorem}
+% \newtheorem{theorem}{Theorem}[section]
+% \newtheorem{lemma}{Lemma}[section]
+
+% \theoremstyle{remark}
+% \newtheorem{remark}{Remark}[section]
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+%\noindent{\em Liam Hardiman\hfill{Date} }
+\begin{center}
+{\bf \Large 271A - Summary of the Quarter}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\section{Reference Texts}
+\begin{enumerate}
+	\item \href{https://link.springer.com/article/10.1007/BF02924331}{Karatzas and Shreve}'s book on stochastic calculus was the primary reference. We covered most of chapter 2, sections 2.1 through 2.4. The parts on quadratic variation mostly come from section 1.5.
+
+	\item Lawrence Evans' Introduction to Stochastic Differential Equations. Chapter 3.
+
+	\item \href{https://link.springer.com/book/10.1007/978-3-642-14394-6}{Bernt \O ksendal}'s book on stochastic calculus. Mostly chapter 2.
+\end{enumerate}
+
+\section{Overview}
+The primary focus of the quarter has been on one particular stochastic process, Brownian motion -- its construction and some of its properties. 
+
+\begin{definition}
+\begin{enumerate}[(a.)]
+	\item A \textbf{stochastic process} on a probability space $(\Omega, \mcal{F}, \Prob)$ is an indexed family of random variables $\{X_i\}_{i\in I}$. If $I$ is countable, then we call $X_n$ a \textbf{discrete-time (stochastic) process}. If $I = \reals$ or $I = \reals^+$, then we call $X_t$ a \textbf{continuous-time (stochastic) process}.
+
+	\item For any fixed $\omega\in \Omega$, the function $t\mapsto X_t(\omega)$ is called a \textbf{sample path} or \textbf{realization}. 
+\end{enumerate}
+\end{definition}
+
+\noindent The stochastic process we spent the most time with was Brownian motion.
+
+\begin{definition}
+	\textbf{Brownian Motion} is a continuous-time stochastic process $B_t$ such that $B_0 = 0$ a.s., for $0\leq s<t$, the increment $B_t - B_s \sim \mcal{N}(0, t-s)$, and for any $0\leq t_0 \leq t_1 \leq \cdots \leq t_n$, the increments $\{B_{t_i} - B_{t_{i-1}}\}_{i=1}^n$ are jointly normal with independent components. The increment $B_t-B_s$ depends only on the difference $t-s$, so we say that $B$ has \textbf{stationary} increments.
+\end{definition}
+
+\section{Constructing Brownian Motion}
+There are (at least) two ways to construct Brownian motion. The one way we went into detail on is an explicit construction to to L\'evy that builds $B_t$ as a uniform limit of continuous functions. Another way is to specify the finite-dimensional distributions and invoke Kolmogorov's consistency theorem. We hinted at this second construction, but didn't go into much detail. Here we'll sketch L\'evy's construction.
+
+\subsection{L\'evy's Construction}
+We construct $B_t$, $t\geq 0$ by first constructing $B_t$, $t\in [0,1]$ and then gluing these pieces together.\\
+
+\noindent Let $\{\zeta_k^{(n)}: n = 0, 1, \ldots, k\in I(n)\}$ be a collection of independent standard normal random variables on a probability space $(\Omega, \mcal{F}, \Prob)$. Here, $I(n)$ is the set of odd integers between 0 and $2^n$. We're going to write our Brownian motion $B_t$ as the a.s. limit of linear combinations of continuous functions weighted by the $\zeta^{(n)}_k$'s. Start by defining the Haar wavelets
+\[
+H_k^{(n)}(t) = \begin{cases}
+	2^{\frac{n-1}{2}},& \frac{k-1}{2^n}\leq t<\frac{k}{2^n}\\
+	-2^{\frac{n-1}{2}},& \frac{k}{2^n}\leq t < \frac{k+1}{2^n}
+\end{cases},
+\]
+for $n = 0, 1, \ldots$ and $k\in I(n)$. One can show that the Haar wavelets form a basis for $L^2[0,1]$. From these, we define the Schauder functions
+\[
+S_k^{(n)} = \int_0^tH_k^{(n)}(s)\ ds.
+\]
+These are triangle-shaped continuous functions. One can show that these form a basis for $C_0[0,1]$, the continuous functions $f$ on $[0,1]$ with $f(0) = 0$.\\
+
+\noindent Define the continuous functions $B^{(N)}_t$ by
+\[
+B^{(N)}_t = \sum_{0\leq n\leq N,\ k\in I(n)}S_k^{(n)}(t)\cdot \zeta_k^{(n)}.
+\]
+An application of the Borel-Cantelli lemma shows that as $N\to \infty$, $B^{(N)}_t$ converges uniformly to a continuous function, $B_t$, with $B_0 = 0$ a.s. We showed that for $0 = t_0 < t_1 <\cdots < t_n\leq 1$, the increments $\{B_{t_i}-B_{t_{i-1}}\}_{i=1}^n$ are independent, normally distributed with mean zero and variance $t_i - t_{i-1}$ by looking at the pointwise convergence of the characteristic functions (Fourier transforms) of the $B^{(N)}_t$'s.
+
+\subsection{The Wiener Measure}
+Consider the space of continuous functions on the positive real line, $C[0, \infty)$. Equip it with the metric $\rho(\omega_1, \omega_2)$, for $\omega_1, \omega_2\in C[0, \infty)$ defined by
+\[
+\rho(\omega_1, \omega_2) = \sum_{k=1}^\infty 2^{-k}\max_{0\leq t\leq n}(|\omega_1(t) - \omega_2(t)| \land 1).
+\]
+One can show that $C[0,\infty)$ is a complete, separable metric space (a Polish space) with respect to this metric, which we'll call the \textbf{path space}. One can also show that the Borel $\sigma$-algebra, $\mcal{B}(C[0,\infty))$ for this metric space is generated by the cylinder sets
+\[
+\tilde{B} = \{\omega \in C[0, \infty): (\omega(t_1), \ldots, \omega(t_n))\in B\};\ n\geq 1, B\in \mcal{B}(\reals^n).
+\]
+By the $\pi$-$\lambda$ theorem (sometimes called the Dynkin system theorem), a measure defined on the cylinder sets uniquely defines a measure on all of $(C[0, \infty), \mcal{B}(C[0, \infty)))$. To this end, define
+\[
+P[\tilde{B}] = \int_Bp(t_1, x_1)p(t_2-t_1, x_2-x_1)\cdots p(t_n-t_{n-1}, x_n-x_{n-1})\ dx_1dx_2\cdots dx_n,
+\]
+where $\tilde{B}$ is defined as above and $p$ is the Gaussian kernel
+\[
+p(t, x) = \frac{1}{\sqrt{2\pi t}}e^{-\frac{x^2}{2t}}.
+\]
+We call $P$ the \textbf{Wiener measure} on the path space. If one starts with a Brownian motion $B_t$ on some probability space, then it induces the Wiener measure on the path space. On the other hand, one can start by defining the Wiener measure above on the cylinder sets and use the Kolmogorov consistency theorem to show that there exists a probability measure on all of $(C[0, \infty), \mcal{B}(C[0, \infty)))$ for which the process
+\[
+B_t(\omega):= \omega(t),\quad \omega\in C[0, \infty)
+\] 
+has stationary, independent increments, and $B_t - B_s \sim \mcal{N}(0, t-s)$. In this way, one can use the Wiener measure to construct Brownian motion. There is some subtlety here that we didn't go into. See Karatzas and Shreve 2.2A.
+
+
+\section{Regularity of Brownian Motion Paths}
+We can say a bit about the regularity of the paths of a stochastic process thanks to the following theorem.
+\begin{theorem}[Kolmogorov's Continuity Theorem]
+	Suppose $X_t$ is a continuous-time stochastic process. Suppose there exist $\alpha, \beta, C_T >0$ so that
+	\[
+	\E[|X_t-X_s|^\alpha]\leq C_T|t-s|^{1+\beta}
+	\]
+	for all $s,t\in [0,T]$. Then there is a continuous modification $\tilde{X}$ of $X$ which is uniformly H\"older continuous on $[0,T]$ with exponent $\gamma$ for every $\gamma\in (0, \beta/\alpha)$.
+\end{theorem}
+
+\noindent In the case of Brownian motion, $B_t - B_s\sim \mcal{N}(0, t-s)$. Some integration by parts shows that for any integer $m$, we have
+\[
+\E[|B_t - B_s|^{2m}] = (2m-1)!!\cdot |t-s|^m.
+\]
+By Kolmogorov's continuity theorem, there is a continuous modification of $B$ that is H\"older continuous with any exponent $\gamma$ satisfying
+\[
+\gamma<\frac{\beta}{\alpha} = \frac{m-1}{2m} = \frac{1}{2} - \frac{1}{2m},\quad m = 1, 2, \ldots.
+\]
+Thus, on any interval $[0,T]$, $B_t$ is uniformly H\"older continuous with any exponent less than $1/2$. Another Borel-Cantelli argument shows that $B_t$ is almost surely nowhere H\"older continuous for any exponent greater than $1/2$. In particular, Brownian motion paths are a.s. nowhere Lipschitz and a.s. nowhere differentiable.
+
+\section{Quadratic Variation}
+This topic was pretty self-contained in our class. We applied some results here to Brownian motion, but didn't go into why they were significant.
+\begin{definition}
+	For any real-valued function $f: [0, t]\to \reals$ and any $p>0$, define the \textbf{$p$-variation} by
+	\[
+	\langle f, f \rangle^{(p)}_t = \lim_{\|\Pi\|\to 0}\sum_{i=1}^N|f(t_i) - f(t_{i-1})|^p,
+	\]
+	where $\Pi = \{0 = t_0 < t_1 < \cdots < t_n\}$ ranges over partitions of the interval $[0, t]$ and
+	\[
+	\|\Pi\| = \max_{1\leq i\leq N}|t_i - t_{i-1}|.
+	\]
+	In the case where $f$ is replaced with a continuous-time stochastic process $X_t$, the limit is in probability.
+\end{definition}
+
+\noindent The case $p = 1$ gives the familiar \textbf{total variation} of $f$ and $p=2$ gives the \textbf{quadratic variation}. We shorthand $\langle f\rangle_t := \langle f, f \rangle^{(2)}_t$. The following lemma is an easy exercise.
+
+\begin{lemma}
+	If $f$ has positive and finite quadratic variation, then it has infinite total variation. On the other hand, if $f$ has finite total variation, then its quadratic variation is zero.
+\end{lemma}
+
+\noindent In the case of Brownian motion, we have the following theorem
+
+\begin{theorem}
+	For any $t$, Brownian motion has quadratic variation $\langle B \rangle_t = t$. In particular, Brownian motion has infinite total variation.
+\end{theorem}
+
+\noindent Quadratic variation is related to martingales through the following theorem
+
+\begin{theorem}
+	If $M_t$ is in $L^2(\Omega)$, then $M_t^2 - \langle M\rangle_t$ is a martingale. In particular, $B_t^2 - t$ is a martingale.
+\end{theorem}
+
+\noindent 2 is apparently the magic number when it comes to the $p$-variation of Brownian motion.
+\begin{theorem}
+	Let $X_t$ be a continuous-time stochastic process. For any $t$ and partition $\Pi = \{0 = t_0 < t_1 < \cdots < t_n = t\}$ of $[0,t]$ define
+	\[
+	V^{(p)}_t(\Pi, X) = \sum_{i=1}^n|X_{t_i} - X_{t_{i-1}}|^p.
+	\]
+	If $B$ is a Brownian motion, then
+	\[
+	\lim_{\epsilon\to 0}\sup_{\|\Pi\|<\epsilon}V_t^{(p)}(\Pi, B) = \begin{cases}
+		0,&p>2\\
+		\infty,&p<2
+	\end{cases}\quad\text{a.s.}
+	\]
+\end{theorem}
+
+
+\section{Weak Convergence}
+If $X$ is a random variable on a probability space $(\Omega, \mcal{F}, \Prob)$ with values in a measurable (metric) space $(S, \mcal{B}(S))$, then $X$ induces a probability measure $\Prob X^{-1}$ on $(S, \mcal{B}(S))$ by
+\[
+\Prob X^{-1}[B] = \Prob[\omega\in \Omega: X(\omega)\in B\},\quad B\in \mcal{B}(S).
+\]
+In the case where $X_t$ is a continuous-time stochastic process with continuous paths, we can view $X$ as a random variable with values in $(C[0, \infty), \mcal{B}(C[0, \infty)))$. We call the induced measure $\Prob X^{-1}$ the \textbf{law of $X$}. The law is determined by its finite-dimensional distributions.\\
+
+\noindent Recall what it means for a sequence of probability measures to converge weakly.
+\begin{definition}
+	Let $(S, \rho)$ be a metric space and let $P_1, P_2, \ldots$ be a sequence of probability measures on $(S, \mcal{B}(S))$ and let $P$ be another measure on this space. We say that $P_n$ \textbf{converges weakly to $P$}, $P_n\weak P$ if for every bounded continuous real-valued $f: S\to \reals$ we have
+	\[
+	\int_S f(s)\ dP_n(s) \to \int_S f(s)\ dP(s).
+	\]
+	We say that a sequence of random variables $X_n$ on a sequence of probability spaces $(\Omega_n, \mcal{F}_n, P_n)$ with values in $S$ \textbf{converges in distribution} to $X$ on $(\Omega, \mcal{F}, P)$, $X_n\dist X$, if the sequence of measures $P_nX_n^{-1}$ converges weakly to $PX^{-1}$, i.e.
+	\[
+	\E_n[F(X_n)]\to \E[f(X)]
+	\]
+	for every bounded continuous real-valued $f: S\to \reals$.
+\end{definition}
+
+\noindent Suppose the finite-dimensional distributions of a family of stochastic processes $X^{(1)}, X^{(2)}, \ldots$ converge weakly to those of the process $X$, i.e.
+\[
+(X^{(n)}_{t_1}, \ldots, X^{(n)}_{t_k})\dist (X_{t_1}, \ldots, X_{t_k})
+\]
+for any $t_1, \ldots, t_k$, $k\geq 1$. Is this enough to conclude that $X^{(n)}\to X$ in distribution? The answer is no.
+
+\begin{example}
+	Consider the sequence of nonrandom processes
+	\[
+	X^{(n)}_t = nt\cdot \ind_{[0, 1/2n)}(t) + (1-nt)\cdot \ind_{(1/2n, 1/n]}(t).
+	\]
+	The paths for these processes are triangles with height $1/2$ and base $[0, 1/n]$. The finite-dimensional distributions for $X^{(n)}$ converge to those of the zero process $X = 0$ since for each $t$, $X^{(n)}_t = 0$ for sufficiently large $n$. However, $X^{(n)}$ does \textit{not} converge to the zero process in distribution. The induced measures on $C[0, \infty)$ are the point masses $\delta_{X^{(n)}}$ (here we abuse notation and identify the process $X^{(n)}$ with its one and only path). One can show that in a metric space $(X, d)$, the sequence of measures $\delta_{x_n}\weak \delta_x$ if and only if $d(x_n, x)\to 0$. Since $X^{(n)}$ does not converge uniformly to zero, its sequence of induced measures does not converge weakly.
+\end{example}
+
+\noindent Maybe we get weak convergence under additional assumptions?
+
+\begin{definition}
+	Two quick ones.
+	\begin{enumerate}[(a.)]
+		\item A family $\mcal{A}$ of probability measures on some measure space is \textbf{relatively compact} if every sequence in $\mcal{A}$ has a weakly convergent subsequence.
+		\item A family $A$ of probability measures on a metric space $(S, \mcal{B}(S))$ is \textbf{tight} if for all $\epsilon>0$, there exists a compact set $K$ such that $P[K]\geq 1-\epsilon$ for each $P\in A$. We say a family of stochastic processes is tight if its family of induced measures is tight.
+	\end{enumerate}
+\end{definition}
+
+\noindent In path space, these are the same.
+
+\begin{theorem}[Prokhorov's Theorem]
+	In $(C[0, \infty), \mcal{B}(C[0, \infty)))$, a family of measures is tight if and only if it is relatively compact.
+\end{theorem}
+
+\noindent We can use Prokhorov's theorem to answer our question.
+
+\begin{theorem}
+	Consider a tight sequence of stochastic processes $X^{(n)}$ whose finite dimensional distributions converge. Let $P_n$ be the measure $X^{(n)}$ induces on $C[0, \infty)$. Then $P_n$ converges weakly.
+\end{theorem}
+
+\noindent In order to make use of this theorem, we need to be able to check if a sequence of probability measures is tight. The following theorem, which in part follows from the Arzela-Ascoli theorem, does the trick.
+
+\begin{theorem}
+	A sequence $P_n$ of probability measures on $(C[0, \infty), \mcal{B}(C[0, \infty)))$ is tight if and only if
+	\begin{gather*}
+		\lim_{\lambda\to \infty}\sup_{n\geq 1}P_n[\omega: |\omega(0)|>\lambda] = 0,\\
+		\lim_{\delta\to 0}\sup_{n\geq 1} P_n[\omega: m^T(\omega, \delta)>\epsilon] = 0;\quad \forall T>0, \epsilon>0,
+	\end{gather*}
+	where $m^T(\omega, \delta)$ is the modulus of continuity:
+	\[
+	m^T(\omega, \delta) = \sup_{|t-s|<\delta,\ s,t\in [0,T]}|\omega(t)-\omega(s)|.
+	\]
+\end{theorem}
+
+\noindent From this, one can deduce the following theorem.
+
+\begin{theorem}
+	Let $X^{(n)}$ be a sequence of continuous-time stochastic processes with a.s. continuous paths such that
+	\begin{itemize}
+		\item $\sup_{n\geq 1} \E[|X_0^{(n)}|^\nu] < \infty$,
+		\item $\sup_{n\geq 1}\E[|X_t^{(n)} - X_s^{(n)}|^\alpha]\leq C_T|t-s|^{1+\beta}$;\quad $\forall T>0$ and $0,s,t\leq T$
+	\end{itemize}
+	for some positive constants $\alpha, \beta, \nu$ and $C_T$ (which can depend on $T$). Then the probability measures induced by these processes on $C[0, \infty)$ form a tight sequence.
+\end{theorem}
+
+\noindent Finally we can do something with this. The following theorem shows that a random walk, once rescaled and interpolated into a continuous-time process, converges in distribution to a Brownian motion.
+\begin{theorem}
+	Let $\zeta_1, \zeta_2, \ldots$ be iid centered random variables with $\E[\zeta_i^2] = \sigma^2$ and $\E[\zeta_i^4] = M<\infty$. Define the random walk $S_n$ by
+	\[
+	S_n = \sum_{i=1}^n \zeta_i.
+	\]
+	Form the continuous-time process by interpolating:
+	\[
+	Y_t:= \sum_{i=1}^{\lfloor t\rfloor}\zeta_i + (t-\lfloor t\rfloor)\zeta_{i+1}.
+	\]
+	Now rescale:
+	\[
+	X^{(m)}_t := \frac{1}{\sigma\sqrt{m}}Y_{mt}.
+	\]
+	Then $X^{(m)}_t\dist B_t$, where $B$ is a Brownian motion.
+\end{theorem}
+
+\noindent Tightness will follow from the previous theorem and convergence of the finite dimensional distributions will follow from looking at characteristic functions.
+
+
+\end{document}

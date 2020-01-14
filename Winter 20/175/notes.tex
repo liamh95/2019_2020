@@ -1,0 +1,75 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Aut}{\text{Aut}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\field}{\mathbb{F}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Combinatorics Discussion Notes}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\section{Week 1, Discussion 1}
+\newcommand{\GL}{\text{GL}}
+\newcommand{\SL}{\text{SL}}
+\noindent\textbf{Problem. }Fix a prime $p$. How many invertible $n\times n$ matrices are there over $\field_p$? In other words, find $|\GL_n(\field_p)|$.
+\begin{solution}
+	We use the elementary fact from linear algebra that a matrix is invertible if and only if its rows are linearly independent. We proceed by a counting argument.\\
+
+	\noindent Suppose $A\in \field_p^{n\times n}$ is invertible. How many possibilities are there for the first row of $A$? We need the rows to form an independent set, so the first row can be anything but the zero vector, which gives $p^n - 1$ possible first rows ($p^n$ row vectors in total, minus the one ``bad'' vector).\\
+
+	\noindent How many possible second rows? Whatever the second row is, it must be independent of the first row, so it can be anything but a multiple of the first row. There are $p$ possible multiples of the first row since we're working in $\field_p$, so there are $p^n - p$ possible second rows.\\
+
+	\noindent How many possible $k$-th rows? The $k$-th row can be anything but a linear combination of the $k-1$ rows that came before it. A linear combination of the rows $v_1, \ldots v_{k-1}$ looks like
+	\[
+	c_1v_1 + c_2v_2 + \cdots +c_{k-1}v_{k-1},
+	\]
+	where the $c_i$'s come from $\field_p$. There are $k-1$ constants to choose, each of which can take any value in $\field_p$, so there are $p^{k-1}$ linear combinations in total. We want to get rid of these, so there are $p^n - p^{k-1}$ possible $k$-th rows.\\
+
+	\noindent Now we put it all together.
+	\begin{align*}
+	|\GL_n(\field_p)| &= \#\{\text{possible first rows}\} \cdots \#\{\text{possible $n$-th rows}\}\\
+	&= (p^n-1)(p^n-p)\cdots (p^n-p^{n-1})\\
+	&= \prod_{j=0}^{n-1}(p^n-p^j).
+	\end{align*}
+
+	\noindent From here you answer other questions like how big is $\SL_n(\field_p)$, the set of $n\times n$ matrices with determinant 1. Consider the map $\det: \GL_n(\field_p)\to \field_p^\times$. Since the determinant is multiplicative, the map $\det$ is a group homomorphism. By the first isomorphism theorem, $\GL_n(\field_p)/\ker \det \cong \field_p^\times$. The kernel of $\det$ is the set of matrices that get sent to $1$, which is exactly $\SL_n(\field_p)$. We then have $|\GL_n(\field_p)|/|\SL_n(\field_p)| = |\field_p^\times| = p-1$. Rearranging gives
+	\[
+	|\SL_n(\field_p)| = \frac{1}{p-1}|\GL_n(\field_p)|.
+	\]
+\end{solution}
+
+\end{document}

@@ -1,0 +1,276 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate,hyperref}
+\usepackage{tikz}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Aut}{\text{Aut}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\spn}{\text{span}}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Linear Algebra Notes}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\section{The Gram Matrix}
+
+\begin{definition}
+	Let $v_1, v_2, \ldots, v_n$ be vectors in $\reals^d$. Define the associated $n\times n$ \textbf{Gram Matrix}, $G$, by
+	\[
+	G_{i,j} = \langle v_i, v_j\rangle.
+	\]
+\end{definition}
+
+\begin{remark}
+	If we let $V$ be the matrix whose columns are $v_1, v_2, \ldots, v_n$, then we can write $G = V^tV$. This will come in handy when proving things about the Gram matrix.
+\end{remark}
+
+\begin{lemma}
+	The Gram matrix is symmetric and positive semi-definite.
+\end{lemma}
+\begin{proof}
+	The symmetry of $G$ follows from the symmetry of the inner product. Alternatively,
+	\[
+	G^t = (V^tV)^t = V^t(V^{tt}) = V^tV = G.
+	\]
+	Let $x$ be any vector in $\reals^n$. We then have
+	\begin{align*}
+		x^tGx = x^tV^tVx = \langle Vx, Vx\rangle  = \|Vx\|^2 \geq 0,
+	\end{align*}
+	so $G$ is positive semi-definite.
+\end{proof}
+
+
+\begin{lemma}
+	The rank of the Gram matrix is the dimension of the space spanned by $v_1, v_2, \ldots, v_n$ in $\reals^d$.
+\end{lemma}
+\begin{proof}
+	Let $x\in \reals^n$ and suppose $Vx = 0$. Then $Gx = V^tVx = 0$ as well, so $\ker V\subseteq \ker G$. On the other hand, suppose $Gx = 0$. Multiplying on the left by $x^t$ gives
+	\[
+	x^tGx = 0 \iff x^t V^t Vx = 0 \iff \|Vx\|^2 = 0 \iff Vx = 0,
+	\]
+	so $\ker G\subseteq \ker V$. Since $G$ and $V$ have the same kernel, they also have the same rank by the rank-nullity theorem.
+\end{proof}
+
+\section{The Rayleigh Quotient and the Min-Max Theorem}
+\begin{definition}
+	Let $M$ be a symmetric $n\times n$ matrix and let $x$ be any nonzero vector in $\reals^n$. The \textbf{Rayleigh quotient}, $R(M, x)$ is defined by
+	\[
+	R(M, x) = \frac{\langle x, Mx\rangle}{\|x\|^2}.
+	\]
+\end{definition}
+
+\begin{lemma}
+	Let $\lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n$ be the eigenvalues of $M$, repeated according to multiplicity. For any nonzero $x$ we have
+	\[
+	R(M, x)\in [\lambda_1, \lambda_n].
+	\]
+	The extreme values are obtained on the corresponding eigenvectors of $M$.
+\end{lemma}
+
+\begin{proof}
+	Since $M$ is symmetric, there is an orthonormal basis for $\reals^n$ consisting of eigenvectors $v_1, \ldots, v_n$ corresponding to the eigenvalues $\lambda_1 \leq \cdots \leq \lambda_n$. Write $x$ in this basis as $x = \sum_{i=1}^n \xi_iv_i$. It's easy to see that $R(M, cx) = R(M, x)$ for any nonzero constant $c$, so we can take $x$ to have unit norm for convenience, $\sum \xi_i^2 = 1$. The Rayleigh quotient is then given by
+	\[
+	R(M, x) = \frac{\sum_{i=1}^n\lambda_i\xi_i^2}{\sum_{j=1}^n\xi_j^2} = \sum_{i=1}^n\lambda_i\xi_i^2.
+	\]
+	From here it's clear that $R(M,x)$ is minimized when $\xi_i^2 = \delta_{1, i}$ and maximized when $\xi_i^2 = \delta_{n, i}$ and that these bounds are realized when $x$ is the appropriate eigenvector.
+\end{proof}
+
+\begin{remark}
+	Since the eigenvectors of $M$ are mutually orthogonal, we can use the Rayleigh quotient to order the eigenvalues:
+	\[
+	\lambda_i = \inf_{x\perp v_j,\ j<i}R(M, x).
+	\]
+\end{remark}
+
+\begin{theorem}
+	Let $M$ be a symmetric $n\times n$ with eigenvalues $\lambda_1 \leq \cdots \leq \lambda_n$. The eigenvalues are given by the expression
+	\[
+	\lambda_k = \min_{U:\ \dim U = k}\max_{x\in U\setminus \{0\}}R(M, x) = \max_{U:\ \dim U = n-k+1}\min_{x\in U\setminus \{0\}}R(M, x).
+	\]
+\end{theorem}
+\begin{proof}
+	Let $v_1, \ldots, v_n$ be the eigenvectors associated to the (ordered) eigenvalues of $M$. For any $k$, the space spanned by $u_k, \ldots, u_n$ has dimension $n-k+1$. If $U$ is a subspace of dimension $k$, then these subspaces must have nontrivial intersection. There is then some nonzero vector $v = \sum_{i=k}^n c_iv_i$ in this intersection whose Rayleigh quotient is given by
+	\[
+	R(M, v) = \frac{\sum_{i=k}^n\lambda_ic_i^2}{\sum_{i=k}^nc_i^2}\geq \lambda_k.
+	\]
+	This holds for all $v$ in this intersection, so for any $U$ of dimension $k$ we have
+	\[
+	\max_{v\in U\setminus \{0\}}R(M, v)\geq \lambda_k.
+	\]
+	Note that this maximum is attained since $R(M, v)$ is continuous in $v$ and its values are determined by those $v$ with norm 1, which form a compact set. Since this is true for all $U$ of dimension $k$, we can take the infimum over all such $U$.
+	\[
+	\inf_{\dim U = k}\max_{v\in U\setminus \{0\}}R(M, v)\geq \lambda_k.
+	\]
+	Consider the space $U = \spn\{v_1, \ldots, v_k\}$. For any $v = \sum_{i=1}^kc_iv_i$ in here we have
+	\[
+	R(M, v) = \frac{\sum_{i=1}^k\lambda_ic_i^2}{\sum_{i=1}^kc_i^2} \leq \lambda_k.
+	\]
+	In particular, this inequality is saturated when $v = v_k$. The infimum is then attained and we have the equality
+	\[
+	\min_{\dim U = k}\max_{v\in U\setminus \{0\}}R(M, v) = \lambda_k.
+	\]
+	The same idea shows the max-min equality. The vectors $v_1, \ldots, v_k$ span a space of dimension $k$, so any subspace $U$ with dimension $n-k+1$ must intersect it nontrivially. Any $v = \sum_{i=1}^kc_iv_i$ in this intersection satisfies
+	\[
+	R(M, v) = \frac{\sum_{i = 1}^k\lambda_ic_i^2}{\sum_{i=1}^kc_i^2} \leq \lambda_k \implies \min_{v\in U\setminus\{0\}}R(M, v)\leq \lambda_k.
+	\]
+	In particular, when $U = \spn\{v_k, \ldots, v_n\}$ we have equality. We can then take the maximum over all $U$ with dimension $n-k+1$ to obtain
+	\[
+	\max_{\dim U = n-k+1}\min_{v\in U\setminus\{0\}}R(M, v) = \lambda_k.
+	\]
+\end{proof}
+
+\section{The Cauchy Interlacing Theorem}
+\begin{theorem}
+	Suppose $A$ is an $n\times n$ symmetric matrix with eigenvalues $\lambda_1\leq \cdots \leq \lambda_n$. Let $B$ be an $m\times m$ principal submatrix of $A$, i.e. a matrix obtained from $A$ by deleting its $i$-th row and $i$-th column for some collection of $i$'s. If $B$ has eigenvalues $\beta_1\leq \cdots \leq \beta_k$ then
+	\[
+	\lambda_k \leq \beta_k \leq \lambda_{n+k-m}.
+	\]
+	In particular, if $m= n-1$, then
+	\[
+	\lambda_1 \leq \beta_1 \leq \lambda_2 \leq \beta_2 \leq \cdots \leq \beta_{n-1}\leq \lambda_n.
+	\]
+\end{theorem}
+\begin{proof}
+	Without loss of generality, we can rearrange the rows and columns of $A$ so that
+	\[
+	A = \begin{bmatrix}
+		B & X^t\\
+		X & Z
+	\end{bmatrix}
+	\]
+	for some $(n-m)\times (n-m)$ matrices $X$ and $Z$. Let $u_1, \ldots, u_n$ be the (ordered) eigenvectors of $A$ and let $v_1, \ldots, v_m$ be the (ordered) eigenvectors of $B$. For any $1\leq k \leq m$, define the subspaces
+	\[
+	U = \spn\{u_k, \ldots, u_n\},\quad V = \spn\{v_1, \ldots, v_k\},\quad \widetilde{V} = \left\{\begin{pmatrix}v\\0\end{pmatrix}\in \reals^n: v\in V\right\}.
+	\]
+	The space $U$ has dimension $n-k+1$ and $\widetilde{V}$ has dimension $k$, so these spaces must intersect nontrivially. There is then some $\tilde{v}\in U\cap \tilde{V}$ corresponding to some $v\in V$. This $v$ satisfies
+	\[
+	\tilde{v}^tA\tilde{v} = \begin{bmatrix}v & 0\end{bmatrix}\begin{bmatrix}
+		B & X^t\\
+		X & Z
+	\end{bmatrix}\begin{bmatrix}
+		v\\0
+	\end{bmatrix} = v^tBv.
+	\]
+	As in our proof of the min-max theorem, $\lambda_k = \min_{x\in U}\frac{x^tAx}{x^tx}$ and $\beta_k = \max_{x\in V}\frac{x^tBx}{x^tx}$. This gives
+	\[
+	\lambda_k \leq \frac{\tilde{v}^tA\tilde{v}}{\tilde{v}^t\tilde{v}} = \frac{v^tBv}{v^tv} \leq \beta_k.
+	\]
+	We use the same idea for the other inequality. Define the spaces
+	\[
+	U = \spn\{u_1, \ldots, u_{n+k-m}\},\quad V = \spn\{v_k, \ldots, v_m\},\quad \tilde{V} = \left\{\begin{pmatrix}
+		v\\0
+	\end{pmatrix}\in \reals^n: v\in V\right\}.
+	\]
+	The space $U$ has dimension $n+k-m$ and $\tilde{V}$ has dimension $m-k+1$, so they must intersect nontrivially. That is, there is some $\tilde{v}\in \tilde{V}\cap U$ corresponding to some $v\in V$. We again have by the min-max theorem
+	\[
+	\lambda_{n+k-m} = \max_{x\in U}\frac{x^tAx}{x^tx} \geq \frac{\tilde{v}^tA\tilde{v}}{\tilde{v}^t\tilde{v}} = \frac{v^tBv}{v^tv} \geq \min_{x\in V}\frac{x^tBx}{x^tx} = \beta_k.
+	\]
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section{Gelfand's Formula}
+
+\begin{lemma}
+	Let $A\in \complex^{n\times n}$ have spectral radius $\rho(A)$. Then $\rho(A)<1$ if and only if $A^k \to 0$. On the other hand, if $\rho(A)>1$, then $\|A^k\|\to \infty$ for any choice of norm on $\complex^{n\times n}$.
+\end{lemma}
+\begin{proof}
+	Suppose $A^k\to 0$. We then have for any eigenvalue-eigenvector pair $(\lambda, v)$,
+	\begin{align*}
+		0 &= \lim_{k\to \infty}A^k v = \lim_{k\to \infty}\lambda^k v.
+	\end{align*}
+	We must then have $|\lambda|<1$. SInce this holds for any eigenvalue of $A$, we must have $\rho(A)<1$.\\
+
+	\noindent Conversely, suppose $\rho(A)<1$. Consider the Jordan canonical form of $A$, $J = BJB^{-1}$, where $J$ is 
+\end{proof}
+
+\begin{theorem}[Gelfand's formula]
+	If $A$ is any any $n\times n$ matrix and $\|\cdot \|$ is any norm on $\reals^{n\times n}$, then
+	\[
+	\rho(A) = \lim_{k\to \infty}\|A^k\|^{1/k},
+	\]
+	where $\rho(A) = \max\{|\lambda|: \lambda\text{ is an eigenvalue of } A\}$ is the spectral radius of $A$.
+\end{theorem}
+\begin{proof}
+	The eigenvalues of $A^k$ are simply the eigenvalues of $A$ raised to the $k$-th power, so
+	\[
+	\rho(A)^k = \rho(A^k) \leq \|A^k\| \implies \rho(A) \leq \|A^k\|^{1/k}.
+	\]
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{The Perron-Frobenius Theorem}
+\begin{definition}
+	We say that a matrix is \textbf{elementwise nonnegative (positive)} if each of its entries is nonnegative (positive). We also write $A\geq_e B$ if $A-B$ is elementwise nonnegative.
+\end{definition}
+
+\begin{lemma}
+	A matrix $A\in \reals^{m\times n}$ is elementwise nonnegative if $Ax\geq_e 0$ for all $x\geq_e 0$.
+\end{lemma}
+\begin{proof}
+	If $A, x \geq_e 0$, then the entries of $Ax$ are sums of nonnegative numbers, so $Ax \geq_e 0$. Conversely, if $Ax \geq_e 0$ for all $x\geq_e 0$, then $Ae_i \geq_e 0$ for all $1\leq i \leq n$, where $e_i$ is the vector in $\reals^n$ with a 1 in the $i$-th slot and a zero everywhere else. Since $Ae_i$ is the $i$-th column of $A$, we have that each column of $A$ is elementwise nonnegative, so $A \geq_e 0$.
+\end{proof}
+
+\begin{lemma}
+	Let $A>_e 0$ be an $n\times n$ matrix. If $u, v\in \reals^n$ are unequal and $u\geq_e v$, then $Au >_e Av$. There is some $\epsilon>0$ such that $Au >_e (1+\epsilon)Av$.
+\end{lemma}
+\begin{proof}
+	The $i$-th entry of $A(u-v)$ is given by
+	\[
+	[A(u-v)]_i = \sum_{j=1}^nA_{i,j}(u_i-v_i) \geq \min_{i,j}A_{i,j}\sum_{j=1}^n(u_i-v_i) > 0.
+	\]
+	This holds for all $i$, so we have $Au >_e Av$. Since $A(u-v)$ is elementwise positive, we can perturb it by some small amount and keep it elementwise positive. There is then some $\epsilon>0$ so that $A(u-v) - \epsilon Av >_e 0$, which proves the second part.
+\end{proof}
+
+\end{document}

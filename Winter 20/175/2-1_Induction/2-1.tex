@@ -45,13 +45,6 @@
 \end{center}
 
 \begin{enumerate}
-	\item Let $S$ be a finite set. Prove that $f: S\to S$ is injective (one-to-one) if and only if it is surjective (onto).\\
-
-	\vfill
-
-	\item (If you've seen 120B) Prove that any finite integral domain is a field.
-
-	\vfill
 
 	\item What's wrong with this proof?
 	\begin{claim*}
@@ -76,7 +69,7 @@
 		\noindent Now put $\ell_3$ back and delete $\ell_4$ instead to get another set $S''$ of $n$ lines, no two of which are parallel. Again by the induction hypothesis, they must all pass through some point $Q$. In particular, $\ell_1$ and $\ell_2$ pass through $Q$. But $\ell_1$ and $\ell_2$ pass through $P$. Since two lines can pass through at most one point, we must have $P = Q$. But then $\ell_3$ goes through $P$, so all the lines in $S$ go through $P$.
 	\end{proof}
 
-	\vfill\pagebreak
+	\vfill
 
 	\item What is the following sum? Prove your guess by induction.
 	\[
@@ -89,6 +82,20 @@
 	\[
 	0\cdot \binom{n}{0} + 1\cdot \binom{n}{1} + 2\cdot \binom{n}{2} + \cdots + (n-1)\cdot\binom{n}{n-1} + n\cdot \binom{n}{n}
 	\]
+	\vfill\pagebreak
+
+	\item Prove the following identity. Try to give a combinatorial proof.
+	\[
+	\binom{n}{k} = \binom{n-1}{k} + \binom{n-1}{k-1}.
+	\]
+
+	\vfill
+
+	\item Prove the following identity.
+	\[
+	\binom{2}{2} + \binom{3}{2} + \cdots + \binom{n}{2} = \binom{n+1}{3}.
+	\]
+
 	\vfill
 
 	\item We select 38 even positive integers, all less than 1000. Prove that there will be two of them whose difference is at most 26.
@@ -99,11 +106,16 @@
 
 	\vfill
 
-	\item Seven distinct integers are randomly chosen between 1 and 2020, inclusive. What is the probability that some pair of these has a difference that is divisible by 6?
+	\item Let $S$ be a finite set. Prove that $f: S\to S$ is injective (one-to-one) if and only if it is surjective (onto).\\
 
 	\vfill
 
-	\item 
+	\item (If you've seen 120B) Prove that any finite integral domain is a field.
+
+	\vfill
+
+	\item (Hard) Every element of the infinite grid $\integers\times \integers$ is colored red, green, or blue. Prove that there is a rectangle whose corners are all the same color.
+	\vfill
 
 \end{enumerate}
 

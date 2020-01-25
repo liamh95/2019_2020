@@ -1,0 +1,88 @@
+\documentclass[12pt]{article}  
+%%Read the manual for other options. 
+
+\pagestyle{empty} %%Eliminates page numbers
+%%\input rmb_macros
+%%Collect your favorite macros in a 
+%%separate file
+
+%\input amssym.def
+%\input amssym
+%\input mssymb
+%%Defines additional symbols
+
+
+
+\usepackage{graphics}
+\usepackage{amsmath,amssymb,amsthm, multicol}
+\usepackage[pdftex]{graphicx}
+\usepackage{hyperref}
+%%Use to include pictures. 
+
+%\newcommand{\comment}[1]{}
+%\newcommand{\sobolev}[2]{W^{#1,#2}}
+%\newcommand{\sobolev}[2]{L^#2_#1}
+%%Some examples of macros or new commands.
+\newtheorem{theorem}{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\addtolength{\oddsidemargin}{-.75in}
+\addtolength{\evensidemargin}{-.75in}
+\addtolength{\textwidth}{1.5in}
+\addtolength{\topmargin}{-1in}
+\addtolength{\textheight}{2.25in}
+%%Set margins, defaults are ok. 
+
+\begin{document}
+\begin{flushleft} 
+%%Paragraphs will not be indented in this 
+%%environment
+\centerline{\LARGE{Quiz 2}} 
+\vspace{5 mm}
+{Student ID Number:}\hfill  
+%%\hfill forces following text 
+%%to right margin
+{Name \rule {2 in}{0.01in}}\\
+Math 175, 12PM
+\\
+%%gives a line of length 2in and 
+%%thickness 0.01in
+{Please justify all your answers}\hfill {January 23, 2020}
+\\
+{Please also write your full name on the back} 
+
+\medskip
+\end{flushleft}
+
+\begin{enumerate}
+	\item True or false?
+	\begin{enumerate}
+		\item If $A$ and $B$ are finite sets, then $|A\cup B| = |A| + |B|$.
+		\item There are $\binom{52}{5}$ ways to draw a hand of five cards from a deck of 52 cards.
+	\end{enumerate}
+	\item Briefly explain what is wrong with this inductive proof.
+	\begin{theorem*}
+		$\frac{d}{dx}x^n = 0$ for all $n\geq 0$.
+	\end{theorem*}
+	\begin{proof}
+		For the base case, suppose $n = 0$. Then
+		\[
+		\frac{d}{dx}x^0 = \frac{d}{dx}1 = 0.
+		\]
+		Suppose the claim holds for all $k\leq n$. By the product rule we have
+		\[
+		\frac{d}{dx}x^{n+1} = \frac{d}{dx}(x^n\cdot x^1) = x^n\cdot \frac{d}{dx}x^1 + x^1\cdot \frac{d}{dx}x^n = x^n\cdot 0 + x^1\cdot 0 = 0.
+		\]
+		The claim follows by induction.
+	\end{proof}
+	\vfill
+
+	\item How many positive integers below 100 are divisible by 3, 5, or 7?
+	\vfill
+\end{enumerate}
+
+%\vfill will divide page evenly
+%use \begin{enumerate} environment for ordered lists
+\end{document}

@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}  
+%%Read the manual for other options. 
+
+\pagestyle{empty} %%Eliminates page numbers
+%%\input rmb_macros
+%%Collect your favorite macros in a 
+%%separate file
+
+%\input amssym.def
+%\input amssym
+%\input mssymb
+%%Defines additional symbols
+
+
+
+\usepackage{graphics}
+\usepackage{amsmath,amssymb,amsthm, multicol}
+\usepackage[pdftex]{graphicx}
+\usepackage{hyperref}
+%%Use to include pictures. 
+
+%\newcommand{\comment}[1]{}
+%\newcommand{\sobolev}[2]{W^{#1,#2}}
+%\newcommand{\sobolev}[2]{L^#2_#1}
+%%Some examples of macros or new commands.
+\newcommand{\field}{\mathbb{F}}
+
+\addtolength{\oddsidemargin}{-.75in}
+\addtolength{\evensidemargin}{-.75in}
+\addtolength{\textwidth}{1.5in}
+\addtolength{\topmargin}{-1in}
+\addtolength{\textheight}{2.25in}
+%%Set margins, defaults are ok. 
+
+\begin{document}
+\begin{flushleft} 
+%%Paragraphs will not be indented in this 
+%%environment
+\centerline{\LARGE{Quiz 2}} 
+\vspace{5 mm}
+{Student ID Number:}\hfill  
+%%\hfill forces following text 
+%%to right margin
+{Name \rule {2 in}{0.01in}}\\
+Math 173B, 1PM
+\\
+%%gives a line of length 2in and 
+%%thickness 0.01in
+{Please justify all your answers}\hfill {January 23, 2020}
+\\
+{Please also write your full name on the back} 
+
+\medskip
+\end{flushleft}
+
+\begin{enumerate}
+	\item Fill in the blank.
+	\begin{enumerate}
+		\item Suppose $P$ is a point on the elliptic curve $E$ and $Q = nP$ for some $n$. The task of finding $n$ given $Q$ is called \rule{4cm}{.15mm}.
+		\item True or false? An elliptic curve $E$ over $\field_p$, $p$ a prime, can have any number of points on it between 0 and $p^2+1$.
+	\end{enumerate}
+
+	\item Let $P$ be a point on the elliptic curve $E$. How many point operations (additions or doublings) does it take to compute $37P$?
+	\vfill
+
+	\item Suppose Alice and Bob decide to set up a shared secret using the elliptic curve Diffie-Hellman protocol. They publicly agree on some curve $E$ over $\field_p$ for some prime $p$ and a point $G\in E$ of large prime order. Alice sends the point $P_A$ to Bob and Bob sends the point $P_B$ to Alice. Suppose Eve can solve the elliptic curve discrete logarithm problem. Explain how she can compromise Alice and Bob's shared secret.
+	\vfill
+\end{enumerate}
+
+%\vfill will divide page evenly
+%use \begin{enumerate} environment for ordered lists
+\end{document}

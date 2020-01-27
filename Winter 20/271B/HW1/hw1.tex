@@ -50,7 +50,102 @@
 	\]
 	Since a Gaussian process is determined by its mean and covariance, we have that $X_t$ and $X_{t+\tau}$ are equal in distribution, so the process is stationary.\\
 
-	\noindent Now for $Z_t$. 
+	\noindent Now for $Z_t$. We claim that $Z_t$ has the Markov property, i.e. for any $t_1 < t_2< \ldots <t_n$ and $\alpha_i = \pm 1/\sqrt{2}$
+	\begin{multline}\label{markov}
+		\Prob[Z_{t_1} = \alpha_1,\ Z_{t_2} = \alpha_2, \ldots, Z_{t_n} = \alpha_n] \\= \Prob[Z_{t_1} = \alpha_1]\Prob[Z_{t_2} = \alpha_2\ |\ Z_{t_1} = \alpha_1]\cdots \Prob[Z_{t_n} = \alpha_n\ |\ Z_{t_{n-1}} = \alpha_{n-1}]
+	\end{multline}
+	Informally, the value of $Z_{t_j}$ given $Z_{t_1}, \ldots, Z_{t_{j-1}}$ depends only on the number of sign flips of $Z$ over the interval $(t_{j-1}, t_j]$. This only depends on the parity of $N_{t_j} - N_{t_{j-1}}$. Let's look at the terms on the right-hand side of (\ref{markov}).
+	\begin{equation}\label{staionary}
+	\begin{split}
+		\Prob[Z_{t_j} = \alpha_j\ |\ Z_{t_{j-1}} = \alpha_{j-1}] &= \begin{cases}
+			\Prob[N_{t_j-t_{j-1}}\text{ is even}],&\text{if }\alpha_j = \alpha_{j-1}\\
+			\Prob[N_{t_j-t_{j-1}}\text{ is odd}],&\text{if }\alpha_j = -\alpha_{j-1}
+		\end{cases}\\ &= \Prob[Z_{t_j+m} = \alpha_j\ |\ Z_{t_{j-1}+m} = \alpha_{j-1}]
+	\end{split}
+	\end{equation}
+	The last equality follows from the stationarity of Poisson increments. Equations (\ref{markov}) and (\ref{staionary}) imply that $Z$ is indeed stationary.\\
+
+	\noindent Let's compute the covariance of $Z_t$. Since $\zeta$ is independent of $N_t$ we have
+	\[
+	\E[Z_t] = \frac{1}{\sqrt{2}}\E[\zeta]\cdot \E[Y_{t/2}] = 0.
+	\]
+	Consequently, for any $s$ and $t$, the covariance is given by
+	\begin{multline}\label{covariance}
+		\E[Z_sZ_t] = \E[Z_0Z_{|t-s|}] = \frac{1}{2}\E[\zeta^2]\E\left[(-1)^{N_{|t-s|/2}}\right] = \frac{1}{2}\left(\Prob[N_{|t-s|/2}\text{ is even}] - \Prob[N_{|t-s|/2}\text{ is odd}]\right)\\
+		= \frac{1}{2}(2\Prob[N_{|t-s|/2}\text{ is even}] - 1).
+	\end{multline}
+	As for that probability, we have
+	\begin{align*}
+		\Prob[N_{|t-s|/2}\text{ is even}] &= \sum_{n=0}^\infty\Prob[N_{|t-s|/2} = 2n] = \sum_{n=0}^\infty \frac{(|t-s|/2)^{2n}e^{-|t-s|}}{(2n)!} = e^{-|t-s|/2}\cosh(|t-s|/2).
+	\end{align*}
+	Substituting this expression into (\ref{covariance}) gives
+	\[
+	\E[Z_sZ_t] = \frac{1}{2}e^{-|t-s|/2} = \E[X_sX_t],
+	\]
+	as desired.\\
+
+	\noindent Let's check to see if $Y_t$ satisfies the Kolmogorov continuity condition. For any $s$ and $t$, the quantity $|(-1)^{N_t} - (-1)^{N_s}|$ will be zero if $N_t$ and $N_s$ have the same parity and 2 if they have opposite parity. By the stationarity of Poisson increments, we have that
+	\[
+	\left|(-1)^{N_t} - (-1)^{N_s}\right| = \begin{cases}
+		0,& N_{|t-s|}\text{ is even}\\
+		2,& N_{|t-s|}\text{ is odd}
+	\end{cases}.
+	\]
+	Let $\alpha>0$. By the above reasoning, we have that
+	\begin{equation}\label{alpha}
+	\E[|Y_t-Y_s|^\alpha] = 2^\alpha\Prob[N_{|t-s|}\text{ is odd}] = 2^\alpha e^{-|t-s|}\sinh |t-s| = 2^{\alpha-1}\left(1-e^{-2|t-s|}\right).
+	\end{equation}
+	We claim that there are no positive $K$ or $\beta$ such that
+	\[
+	\E[|Y_t-Y_s|^\alpha] \leq K|t-s|^{1+\beta}
+	\]
+	for all $s,t$. The right-hand side of (\ref{alpha}) is $\Theta(|t-s|)$ as $|t-s|\to 0$, while $K|t-s|^{1+\beta}$ is $o(|t-s|)$ as $|t-s|\to 0$. We conclude that $Y_t$ does \textit{not} satisfy the Kolmogorov continuity condition.\\
+
+	\noindent Let's check for stochastic continuity. By Markov we have
+	\begin{align*}
+		\Prob[|X_{t+h}-X_t|>\delta] &\leq \frac{1}{\delta^2}\E[(X_{t+h}-X_t)^2]\\
+		&= \frac{1}{\delta^2}\left(1-e^{-|h|}\right),
+	\end{align*}
+	which goes to zero as $h\to 0$ for any $\delta>0$, so $X$ is stochastically continuous. Now for $Y$. The quantity $|Y_{t+h}-Y_t|$ is zero when $N_{t+h}$ and $N_t$ have the same parity and is 2 when they have opposite parity. For $\delta<2$ we have
+	\begin{align*}
+		\Prob[|Y_{t+h}-Y_t|>\delta] &= \Prob[N_{|h|}\text{ is odd}]\\
+		&= e^{-|h|}\sinh |h|,
+	\end{align*}
+	which goes to zero as $h\to 0$, so $Y$ is stochastically continuous. The same argument shows that $Z$ is stochastically continuous as well.
+\end{solution}
+
+
+\noindent\textbf{Problem 2. }Let $X_n$ be defined by the stochastic recursion
+\begin{equation}\label{recursive}
+X_{n+1} = X_n - \Delta tX_n + (B_{(n+1)\Delta t} - B_{n\Delta t}),\ X_0 = \zeta,
+\end{equation}
+for $B_t$ standard Brownian motion. Find $\zeta$ so that $X_n$ is stationary in the strong sense and give the associated auto-covariance function. What is the continuum limit of this process as $n\to \infty$, $\Delta t\to 0$ so that $n\Delta t = t$.
+\begin{solution}
+	By induction we have that
+	\begin{equation}\label{inductive}
+	X_{n+1} = (1-\Delta t)^{n+1}\zeta + \sum_{k=0}^n(1-\Delta t)^{n-k}(B_{(k+1)\Delta t} - B_{k\Delta t}).
+	\end{equation}
+	By the above expansion, we can see that for $0<\Delta t< 1$, $\zeta$ contributes less to $X_{n+1}$. The sum term is a sum of independent Gaussians, and hence Gaussian. We conclude that for $n$ large, $X_n$ approaches a Gaussian. In order for the process to be stationary, $\zeta$ must also be Gaussian.\\
+
+	\noindent Since $\zeta$ is Gaussian, it is determined by its mean and variance. Taking the expectation on both sides of the recursive formula (\ref{recursive}) gives
+	\[
+	\E[X_{n+1}] = (1-\Delta t)\E[X_n].
+	\]
+	By stationarity, $\E[X_{n+1}] = \E[X_n]$. The above equation then forces $\E[X_n] = 0$ for all $n$, so $\E[\zeta] = 0$ as well. Taking the variance of both sides of the inductive formula (\ref{inductive}) and using stationarity gives
+	\begin{align*}
+	\Var[\zeta] = \Var[X_{n+1}] &= (1-\Delta t)^{2(n+1)}\Var[\zeta] + \Delta t\sum_{k=0}^n(1-\Delta t)^{2(n-k)}\\
+	&= (1-\Delta t)^{2(n+1)}\Var[\zeta] + \Delta t (1-\Delta t)^{2n}\cdot \frac{1-(1-\Delta t)^{-2(n+1)}}{1-(1-\Delta t)^{-2}}.
+	\end{align*}
+	Solving for $\Var[\zeta]$ gives $\Var[\zeta] = \frac{1}{2-\Delta t}$.\\
+
+	\noindent Now let's show that the choice $\zeta \sim \mcal{N}(0, \frac{1}{2-\Delta t})$ makes $X_n$ stationary. It's clear that this choice of $\zeta$ makes $X_n$ a Gaussian process with zero mean for all $n$, so to check stationarity, it suffices to show that $\Cov(X_nX_{n+1})$ is independent of $n$. The same calculation that we used to find $\Var[\zeta]$ shows that $\Var[X_n] = \frac{1}{2-\Delta t}$. Now we compute the covariance.
+	\begin{align*}
+	\Cov(X_n, X_{n+1}) &= (1-\Delta t)\Var[X_n] + \Cov(X_n, B_{(n+1)\Delta t} - B_{n\Delta t}) = \frac{1-\Delta t}{2-\Delta t}.
+	\end{align*}
+	Here we've used the fact that disjoint increments of Brownian motion are independent. Since the covariance is independent of $n$, we conclude that this choice of $\zeta$ does indeed make the process stationary. By induction, the auto-covariance is given by
+	\[
+	\Cov(X_n, X_{n+m}) = \frac{(1-\Delta t)^m}{2-\Delta t}.
+	\]
 \end{solution}
 
 \end{document}

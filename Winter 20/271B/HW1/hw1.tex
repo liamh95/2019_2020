@@ -131,11 +131,16 @@ for $B_t$ standard Brownian motion. Find $\zeta$ so that $X_n$ is stationary in 
 	\[
 	\E[X_{n+1}] = (1-\Delta t)\E[X_n].
 	\]
-	By stationarity, $\E[X_{n+1}] = \E[X_n]$. The above equation then forces $\E[X_n] = 0$ for all $n$, so $\E[\zeta] = 0$ as well. Taking the variance of both sides of the inductive formula (\ref{inductive}) and using stationarity gives
-	\begin{align*}
-	\Var[\zeta] = \Var[X_{n+1}] &= (1-\Delta t)^{2(n+1)}\Var[\zeta] + \Delta t\sum_{k=0}^n(1-\Delta t)^{2(n-k)}\\
-	&= (1-\Delta t)^{2(n+1)}\Var[\zeta] + \Delta t (1-\Delta t)^{2n}\cdot \frac{1-(1-\Delta t)^{-2(n+1)}}{1-(1-\Delta t)^{-2}}.
-	\end{align*}
+	By stationarity, $\E[X_{n+1}] = \E[X_n]$. The above equation then forces $\E[X_n] = 0$ for all $n$, so $\E[\zeta] = 0$ as well.
+	Taking the variance of both sides of the recursive formula and using stationarity gives
+	\[
+	\Var[\zeta] = \Var[X_n] = (1-\Delta t)^2\Var[\zeta] + \Delta t.
+	\]
+	% Taking the variance of both sides of the inductive formula (\ref{inductive}) and using stationarity gives
+	% \begin{align*}
+	% \Var[\zeta] = \Var[X_{n+1}] &= (1-\Delta t)^{2(n+1)}\Var[\zeta] + \Delta t\sum_{k=0}^n(1-\Delta t)^{2(n-k)}\\
+	% &= (1-\Delta t)^{2(n+1)}\Var[\zeta] + \Delta t (1-\Delta t)^{2n}\cdot \frac{1-(1-\Delta t)^{-2(n+1)}}{1-(1-\Delta t)^{-2}}.
+	% \end{align*}
 	Solving for $\Var[\zeta]$ gives $\Var[\zeta] = \frac{1}{2-\Delta t}$.\\
 
 	\noindent Now let's show that the choice $\zeta \sim \mcal{N}(0, \frac{1}{2-\Delta t})$ makes $X_n$ stationary. It's clear that this choice of $\zeta$ makes $X_n$ a Gaussian process with zero mean for all $n$, so to check stationarity, it suffices to show that $\Cov(X_nX_{n+1})$ is independent of $n$. The same calculation that we used to find $\Var[\zeta]$ shows that $\Var[X_n] = \frac{1}{2-\Delta t}$. Now we compute the covariance.
@@ -146,6 +151,12 @@ for $B_t$ standard Brownian motion. Find $\zeta$ so that $X_n$ is stationary in 
 	\[
 	\Cov(X_n, X_{n+m}) = \frac{(1-\Delta t)^m}{2-\Delta t}.
 	\]
+	Now for the continuous time limit. By stationarity, $X_n \sim \mcal{N}(0, \frac{1}{2-\Delta t})$ for any $\Delta t>0$. As $\Delta t\to 0$ we then have $X_t \sim \mcal{N}(0, \frac{1}{2})$, where the limit is in $L^2$. As for the covariance, set $Y_t = X_{t/\Delta t}$. We then have
+	\begin{align*}
+		\Cov(Y_s, Y_t) &= \Cov(X_{s/\Delta t}, X_{t/\Delta t})\\
+		&= \frac{1}{2-\Delta t}(1-\Delta t)^{|s-t|/\Delta t}\\
+		&\to \frac{1}{2}e^{-|s-t|},\ \text{as }\Delta t\to 0.
+	\end{align*}
 \end{solution}
 
 \noindent\textbf{Problem 3. }
@@ -155,11 +166,11 @@ X_t = \int_0^t(t-s)^{H-1/2}dB_s,
 \]
 for $B_t$ standard Brownian motion. For which values of $H$ is $X_t$ well defined? Find the distribution of $X_t$. Compare with the distribution of fractional Brownian motion $B^H_t$.
 \begin{solution}
-	The family $(t-s)^{H-1/2}$ is continuous and adapted, and hence progressively measurable. We also have
+	The family $(t-s)^{H-1/2}$ is deterministic and c\`adl\`ag when $H\geq 1/2$. We also have
 	\[
 	\E\left[\int_0^t(t-s)^{2H-1}\ ds\right] = \int_0^t(t-s)^{2H-1}\ ds < \infty \iff H>0.
 	\]
-	Consequently, $X_t$ is well defined for $H>0$. The family $f^{(t)}_s = (t-s)^{H-1/2}$ is uniformly $\Prob$-integrable, so we have
+	Consequently, $X_t$ is well defined for $H\geq 1/2$. The family $f^{(t)}_s = (t-s)^{H-1/2}$ is uniformly $\Prob$-integrable, so we have
 	\begin{align*}
 	X_t &= \int_0^t(t-s)^{H-1/2}\ dB_s= \lim_{\Delta t\to 0}\sum_{k=1}^{t/\Delta t}f^{(t)}_{t_i}\Delta B_{t_{i+1}},
 	\end{align*}
@@ -200,11 +211,40 @@ Prove directly form the definition of the It\^o integral that
 \int_0^tB_s^2\ dB_s = \frac{1}{3}B_t^3 - \int_0^tB_s\ ds.
 \]
 \begin{proof}
-	The family of functions $\{B_s^2\}_{s\leq t}$ is uniformly $\Prob$-integrable since $\E[B_s^2] = s$. We then have by summation by parts
+	The family of functions $\{B_s^2\}_{s\leq t}$ is uniformly $\Prob$-integrable since $\E[B_s^2] = s$. We then have
 	\begin{align*}
-		\int_0^tB_s^2\ dB_s &= \lim_{\Delta t\to 0}\sum_{k=1}^{t/\Delta t}B_{t_i}^2(B_{t_i+1}-B_{t_i})\\
-		&= \lim_{\Delta t\to 0}\left[B_t^2]
+		\int_0^tB_s^2\ dB_s &= \lim_{\Delta t\to 0}\sum_{k=0}^{t/\Delta t}B_{t_i}^2(B_{t_{i+1}}-B_{t_i})\\
+		&= \lim_{\Delta t\to 0}\sum_{k=0}^{t/\Delta t}\left[ -\frac{1}{3}(B_{t_{i+1}}-B_{t_i})^3 + \frac{1}{3}(B_{t_{i+1}}^3-B_{t_i}^3)-B_{t_i}(B_{t_{i+1}}-B_{t_i})^2 \right].
 	\end{align*}
+	Now the first term approaches the cubic variation of Brownian motion, which is zero. The second term telescopes, leaving us with $\frac{1}{3}B_t$. The squared part of the last term approaches the quadratic variation of Brownian motion, which is $t$, so the last term approaches $\int_0^tB_s\ ds$. We then have
+	\[
+	\int_0^tB_s^2\ dB_s = \frac{1}{3}B_t^3 - \int_0^tB_s\ ds,
+	\]
+	as desired.
+\end{proof}
+
+\noindent\textbf{Problem 6. }
+Let
+\[
+M_t = B_t^3 - 3tB_t,
+\]
+with $B_t$ standard Brownian motion. Show that $M_t$ is a martingale, first directly and then by using the result of the previous 2 problems.
+\begin{proof}
+	Let $\mcal{F}_t$ be the filtration generated by $M_t$. We then have for $s<t$
+	\begin{align*}
+		\E[M_t\ |\ \mcal{F}_s] &= \E[B_t^3-3tB_t\ |\ \mcal{F}_s]\\
+		&= \E[(B_t - B_s + B_s)^3 - 3tB_t +3sB_s-3sB_s\ |\ \mcal{F}_s]\\
+		&= \E[(B_t-B_s)^3] + 3\E[(B_t-B_s)^2B_s] + 3\E[(B_t-B_s)B_s^2] + B_s^3 -3(t-s)\E[B_t-B_s] - 3sB_s\\
+		&= B_s^3-3sB_s\\
+		&= M_s.
+	\end{align*}
+	Here we've used that the increments $(B_t-B_s)$ are Gaussians independent of $\mcal{F}_s$ whose odd moments are zero.\\
+
+	\noindent By the previous two exercises we have
+	\[
+	B_t^3 - 3tB_t = 3\int_0^t(B_s^2 - s)\ dB_s.
+	\]
+	Since the It\^o integral is a martingale, $M_t$ is a martingale.
 \end{proof}
 
 

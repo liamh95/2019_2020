@@ -1,0 +1,77 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{February 10, 2020} }
+\begin{center}
+{\bf \Large 270B - Homework 2}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\noindent\textbf{Problem 1. }
+\begin{enumerate}[(a)]
+	\item Prove that if the probability density functions of $X_n$ converge pointwise to the probability density function of $X$, then $X_n$ converges to $X$ weakly.
+
+	\begin{proof}
+		Let $f_n$ and $f$ be the density functions of $X_n$ and $X$, respectively, and let $\varphi:\reals\to \reals$ be bounded and continuous. We then have
+		\begin{equation}\label{bdd}
+		\begin{split}
+			|\E_n[\varphi] - \E[\varphi]| &= \left|\int_\reals f_n(x)\varphi(x)\ dx - \int_\reals f(x)\varphi(x)\ dx\right|\\
+			&\leq \|\varphi\|_\infty \int_\reals|f_n(x) - f(x)|\ dx.
+		\end{split}
+		\end{equation}
+		Now we claim that $\Lp{f_n - f}{1}\to 0$ (argument taken from 210 notes). Since $\int f_n = \int f = 1$ we have by Fatou
+		\begin{align*}
+		2\int_\reals f\ dx = \int_\reals\liminf_{n\to \infty}(f + f_n - |f_n - f|)\ dx \leq 2\int_\reals f\ dx - \limsup_{n\to \infty}|f_n - f|\ dx.
+		\end{align*}
+		In particular, we have $\limsup_{n\to \infty}\int |f_n - f| = 0$, so $\Lp{f_n - f}{1}\to 0$. Consequently, the right-hand side of (\ref{bdd}) goes to zero as $n\to \infty$. We then have that $\E_n[\varphi]\to \E[\varphi]$ for all $\varphi$ bounded continuous, so $X_n\to X$ weakly.
+	\end{proof}
+
+	\item Prove that if the probability mass functions of $X_n$ converge to the probability mass function of $X$ pointwise then $X_n$ converges to $X$ weakly.
+	\begin{proof}
+		We essentially mirror our proof of part (a) but with the counting measure. Let $f_n$ and $f$ be the mass functions of $X_n$ and $X$ respectively and suppose they take values in the discrete set $S\subset \reals$. Suppose $\varphi$ is a bounded function on $S$ (note that any function from a discrete space is continuous). We then have
+		\begin{equation}\label{bdd_disc}
+			\begin{split}
+				|\E_n[\varphi] - \E[\varphi]| &= \left|\sum_{x\in S}f_n(x)\varphi(x) - \sum_{x\in S}f(x)\varphi(x)\right|\\
+				&\leq \|\varphi\|_\infty \sum_{x\in S}|f_n(x) -f(x)|.
+			\end{split}
+		\end{equation}
+		Fatou still works with the counting measure, so we have
+		\[
+		2\sum_{x\in S}f(x) = \sum_{x\in S}\liminf_{n\to \infty}(f(x) + f_n(x) - |f_n(x)-f(x)|)\leq 2\sum_{x\in S}f(x) - \limsup_{n\to \infty}\sum_{x\in S}|f_n(x)-f(x)|.
+		\]
+		We conclude that $\sum_{x\in S}|f_n(x)-f(x)|\to 0$ as $n\to \infty$. The right-hand side of (\ref{bdd_disc}) vanishes as $n\to \infty$, so $X_n\to X$ weakly.
+	\end{proof}
+\end{enumerate}
+
+\end{document}

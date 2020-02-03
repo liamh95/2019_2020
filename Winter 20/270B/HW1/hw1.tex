@@ -1,5 +1,5 @@
 \documentclass[11pt,letterpaper]{report}
-\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate,mathtools}
 \usepackage{tikz}
 \usepackage{amsthm}
 \usepackage{bbm}
@@ -19,6 +19,9 @@
 \newcommand{\Var}{\text{Var}}
 \newcommand{\ind}{\mathbbm{1}}
 \newcommand{\Cov}{\text{Cov}}
+\newcommand{\inprob}{\xrightarrow{\Prob}}
+\newcommand{\weakly}{\xrightarrow{w}}
+\renewcommand{\Re}{\text{Re}}
 
 \newenvironment{solution}
 {\begin{proof}[Solution]}
@@ -165,21 +168,84 @@ Consider the following statement:\\
 \begin{enumerate}[(a)]
 	\item Prove the following implication: if $X_n\to X$ weakly, $Y_n\geq 0$ and $Y_n\to c$ weakly where $c$ is a constant, then $X_nY_n\to cX$.
 	\begin{proof}
-		I think the idea is to use $Y_n\geq 0$ to say
+		For any $0<\epsilon<c$ we split the probability
 		\[
-		\Prob[X_nY_n \leq t] = \Prob[X_n \leq t/Y_n].
+		\Prob[X_nY_n \leq t]= \Prob[X_nY_n \leq t,\ |Y_n-c] <\epsilon] + \Prob[X_nY_n \leq t,\ |Y_n-c|\geq \epsilon].
 		\]
-		For any $\epsilon$ we can split this probability:
+		Since weak convergence to a constant is equivalent to convergence to that constant in probability, the second term vanishes for $n$ large. Now we also have 
 		\[
-		\Prob[X_nY_n\leq t] = \Prob[X_n \leq t/Y_n,\ |Y_n-c|<\epsilon] + \Prob[X_n \leq t/Y_n,\ |Y_n-c|\geq \epsilon].
+		\Prob[X_n Y_n \leq t,\ |Y_n-c|<\epsilon] \leq \Prob[X_n \leq \frac{t}{c-\epsilon},\ |Y_n-c|<\epsilon].
 		\]
-		Since $Y_n$ converges weakly to $c$, it converges to $c$ in probability as well, so the second term goes to zero as $n\to \infty$. Informally, I want to say that $t/Y_n$ will become close to $t/c$.
+		Taking the $\liminf_{n\to \infty}$ on both sides, we have that $\liminf{n\to \infty}\Prob[X_nY_n \leq t] \leq \Prob[X \leq t/(c-\epsilon)]$ at all points of continuity of the distribution of $X$. Similarly,
+		\[
+		\Prob[X_nY_n \leq t,\ |Y_n - c|<\epsilon] \geq \Prob[X_n \geq \frac{t}{c+\epsilon},\ |Y_n - c| < \epsilon].
+		\]
+		Taking the $\limsup_{n\to \infty}$ on both sides, we have that $\limsup_{n\to \infty}\Prob[X_nY_n \leq t] \geq \Prob[X \leq t/(c+\epsilon)]$ at all points of continuity of the distribution of $X$. We conclude that $X_nY_n \to cX$ weakly.
+		% I think the idea is to use $Y_n\geq 0$ to say
+		% \[
+		% \Prob[X_nY_n \leq t] = \Prob[X_n \leq t/Y_n].
+		% \]
+		% For any $\epsilon$ we can split this probability:
+		% \[
+		% \Prob[X_nY_n\leq t] = \Prob[X_n \leq t/Y_n,\ |Y_n-c|<\epsilon] + \Prob[X_n \leq t/Y_n,\ |Y_n-c|\geq \epsilon].
+		% \]
+		% Since $Y_n$ converges weakly to $c$, it converges to $c$ in probability as well, so the second term goes to zero as $n\to \infty$. Informally, I want to say that $t/Y_n$ will become close to $t/c$.
 	\end{proof}
 
 	\item Let $Z_n$ be a random vector uniformly distributed on the unit Euclidean sphere of radius $\sqrt{n}$ in $\reals^n$. Prove that the distribution of the first coordinate of $Z_n$ converges weakly to the standard normal distribution.
 	\begin{proof}
-		Let $X_n$ be a standard normal random vector and let $Z_n = X_n\cdot \sqrt{n}/\|X_n\|_2$. $X_n/\|X_n\|_2$ has norm 1, so $Z_n$ is definitely valued on the $\sqrt{n}$-sphere. Since $X_n$ is rotation invariant in distribution, so is $Z_n$. 
+		Let $X_n$ be a standard normal random vector and let $Z_n = X_n\cdot \sqrt{n}/\|X_n\|_2$. $X_n/\|X_n\|_2$ has norm 1, so $Z_n$ is definitely valued on the $\sqrt{n}$-sphere. Since $X_n$ is rotation invariant in distribution, so is $Z_n$, so we conclude that $Z_n$ is uniformly distributed on the $\sqrt{n}$-sphere.\\
+
+		\noindent First we claim that $\sqrt{n}/\|X_n\| \weakly 1$. By Chebyshev we have that (a squared standard normal has mean 1, variance 2 and the components of $X$ are independent)
+		\begin{align*}
+			\Prob\left[\left|\frac{\|X_n\|^2}{n} - 1\right| > \epsilon\right] &= \Prob[|\|X_n\|^2 - n\| > n\epsilon]\\
+			&\leq \frac{4n}{n^2\epsilon^2}\to 0.
+		\end{align*}
+		We conclude that $\|X_n\|^2/n$ converges to 1 in probability. If $f\inprob c\neq 0$, then $1/f \inprob 1/c$, so $n/\|X_n\|^2$ converges to 1 in probability, and therefore weakly. Since $x\mapsto \sqrt{x}$ is continuous, $\sqrt{n}/\|X_n\| \weakly 1$.\\
+
+		\noindent Now the first component of $Z_n$ has distribution $g_n \sqrt{n}/\|X_n\|$, where $g_n$ is a standard normal random variable. $g_n$ converges to a standard normal weakly and we've shown that $\sqrt{n}/\|X_n\|\weakly 1$, so by part (a), the first component of $Z_n$ converges weakly to a standard normal.
 	\end{proof}
 \end{enumerate}
+
+\noindent\textbf{Problem 8. }
+Prov that if $\phi$ is a characteristic function of some random variable, then $\Re(\phi)$ and $|\phi|^2$ are too.
+\begin{proof}
+	Suppose $\phi_X$ is the characteristic function of the random variable $X$ and let $\zeta$ take values $\pm 1$ with probability $1/2$ independent of $X$. We then have
+	\begin{align*}
+		\phi_{X\zeta} = \E[e^{itX\zeta}] = \E[e^{itX}\cdot \ind_{\zeta= 1} + e^{-itX}\cdot\ind_{\zeta = -1}] = \frac{1}{2}(\phi_X + \overline{\phi_X}) = \Re(\phi_X).
+	\end{align*}
+	We conclude that $\Re(\phi_X)$ is the characteristic function of $X\zeta$.\\
+
+	\noindent Let the random variable $Y$ have the same distribution as $-X$ independent of $X$. We then have
+	\[
+	\phi_{XY} = \E[e^{itXY}] = \E[e^{itX}]\E[e^{-itX}] = |\phi_X|^2.
+	\]
+	We conclude that $|\phi_X|^2$ is the characteristic function of $XY$.
+\end{proof}
+
+\noindent\textbf{Problem 9. }
+Let $X$ be a random variable with characteristic function $\phi$. Prove that for any $a\in \reals$ we have
+\[
+\Prob[X = a] = \lim_{T\to \infty}\frac{1}{2T}\int_{T}^{-T}e^{-ita}\phi(t)\ dt.
+\]
+
+\noindent\textbf{Problem 11. }
+Consider independent random variables $X_k$ such that $X_k$ takes values $\pm k$ with probability $k^{-2}/2$ each and values $\pm 1$ with probability $(1-k^{-2})/2$ each. Show that although $\Var[S_n]/n\to 2$, $S_n/\sqrt{n}$ does not converge to $\mcal{N}(0, 1)$ weakly. Why does this not contradict the Lindeberg-Feller central limit theorem?
+\begin{proof}
+	If $S_n/\sqrt{n}$ converged to $\mcal{N}(0, 1)$ weakly then its moments would converge to those of a standard normal. Let's look at the fourth moment of $S_n/\sqrt{n}$. Since each $X_k$ has mean zero and they're mutually independent, the only nonvanishing terms in the sum will have the form $X_i^2X_j^2$ for some $i, j$ (not necessarily distinct).
+	\begin{align*}
+		\E[(S_n/\sqrt{n})^4] &= \frac{1}{n^2}\E\left[\sum_{k=1}^nX_k^4 + \binom{n}{2}\sum_{1\leq i<j\leq n}X_i^2X_j^2\right]\\
+		&\geq \frac{1}{n^2}\sum_{k=1}^n\E[X_k^4]\\
+		&= \frac{1}{n^2}\sum_{k=1}^n\left(k^2 + (1-1/k^2)\right)\\
+		&= \Theta(n) \to \infty.
+	\end{align*}
+	But $\mcal{N}(0, 1)$ has finite moments of all orders. We conclude that $S_n/\sqrt{n}$ does not converge weakly to $\mcal{N}(0, 1)$.\\
+
+	\noindent The problem is that this sequence of random variables does not satisfy the Lindeberg condition:
+	\[
+	\frac{1}{n}\sum_{k=1}^n\E[X_k^2\cdot \ind_{|X_k| > \sqrt{n}\epsilon}] \to 0
+	\]
+	for all $\epsilon$. As $n$ grows, the last term contributes $\Theta(n)$ to this sum, so when divided by $n$ the result is $\omega(1)$, which doesn't go to zero. 
+\end{proof}
 
 \end{document}

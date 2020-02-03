@@ -1,5 +1,5 @@
 \documentclass[11pt,letterpaper]{report}
-\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate, hyperref}
 \usepackage{tikz}
 \usepackage{amsthm}
 
@@ -17,6 +17,7 @@
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}{Corollary}[theorem]
 \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{claim*}{Claim}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
@@ -43,6 +44,35 @@
 \end{center}
 
 \section{Week 1, Discussion 1}
+
+\noindent\textbf{Problem 1. }How many ways are there to place $n+2$ distinct balls into $n$ bins?
+\begin{solution}
+    There are two case. In case 1 a single bin contains three balls, while in case 2 there are two bins that contain two balls. Let's count how many in each case.\\
+    
+    \noindent In case 1, there are
+    $$
+    (n+2)(n+1)\cdots ((n+2)-(n-1)) = \frac{1}{2}(n+2)!
+    $$
+    ways to place one ball into each bin. There are $n$ choices for where to place the remaining two balls, but we have to divide by 3 since there are three ways to choose which ball was first placed into this bin. The total number of configurations in this case is then
+    $$\frac{1}{6}n(n+2)!.$$
+    
+    \noindent In case 2, there are again $\frac{1}{2}(n+2)!$ ways to place the first $n$ balls. There are $n(n-1)$ ways to choose where the other two go. Finally, we divide by 4 since both of the bins with two balls have two options for which ball went in first. The number of configurations here is then
+    $$\frac{1}{8}n(n-1)(n-2)!.$$
+    
+    \noindent In total, the number of configurations is
+    $$\frac{1}{6}n(n+2)! + \frac{1}{8}n(n-1)(n-2)!.$$
+    We'll talk about this problem again after you learn about binomial coefficients.
+\end{solution}
+
+\noindent\textbf{Problem 2. }How many functions $f: [2n]\to [n]$ are there such that each element in $[n]$ has exactly two preimages?
+
+\begin{solution}
+    Consider an arbitrary ordering of $[2n]$. Define $f$ to be the function that sends the first pair in our ordering to $1$, the second pair to $2$, and so on. Permuting any pair in this ordering gives the same function and there are $n$ pairs to permute. There are $(2n)!$ orderings of $[2n]$ and $2^n$ ways to permute the pairs, so there are $\frac{(2n)!}{2^n}$ such functions.
+\end{solution}
+
+\noindent\textbf{Problem 3. }In how many ways can one partition the set $[2n]$ into pairs? This problem's solution is closely related to the previous one.
+
+\section{Week 1, Discussion 2}
 \newcommand{\GL}{\text{GL}}
 \newcommand{\SL}{\text{SL}}
 \noindent\textbf{Problem. }Fix a prime $p$. How many invertible $n\times n$ matrices are there over $\field_p$? In other words, find $|\GL_n(\field_p)|$.
@@ -66,10 +96,174 @@
 	&= \prod_{j=0}^{n-1}(p^n-p^j).
 	\end{align*}
 
+BELOW YOU WORK TOO HARD IN MY OPINION. TAKE ANY MATRIX M AND MULTIPLY THE FIRST ROW BY C. THEN THE NEW MATIRX HAS DETERMINANT = OLD TIMES C. IN PARTICULAR, IF DET IS NOT 0, THEN THERE IS A UNIQUE CONSTANT TO MULTIPLY THE FIRST ROW IN ORDER TO GET DET 1. THEREFORE, THE PROPORTION OF DET=1 MATRICES IS $ 1/(p-1)$.
 	\noindent From here you answer other questions like how big is $\SL_n(\field_p)$, the set of $n\times n$ matrices with determinant 1. Consider the map $\det: \GL_n(\field_p)\to \field_p^\times$. Since the determinant is multiplicative, the map $\det$ is a group homomorphism. By the first isomorphism theorem, $\GL_n(\field_p)/\ker \det \cong \field_p^\times$. The kernel of $\det$ is the set of matrices that get sent to $1$, which is exactly $\SL_n(\field_p)$. We then have $|\GL_n(\field_p)|/|\SL_n(\field_p)| = |\field_p^\times| = p-1$. Rearranging gives
 	\[
 	|\SL_n(\field_p)| = \frac{1}{p-1}|\GL_n(\field_p)|.
 	\]
 \end{solution}
+
+\section{Week 2, Discussion 1}
+\begin{enumerate}
+
+	\item What's wrong with this proof?
+	\begin{claim*}
+		$n(n+1)$ is an odd number for every natural $n$.
+	\end{claim*}
+	\begin{proof}
+		Suppose this is true for $n$; we prove it for $n+1$. Some quick algebra shows that
+		\[
+		(n+1)(n+2) = n(n+1) + 2(n+1).
+		\]
+		By the induction hypothesis, $n(n+1)$ is odd. Since $2(n+1)$ is clearly even, we must have that $(n+1)(n+2)$ is odd.
+	\end{proof}
+	\vfill
+
+	\item What's wrong with this proof?
+	\begin{claim*}
+		If we have $n$ lines in the plane, no two of which are parallel, then they all go through one point.
+	\end{claim*}
+	\begin{proof}
+		This is clearly true for one or two lines by definition. Suppose that it is true for any set of $n$ lines and let $S = \{\ell_1, \ell_2, \ell_3, \ell_4,  \ldots, \ell_{n+1}\}$ be a set of $n+1$ lines in the plane, no two of which are parallel. Delete the line $\ell_3$ to obtain a set $S'$ of $n$ lines, no two of which are parallel. By the induction hypothesis, the lines in $S'$ must all pass through some point $P$. In particular, $\ell_1$ and $\ell_2$ pass through $P$.\\
+
+		\noindent Now put $\ell_3$ back and delete $\ell_4$ instead to get another set $S''$ of $n$ lines, no two of which are parallel. Again by the induction hypothesis, they must all pass through some point $Q$. In particular, $\ell_1$ and $\ell_2$ pass through $Q$. But $\ell_1$ and $\ell_2$ pass through $P$. Since two lines can pass through at most one point, we must have $P = Q$. But then $\ell_3$ goes through $P$, so all the lines in $S$ go through $P$.
+	\end{proof}
+
+	\vfill
+
+	\item What is the following sum? Prove your guess by induction.
+	\[
+	\frac{1}{1\cdot 2} + \frac{1}{2\cdot 3} + \frac{1}{3\cdot 4} + \cdots + \frac{1}{(n-1)n}.
+	\]
+
+	\vfill
+
+	\item What is the following sum? Give an inductive proof and a combinatorial proof.
+	\[
+	0\cdot \binom{n}{0} + 1\cdot \binom{n}{1} + 2\cdot \binom{n}{2} + \cdots + (n-1)\cdot\binom{n}{n-1} + n\cdot \binom{n}{n}
+	\]
+	\vfill\pagebreak
+
+	\item Prove the following identity. Try to give a combinatorial proof.
+	\[
+	\binom{n}{k} = \binom{n-1}{k} + \binom{n-1}{k-1}.
+	\]
+
+	\vfill
+
+	\item Prove the following identity.
+	\[
+	\binom{2}{2} + \binom{3}{2} + \cdots + \binom{n}{2} = \binom{n+1}{3}.
+	\]
+
+	\vfill
+
+	\item We select 38 even positive integers, all less than 1000. Prove that there will be two of them whose difference is at most 26.
+
+	\vfill
+
+	\item Prove that in a group of $n$ people, at least two will have the same number of friends in that group.
+
+	\vfill
+
+	\item Let $S$ be a finite set. Prove that $f: S\to S$ is injective (one-to-one) if and only if it is surjective (onto).\\
+
+	\vfill
+
+	\item (If you've seen 120B) Prove that any finite integral domain is a field.
+
+	\vfill
+
+	\item (Hard) Every element of the infinite grid $\integers\times \integers$ is colored red, green, or blue. Prove that there is a rectangle whose corners are all the same color.
+	\vfill
+
+\end{enumerate}
+\pagebreak
+
+\begin{center}
+{\bf \Large Math 175 - Homework 3}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item There are twenty-five beads in a bag, each colored red, blue or green. Prove that there are at least nine beads of the same color.
+	\vfill
+
+	\item Let $A = \{a_1, a_2, a_3, a_4, a_5\}$ be a set of five positive integers. Show that for any permutation $a_{i_1}, a_{i_2}, a_{i_3}, a_{i_4}, a_{i_5}$ of $A$, the product
+	\[
+	(a_{i_1}-a_1)(a_{i_2}-a_2)(a_{i_3}-a_3)(a_{i_4}-a_4)(a_{i_5}-a_5).
+	\]
+	is always even.
+	\vfill
+	\item Let $K_n$ be the complete graph on $n$ vertices, i.e. the graph with $n$ vertices where every pair of vertices is connected by an edge. 
+	\begin{enumerate}
+		\item Suppose we color each edge of $K_6$ either red or blue. Prove that there is at least one monochromatic triangle. A triangle is monochromatic if all of its edges have the same color.
+		\item Is part (a) still true for $K_5$?
+		\item Prove that in any coloring of $K_6$ we actually have at least \textit{two} monochromatic triangles. \textit{Hint: Count the complement.}
+	\end{enumerate}
+	\vfill
+
+	\item \begin{enumerate}
+		\item Is it possible to cover a chessboard (an 8 by 8 grid where squares alternate between two colors) with dominoes that cover exactly two squares?
+		\item What if we delete two white squares?
+	\end{enumerate}
+
+	\vfill
+	
+	\item \begin{enumerate}
+		\item Let $A$ be a set of $m$ positive integers where $m\geq 1$. Show that there exists a nonempty subset $B$ of $A$ such that the sum $\sum_{x\in B}x$ is divisible by $m$.
+		\item Let $X\subseteq \{1, 2, \ldots, 99\}$ and $|X| = 10$. Show that it is possible to select two disjoint nonempty proper subsets $Y, Z$ of $X$ such that $\sum_{y\in Y}y = \sum_{z\in Z}z$.
+	\end{enumerate}
+	\vfill
+\end{enumerate}
+
+\pagebreak
+
+\begin{center}
+{\bf \Large Math 175 - Homework 4 Ideas}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+
+	\item The $n\times n$ determinant $a_n$ is defined for $n\geq 1$ by
+    \[
+    a_n = \begin{vmatrix}
+    	p & p-q & 0 & 0 & \cdots & 0 & 0\\
+    	q & p & p-q & 0 & \cdots & 0 & 0\\
+    	0 & q & p & p-q & \cdots & 0 & 0\\
+    	9 & 9 & q & p & \cdots & 0 & 0\\
+    	\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots\\
+    	0 & 0 & 0 & 0 & \cdots & p & p-q\\
+    	0 & 0 & 0 & 0 & \cdots & q & p\\   	
+    \end{vmatrix},
+    \]
+    where $p$ and $q$ are distinct nonzero constants. Find a recurrence relation for $a_n$.
+
+    \vfill
+
+    \item Find the number of ways to seat $n$ penguin couples around a table in each of the following cases.
+    \begin{enumerate}
+    	\item Male and female penguins alternate.
+    	\vfill
+    	\item Every female penguin is next to her mate.
+    \end{enumerate}
+
+    \vfill
+
+    \item Let $d_n$ be the number of bijections $f:[n]\to [n]$ so that $f(k)\neq k$ for all $k\in [n]$. Find a recurrence relation for $d_n$.
+    
+    \vfill
+
+    \item Let $1\leq r\leq n$ and consider all $r$-element subsets of the set $\{1, 2, \ldots, n\}$. Each of these subsets has a largest element. Find the arithmetic mean of these largest elements.
+    \vfill
+    
+    \item A triangulation of an $n$-gon $P_n$, $n\geq 3$, is a subdivision of $P_n$ into triangles by means of nonintersecting diagonals of $P_n$. Let $a_0 = 1$ and for $n\geq 1$, let $t_n$ be the number of different triangulations of an $(n+2)$-gon. Find a recurrence relation for $t_n$.
+    
+    \vfill
+    
+\end{enumerate}
 
 \end{document}

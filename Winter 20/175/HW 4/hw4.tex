@@ -1,0 +1,87 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate, hyperref}
+\usepackage{tikz}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Aut}{\text{Aut}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\field}{\mathbb{F}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{claim*}{Claim}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+
+\begin{center}
+{\bf \Large Math 175 - Homework 4}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+
+	\item The $n\times n$ determinant $a_n$ is defined for $n\geq 1$ by
+    \[
+    a_n = \begin{vmatrix}
+    	p & p-q & 0 & 0 & \cdots & 0 & 0\\
+    	q & p & p-q & 0 & \cdots & 0 & 0\\
+    	0 & q & p & p-q & \cdots & 0 & 0\\
+    	0 & 0 & q & p & \cdots & 0 & 0\\
+    	\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots\\
+    	0 & 0 & 0 & 0 & \cdots & p & p-q\\
+    	0 & 0 & 0 & 0 & \cdots & q & p\\   	
+    \end{vmatrix},
+    \]
+    where $p$ and $q$ are distinct nonzero constants. Find a recurrence relation for $a_n$.
+
+    \vfill
+
+    \item Find the number of ways to seat $n$ penguin couples around a table in each of the following cases.
+    \begin{enumerate}
+    	\item Male and female penguins alternate.
+    	\vfill
+    	\item Every female penguin is next to her mate.
+    \end{enumerate}
+
+    \vfill
+
+    \item Let $d_n$ be the number of bijections $f:[n]\to [n]$ so that $f(k)\neq k$ for all $k\in [n]$. Find a recurrence relation for $d_n$.
+    
+    \vfill
+
+    \item Let $1\leq r\leq n$ and consider all $r$-element subsets of the set $\{1, 2, \ldots, n\}$. Each of these subsets has a largest element. Find the arithmetic mean of these largest elements.
+    \vfill
+    
+    \item A triangulation of an $n$-gon $P_n$, $n\geq 3$, is a subdivision of $P_n$ into triangles by means of nonintersecting diagonals of $P_n$. Let $a_0 = 1$ and for $n\geq 1$, let $t_n$ be the number of different triangulations of an $(n+2)$-gon. Find a recurrence relation for $t_n$.
+    
+    \vfill
+    
+\end{enumerate}
+
+\end{document}

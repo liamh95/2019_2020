@@ -1,0 +1,71 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{bbm}
+\usepackage{hyperref}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{February 20, 2020} }
+\begin{center}
+{\bf \Large 271B - Homework 2}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\noindent\textbf{Problem 1. }
+Let $S$, $T$, and $T_n$, $n = 1, 2, \ldots$ be stopping times (with respect to some filtration $\{\mcal{F}_t\}_{t\geq 0}$). Show that $T\lor S$, $T\land S$, $T+S$, $\sup_n T_n$ are also stopping times.
+\begin{proof}
+	The pointwise minimum, maximum, sum, and supremum of measurable functions are measurable. For the minimum and maximum we have
+	\begin{align*}
+		\{(T\land S) \leq t\} &= \{T\leq t\} \cup \{S\leq t\}\\
+		\{(T\lor S) \leq t\} &= \{T\leq t\} \cap \{S\leq t\}.
+	\end{align*}
+	Unions and intersections of measurable sets are measurable, so both of these sets live in $\mcal{F}_t$. Thus, $T\land S$ and $T\lor S$ are stopping times. For the sum, we can write the set $\{T+S \leq t\}$ as a countable union:
+	\[
+	\{T+S \leq t\} = \bigcup_{\alpha, \beta \in \rationals,\ \alpha+\beta \leq t}\{T\leq \alpha\} \cap \{S\leq \beta\}.
+	\]
+	As $\mcal{F}_t$-measurability is closed under countable union and intersection, the sum is a stopping time. Finally, we have
+	\[
+	\{\sup_n T_n \leq t\} = \bigcap_{n=1}^\infty \{T_n \leq t\},
+	\]
+	which is measurable, so the supremum is also a stopping time.
+\end{proof}
+
+\noindent\textbf{Problem 2. }
+Let $X_t$ be an adapted and continuous stochastic process, and define
+\[
+T_\Gamma = \inf\{t\geq 0: X_t\in \Gamma\}
+\]
+for $\Gamma$ a closed set. Show that $T_\Gamma$ is a stopping time.
+\begin{proof}
+	
+\end{proof}
+
+\end{document}

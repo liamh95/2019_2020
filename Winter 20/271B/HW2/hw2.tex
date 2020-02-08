@@ -120,7 +120,19 @@ where the limit is n $L^2(\Prob)$.
 	\[
 	\E\left[\left(\int_0^t(X_s - \phi^{(n)}_s)\ dB_s\right)^2\right] \leq \sum_j(t_j^{(n)} - t_{j-1}^{(n)})\epsilon = \epsilon T.
 	\]
-	
+	Since the $L^2$ distance between $\int_0^t\varphi_s^{(n)}\ dB_s$ and $\int_0^tX_s\ dB_s$ can be made arbitrarily small, we conclude that $\int_0^t \phi_s^{(n)}\ dB_s\to \int_0^tX_s\ dB_s$ in $L^2$.\\
+
+	\noindent Now we show uniform mean square continuity. Suppose for the sake of contradiction that for some $\epsilon$ there is no $\delta$ such that $|s-t|<\delta$ implies that $\Lp{X_s - X_s}{2}<\epsilon$. Then we can find a sequence $s_n$, $t_n$ so that $|s_n-t_n|<1/n$ but $\Lp{X_s-X_t}{2}>\epsilon$. By the compactness of $[0, T]$, we can assume that $s_n\to s^*\in [0, T]$. We then have $\Lp{X_{s^*}-X_{t_n}}{2}>\epsilon$, but this contradicts the mean square continuity of $X$ at $s^*$.
 \end{proof}
+
+\noindent\textbf{Problem 6. }
+Let $X_t$ be a deterministic continuous function and 
+\[
+Y_t = \int_0^tX_s\ dB_s.
+\]
+Deduce the law of the process $Y$.
+\begin{solution}
+	
+\end{solution}
 
 \end{document}

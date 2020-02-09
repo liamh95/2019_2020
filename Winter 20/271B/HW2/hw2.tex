@@ -65,7 +65,17 @@ T_\Gamma = \inf\{t\geq 0: X_t\in \Gamma\}
 \]
 for $\Gamma$ a closed set. Show that $T_\Gamma$ is a stopping time.
 \begin{proof}
-	asdf
+	As $\Gamma$ is closed, for every $x$ there is a well-defined ``distance to $\Gamma$'' function
+	\[
+	d(x, \Gamma) = \inf_{y\in \Gamma}|x-y|.
+	\]
+	In fact, this function is continuous. Since $X_t$ has continuous paths and is $\mcal{F}_t$ measurable, the composition $Y_t = d(X_t, \Gamma)$ is $\mcal{F}_t$ measurable.\\
+
+	\noindent Since $\Gamma$ is closed, $X_t\in \Gamma$ if and only if $Y_t = d(X_t, \Gamma) = 0$. From this it follows that $T_\Gamma>t$ if and only if $Y_s > 0$ for all $s\leq t$. Intuitively, if $T_\Gamma>t$, then $X_t$ arrives in $\Gamma$ at some time strictly later than $t$. In order for this to happen, $X_t$ must be outside of $\Gamma$ at all times $s\leq t$, in which case $Y_s = d(X_s, \Gamma)>0$. This set is ostensibly an uncountable intersection, but we can write it as a union of countable intersections by approximating by rational points.
+	\[
+	\{T_\Gamma > t\} = \bigcap_{s\leq t}\{Y_s>0\} = \bigcup_{n\geq 1}\bigcap_{q\in \rationals \cap [0, t]}\{Y_q  >1/n\} \in \mcal{F}_t.
+	\]
+	Hence, $T_\Gamma$ is a stopping time.
 \end{proof}
 
 \noindent\textbf{Problem 3. }
@@ -110,7 +120,7 @@ Show that for $0\leq t\leq T$
 \[
 \int_0^tX_s\ dB_s = \lim_{n\to \infty}\int_0^t\phi^{(n)}_s\ dB_s,
 \]
-where the limit is n $L^2(\Prob)$.
+where the limit is in $L^2(\Prob)$.
 \begin{proof}
 	For any $n$ we have by the It\^o isometry
 	\[
@@ -132,7 +142,31 @@ Y_t = \int_0^tX_s\ dB_s.
 \]
 Deduce the law of the process $Y$.
 \begin{solution}
-	
+	We assume $t\in [0, T]$ for some $T<\infty$. Since $X_t$ is continuous, it is bounded and $\int_0^tX_s\ ds<\infty$ for all $t$ and $\omega$. In particular, the family $\{X_t\}_{t\in [0, T]}$ is uniformly integrable in $\omega$, so we have
+	\[
+	\int_0^tX_s\ dB_s = \lim_{n\to \infty}\sum_{j=1}^{t/\Delta t}X_{t_{j-1}}\Delta B_{t_j},
+	\]
+	where $\Delta B_{t_j} = B_{t_j} - B_{t_{j-1}}$ and the limit is in $L^2$. (Alternatively, $X$ satisfies the hypotheses of problem 5, so we could have used the result from that problem to get this limit.) Since the Brownian increments on the right-hand side are disjoint, they are independent normal random variables, so the whole sum on the right is a normal random variable with distribution
+	\[
+	\mcal{N}\left(0, \sum_{j=1}^{t/\Delta t}X_{t_{j-1}}^2\Delta t\right).
+	\]
+	Since $X$ is continuous and deterministic, we recognize the above sum as a Riemann sum as $\Delta t\to 0$. Since the $L^2$ limit of normal random variables is normal when the mean and variance converge as sequences of real numbers, we have
+	\[
+	Y_t = \int_0^tX_s\ dB_s \sim \mcal{N}\left(0, \int_0^tX_s^2\ ds\right).
+	\]
+	Now the process $Y$ is Gaussian if and only if for every $t_1<\cdots<t_k \in T$, any linear combination of the $Y_{t_j}$'s has univariate normal distribution. Since $\int_a^b X_s\ dB_s = \int_a^c X_s\ dB_s + \int_c^bX_s\ dB_s$ for any $a<c<b$, we have
+	\[
+	c_1Y_{t_1} + c_2Y_{t_2} + \cdots + c_kY_{t_k} = (c_1 + \cdots + c_k)Y_{t_1} + (c_2 + \cdots + c_k)(Y_{t_2}-Y_{t_1}) + \cdots + c_k(Y_{t_k}-Y_{t_{k-1}}).
+	\]
+	The variables $Y_{t_j} - Y_{t_{j-1}}$ are themselves It\^o integrals over disjoint intervals, so they are independent normal random variables. We conclude that the above linear combination is normally distributed, so the process $Y$ is Gaussian.\\
+
+	\noindent A Gaussian process, and therefore its law, is determined by its mean and covariance. Since $Y_t \sim \mcal{N}(0, \int_0^t X_s^2\ ds)$, the process $Y$ has zero mean. As for the covariance, we have for any $s,t$
+	\begin{align*}
+		\Cov(Y_s, Y_t) &= \E\left[\int_0^sX_u\ dB_u\cdot \int_0^tX_u\ dB_u \right]\\
+		&= \E\left[\left(\int_0^{s\land t}X_u\ dB_u\right)^2\right] + \E\left[\int_0^{s\land t}X_u\ dB_u\cdot \int_{s\land t}^{s\lor t}X_u\ dB_u\right]\\
+		&= \E\left[\int_0^{s\land t}X_u^2\ du\right] = \int_0^{s\land t}X_u^2\ du.
+	\end{align*}
+	The last line follows from the It\^o isometry and the independence of It\^o integrals over disjoint intervals.
 \end{solution}
 
 \end{document}

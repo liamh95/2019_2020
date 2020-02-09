@@ -1,5 +1,5 @@
 \documentclass[11pt,letterpaper]{report}
-\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate,mathtools,bbm}
 \usepackage{tikz}
 \usepackage{amsthm}
 
@@ -71,6 +71,43 @@
 		2\sum_{x\in S}f(x) = \sum_{x\in S}\liminf_{n\to \infty}(f(x) + f_n(x) - |f_n(x)-f(x)|)\leq 2\sum_{x\in S}f(x) - \limsup_{n\to \infty}\sum_{x\in S}|f_n(x)-f(x)|.
 		\]
 		We conclude that $\sum_{x\in S}|f_n(x)-f(x)|\to 0$ as $n\to \infty$. The right-hand side of (\ref{bdd_disc}) vanishes as $n\to \infty$, so $X_n\to X$ weakly.
+	\end{proof}
+
+	\item In general, weak convergence does not imply pointwise convergence of probability density functions. Show this by example.
+	\begin{solution}
+		Let $f_{n,k}(x)$ be a typewriter sequence weighted to have integral 1, that is
+		\[
+		f_{n,k}(x) = \frac{1}{1-2^{-n}}\ind_{[0,1]\setminus [k\cdot 2^{-n},\ (k+1)\cdot 2^{-n}]}(x),\quad n = 1, 2, \ldots,\ k = 0, 1, \ldots, 2^{n}-1.
+		\]
+		Intuitively, $f_{n,k}$ is a flat line of height $\frac{1}{1-2^{-n}}$ over $[0,1]$ except for a gap at $[k\cdot 2^{-n}, (k+1)\cdot 2^{-n}]$, where it is zero. Since this gap slides along the unit interval indefinitely, $f_{n,k}$ does not converge pointwise anywhere. Now for any $\varphi$ bounded and continuous we have
+		\[
+		|\E_{n,k}[\varphi] - \E[\varphi]| = \int_0^1\varphi(x)(f_{n,k}(x) - 1)dx \leq \|\varphi\|_\infty\cdot 2^{-n}\to 0,
+		\]
+		so $X_n$ converges weakly to the uniform distribution on $[0,1]$ even though the densities don't converge pointwise at all.
+\end{solution}
+\end{enumerate}
+
+\noindent\textbf{Problem 2. }
+Consider normal random variables $X_n\sim \mcal{N}(\mu_n, \sigma^2_n)$. Assume $X_n$ converges weakly to some random variable $X$. Prove that $X\sim \mcal{N}(\mu, \sigma^2)$ where $\mu = \lim_{n\to \infty}\mu_n$ and $\sigma^2 = \lim_{n\to \infty}\sigma_n^2$ and both limits exits.
+\begin{proof}
+	Since $x\mapsto e^{itx}$ is bounded and continuous, the weak convergence of $X_n$ to $X$ implies that the characteristic functions $\phi_n$ of $X_n$ converge pointwise to the characteristic function $\phi$ of $X$. After completing the square in the exponent, $\phi_n$ is given by
+	\begin{align*}
+		\phi_n(t) &= \frac{1}{\sqrt{2\pi \sigma_n^2}}\int_\reals e^{-\frac{1}{2}\left(\frac{x-\mu_n}{\sigma_n}\right)^2}\cdot e^{itx}\ dx\\
+		&= e^{i\mu_nt - \sigma_n^2t^2/2}.
+	\end{align*}
+	As $n$ goes to infinity we have
+	\[
+	\lim_{n\to \infty}\phi_n(t) = \lim_{n\to \infty}e^{i\mu_nt - \sigma_n^2t^2/2} = e^{i\mu t- \sigma^2t^2/2},
+	\]
+	which is the characteristic function for the random variable $Y\sim \mcal{N}(\mu, \sigma^2)$. Since the characteristic function determines the distribution of the random variable, we conclude that $X\sim \mcal{N}(\mu, \sigma^2)$.
+\end{proof}
+
+\noindent\textbf{Problem 3. }
+Let $X_1, X_2, \ldots$ be independent Rademacher random variables. Let $S_n = X_1 + \cdots + X_n$.
+\begin{enumerate}[(a)]
+	\item Prove that the sequence $S_n/\sqrt{n}$ is unbounded almost surely.
+	\begin{proof}
+		
 	\end{proof}
 \end{enumerate}
 

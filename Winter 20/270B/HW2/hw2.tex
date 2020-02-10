@@ -107,8 +107,152 @@ Let $X_1, X_2, \ldots$ be independent Rademacher random variables. Let $S_n = X_
 \begin{enumerate}[(a)]
 	\item Prove that the sequence $S_n/\sqrt{n}$ is unbounded almost surely.
 	\begin{proof}
-		
+		(Durrett gives this hint to use Kolmogorov's zero-one). Fix some $K>0$ and let $E_n$ be the event that $S_n/\sqrt{n}>K$. By continuity of measure we have
+		\begin{align*}
+			\Prob[\limsup_{n\to \infty}E_n] = \Prob\left[\bigcap_{n\geq 1}\bigcup_{k\geq n}E_k\right]= \lim_{n\to \infty}\Prob\left[\bigcup_{k\geq n}E_k\right] \geq \limsup_{n\to \infty}\Prob[E_n]>0.
+		\end{align*}
+		The last inequality follows from the central limit theorem, which says that $\Prob[S_n/\sqrt{n}>K]$ approaches the probability that a standard normal random variable takes a value greater than $K$, which is positive. $\limsup_{n\to \infty}E_n$ is a tail event, so by Kolmogorov's zero-one law, it happens with probability zero or one. Since we've shown that its probability is positive, we conclude that $\Prob[S_n/\sqrt{n}>K\text{ i.o.}] = 1$. Since this holds for any $K$, $S_n/\sqrt{n}$ is unbounded a.s.
+	\end{proof}
+
+	\item Prove that $S_n/\sqrt{n}$ does not converge in probability.
+	\begin{proof}
+		(Durrett gives this hint to set $n = m!$) Suppose $S_n/\sqrt{n}$ did converge in probability. Consider the subsequence $n = m!$. By convergence in probability, we must have for any $\epsilon>0$
+		\[
+		\Prob\left[\left|\frac{S_{(m+1)!}}{\sqrt{(m+1)!}} - \frac{S_{m!}}{\sqrt{m!}}\right|>\epsilon\right]\to 0.
+		\]
+		Now $S_{m!}$ and $(S_{(m+1)!} - S_{m!})$ are independent since they represent sums over disjoint sets. The plan is to exploit this independence along with the central limit theorem to contradict the above assumption.\\
+
+		\noindent By independence and the central limit theorem we have
+		\begin{align*}
+		\Prob\left[\left|\frac{S_{m!}}{\sqrt{m!}}\right|<1,\ \frac{S_{(m+1)!}-S_{m!}}{\sqrt{(m+1)!}}>5\right] &= \Prob\left[\left|\frac{S_{m!}}{\sqrt{m!}}\right|<1\right] \Prob\left[\frac{S_{(m+1)!}-S_{m!}}{\sqrt{(m+1)!}}>5\right]\\
+		&\to \Prob[|g|<1]\cdot \Prob[g>5].
+		\end{align*}
+		Note that this limiting quantity is positive. I want to use this to say something like
+		\[
+		\liminf_{n\to \infty}\Prob[S_{m+1}/\sqrt{(m+1)!}\text{ and }S_{m!}/\sqrt{m!}\text{ are far apart}]>0,
+		\]
+		which contradicts convergence in probability.
 	\end{proof}
 \end{enumerate}
+
+\noindent\textbf{Problem 4. }
+Let $X_1, X_2, \ldots$ be independent random variables such that there exists $M>0$ so that $|X_i|\leq M$ almost surely for all $i$. Show that if $\sum_i\Var[X_i] = \infty$ then the sum $S_n = X_1 + \cdots + X_n$ satisfies
+\[
+\frac{S_n - \E[S_n]}{\sqrt{\Var[S_n]}}\to \mcal{N}(0, 1)\text{ weakly.}
+\]
+\begin{proof}
+	The plan is to apply the Lindeberg-Feller theorem. To this end, define the sequence $X_{n, m} = \frac{X_m - \E[X_m]}{\sqrt{\Var[S_n]}}$, for $1\leq m\leq n$. This sequence is centered and we have for all $n$
+	\[
+	\sum_{m=1}^n\Var[X_{n,m}] = \frac{1}{\Var[S_n]}\sum_{m=1}^n\Var[X_m] = 1,
+	\]
+	so the first condition of Lindeberg-Feller is satisfied. As for the second, we need the following to hold for any $\epsilon>0$.
+	\begin{equation*}\label{cnd2}
+	\lim_{n\to \infty}\sum_{m=1}^n\E[|X_{n, m}|^2:\ |X_{n, m}|>\epsilon] = 0.
+	\end{equation*}
+	Let's look at the set where $|X_{n, m}|>\epsilon$. This condition is equivalent to 
+	\[
+	|X_m - \E[X_m]| > \epsilon \sqrt{\Var[S_n]}.
+	\]
+	Since $|X_m|\leq M$ for all $m$, the left-hand side is at most $2M$. Since $\sum \Var[X_m] = \infty$, the right-hand side blows up in $n$. In particular, we have that the measure of the set where $|X_{n, m}|>\epsilon$ becomes zero for $n$ large enough, so (\ref{cnd2}) is satisfied. Since both conditions of Lindeberg-Feller are satisfied, we have that
+	\[
+	\frac{S_n - \E[S_n]}{\sqrt{\Var[S_n]}}\to \mcal{N}(0, 1)\text{ weakly}
+	\]
+	as desired.
+\end{proof}
+
+\noindent\textbf{Problem 5. }
+Let $X_1, X_2, \ldots$ be independent random variables with zero means and unit variances (but not necessarily iid). Assume that
+\[
+\sup_{i}\E[|X_i|^{2+\delta}] = M<\infty
+\]
+for some $\delta>0$. Prove that
+\[
+\frac{X_1 + \cdots + X_n}{\sqrt{n}}\to \mcal{N}(0, 1)\text{ weakly.}
+\]
+\begin{proof}
+	Similar to the previous exercise, the plan is to use Lindeberg-Feller. Let $S_n = X_1 + \cdots + X_n$ and set $X_{n, m} = \frac{1}{\sqrt{\Var[S_n]}}X_m$ for $1\leq m \leq n$. Just like in the previous problem we have that $\sum_{m=1}^n\Var[X_{m,n}] = 1$ for all $n$, so the first condition of Lindeberg-Feller is satisfied. As for the second, fix $\epsilon>0$. We compute.
+	\begin{align*}
+		\E[X_{m, n}^2:\ |X_{m, n}|>\epsilon] &= \frac{1}{\Var[S_n]}\E[X_m^2:\ |X_m| > \epsilon \Var[S_n]]\\
+		&= \frac{1}{n}\E[X_m^{2+\delta}\cdot X_m^{-\delta}:\ |X_m|>\epsilon\sqrt{n}]\\
+		&\leq \frac{1}{n(\epsilon \sqrt{n})^\delta}\E[X_m^{2+\delta}]\\
+		&\leq \frac{M}{n(\epsilon\sqrt{n})^\delta}.
+	\end{align*}
+	Summing over $m = 1, \ldots, n$ gives
+	\[
+	\sum_{m=1}^n\E[X_{m,n}^2:\ |X_{m, n}|>\epsilon]\leq \frac{M}{(n\epsilon)^\delta}\to 0.
+	\]
+	Hence, the second condition of Lindeberg-Feller is satisfied and $\frac{S_n}{\sqrt{n}}\to \mcal{N}(0, 1)$ weakly.
+\end{proof}
+
+\noindent\textbf{Problem 6. }
+Let $(\Omega, \Sigma, \Prob)$ be a probability space and let $\mcal{F}\subset \Sigma$ be a sub-$\sigma$-algebra. Consider two events $E\in \Sigma$ and $F\in \mcal{F}$.
+\begin{enumerate}[(a)]
+	\item Show that
+	\[
+	\Prob[F\ |\ E] = \frac{\E\big[\Prob[E\ |\ \mcal{F}]\cdot\ind_F\big]}{\E[\Prob\big[E\ |\ \mcal{F}]\big]}.
+	\]
+	\begin{proof}
+		By the definition of conditional expectation we have
+		\begin{align*}
+			\Prob[F\ |\ E] &= \frac{\Prob[E\cap F]}{\Prob[E]}\\
+			&= \frac{\E[\Prob[E|\mcal{F}]\cdot \ind_F]}{\E[\Prob[E|\mcal{F}]]}.
+		\end{align*}
+	\end{proof}
+
+	\item Specialize this equation to the case where $\mcal{F}$ is generated by a partition $\Omega = F_1 \sqcup \cdots \sqcup F_n$. Deduce Bayes formula:
+	\[
+	\Prob[F_i|E] = \frac{\Prob[E|F_i]\cdot\Prob[F_i]}{\sum_j(\Prob[E|F_j]\cdot\Prob[F_j])}.
+	\]
+	\begin{proof}
+		This immediately follows from the definition of conditional expectation.
+		\begin{align*}
+			\Prob[F_i\ |\ E] &= \frac{\E[\Prob[E|\mcal{F}]\cdot \ind_F]}{\E[\Prob[E|\mcal{F}]]}\\
+			&= \frac{\sum_j \Prob[E|F_j]\cdot \Prob[F_i\cap F_j]}{\sum_j(\Prob[E|F_j]\cdot \Prob[F_j])}\\
+			&= \frac{\Prob[E|F_i]\cdot\Prob[F_i]}{\sum_j(\Prob[E|F_j]\cdot\Prob[F_j])}.
+		\end{align*}
+	\end{proof}
+\end{enumerate}
+
+\noindent\textbf{Problem 7. }
+Show that
+\[
+(\E[XY|\mcal{F}])^2 \leq \E[X^2|\mcal{F}]\cdot \E[Y^2|\mcal{F}]
+\]
+almost surely.
+\begin{proof}
+	We prove this in pretty much the same way one proves Cauchy-Schwarz for real or complex numbers. For all real $t$ we have that $\E[(X+tY)^2|\mcal{F}]\geq 0$ almost surely. Expanding and using the linearity of conditional expectation gives
+	\[
+	\E[X^2|\mcal{F}] + 2t\E[XY|\mcal{F}] + t^2\E[Y^2|\mcal{F}] \geq 0\text{ a.s.}
+	\]
+	Treating this as a real polynomial in $t$, we conclude that the discriminant must be non-positive, i.e.
+	\[
+	4\E[XY|\mcal{F}]-4\E[X^2|\mcal{F}]\E[Y^2|\mcal{F}] \leq 0.
+	\]
+	Dividing by 4 gives the desired result.
+\end{proof}
+
+\noindent\textbf{Problem 8. }
+Define the conditional variance of $X$ by
+\[
+\Var[X|\mcal{F}] = \E[X^2|\mcal{F}] - (\E[X|\mcal{F}])^2.
+\]
+Show that
+\[
+\Var[X] = \E\big[ \Var[X|\mcal{F}]\big] + \Var\big[ \E[X|\mcal{F}]\big].
+\]
+\begin{proof}
+	We attack the right-hand side using the law of total expectation.
+	\begin{align*}
+		\E[\Var[X|\mcal{F}]] + \Var[\E[X|\mcal{F}]] &= \E[\E[X^2|\mcal{F}] - \E[X|\mcal{F}]^2] + \bigg( \E[\E[X|\mcal{F}]^2] - \E[\E[X|\mcal{F}]]^2\bigg)\\
+		&= \E[X^2] - \E[X]^2\\
+		&= \Var[X].
+	\end{align*}
+\end{proof}
+
+\noindent\textbf{Problem 9. }
+Let $Y = \E[X|\mcal{F}]$. Show that if $\E[Y^2] = \E[X^2]$ then $X = Y$ a.s.
+\begin{proof}
+	
+\end{proof}
 
 \end{document}

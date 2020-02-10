@@ -252,7 +252,15 @@ Show that
 \noindent\textbf{Problem 9. }
 Let $Y = \E[X|\mcal{F}]$. Show that if $\E[Y^2] = \E[X^2]$ then $X = Y$ a.s.
 \begin{proof}
-	
+	$\E[X -Y] = 0$ by definition. The idea is to show that the variance of the difference is zero as well under this assumption.
+	\begin{align*}
+		\Var[X - Y] &= \E[(X-Y)^2] - \E[X-Y]^2\\
+		&= \E[X^2] - 2\E[XY] + \E[Y^2]\\
+		&= 2\E[X^2] - 2\E[\E[XY|\mcal{F}]]\\
+		&= 2\E[X^2]-2\E[Y\cdot \E[X|\mcal{F}]]\\
+		&= 0.
+	\end{align*}
+	Since $X-Y$ has mean and variance zero, $X=Y$ a.s.
 \end{proof}
 
 \end{document}

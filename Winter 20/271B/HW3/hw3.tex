@@ -1,0 +1,202 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{bbm}
+\usepackage{hyperref}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{February 19, 2020} }
+\begin{center}
+{\bf \Large 271B - Homework 3}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\noindent\textbf{Problem 1. }
+Use It\^o's formula to prove that for
+\[
+b_t(k) = \E[B_t^k]
+\]
+with $B$ a standard Brownian motion
+\[
+b_t(k) = \frac{1}{2}k(k-1)\int_0^tb_s(k-2)\ ds.
+\]
+\begin{solution}
+	Consider the function $g(t, x) = x^k$, which is of class $C^2$ and let $Y_t = g(t, B_t) = B_t^k$. By It\^o's formula we have
+	\begin{align*}
+		dY_t &= \frac{\partial g}{\partial t}(t, B_t)dt + \frac{\partial g}{\partial x}(t, B_t)dB_t + \frac{1}{2}\frac{\partial^2g}{\partial x^2}(t, B_t)\cdot (dB_t)^2\\
+		&= (kB^{k-1}_t)dB_t + \left(\frac{1}{2}k(k-1)B_t^{k-2}\right)dt.
+	\end{align*}
+	Integrating gives
+	\[
+	B_t^k = k\int_0^tB_s^{k-1}\ dB_s + \frac{1}{2}k(k-1)\int_0^tB_s^{k-2}\ ds,
+	\]
+	since $B_0 = 0$ almost surely. Finally, we take the expectation of both sides. The first term will vanish since it's a martingale and we use Fubini to interchange the expectation and the integral of the second term.
+	\[
+	b_t(k) = \frac{1}{2}k(k-1)\int_0^tb_s(k-2)\ ds.
+	\]
+	Note that $b_t(1) = \E[B_t] = 0$. By induction, it follows that $b_t(k) = 0$ for all odd $k$. For $k = 2l$ we have 
+	\[
+	b_t(2l) = \frac{1}{2}(2l)(2l-1)\int_0^tb_s(2l-2)ds = \left[\frac{1}{2}(2l)(2l-1)\right]\left[\frac{1}{2}(2l-2)(2l-3)\right]\int_0^t\int_0^sb_{s'}(2l-4)\ ds'ds.
+	\]
+	By induction we have
+	\[
+	b_t(2l) = \frac{(2l)!}{2^l}\int_0^{t}\int_0^{t_1}\cdots \int_0^{t_{l-1}}\E[B_l^2]\ dt_l\cdots d_{t_1} = \frac{(2l)!t^l}{2^ll!}.
+	\]
+\end{solution}
+
+\noindent\textbf{Problem 2. }Find $dX$ and $\langle X\rangle$ when
+\begin{enumerate}[a)]
+	\item $X(t) = tB_t$,
+	\begin{solution}
+		Set $g(t, x) = tx$. We then have $X_t = g(t, B_t) = tB_t$. By It\^o's formula we have
+		\[
+		dX_t = B_tdt + tdB_t.
+		\]
+		We'll prove a general fact about the quadratic variation of an It\^o process. Suppose that $Y_t$ is a continuous It\^o process given by
+		\[
+		Y_t = Y_0 + \int_0^t\mu_s\ ds + \int_0^t\sigma_s\ dB_s,
+		\]
+		where $\int_0^t(\sigma^2_s + |\mu_s|)ds < \infty$ a.s. for all $t$. For convenience, let $I_t = \int_0^t \mu_s\ ds$ and $M_t = \int_0^t\sigma_s\ dB_s$. By the bilinearity of $\langle \cdot , \cdot \rangle$ we have
+		\[
+		\langle Y\rangle_t = \langle Y_0, Y_0\rangle  + \langle I_t, I_t\rangle + \langle M_t, M_t\rangle + 2\langle Y_0, I_t\rangle + 2\langle Y_0, M_t\rangle + 2\langle I_t, M_t\rangle.
+		\]
+		Now $Y_0$ and $I_t$ are absolutely continuous, and therefore have finite total variation on any $[0, T]$. Consequently, the terms $\langle Y_0, Y_0\rangle$, $\langle I_t, I_t\rangle$, and $\langle Y_0, I_t\rangle$ all vanish. The $\langle I_t, M_t\rangle$ and $\langle Y_0, M_t\rangle$ terms also vanish since $M_t$ is a.s. continuous and $Y_0$ and $I_t$ are of bounded variation. For example, we can choose $\|\Pi\|$ small enough so that $|M_{t_{i+1}} - M_{t_i}|<\epsilon$ for $\Pi = \{0 = t_0<t_1 < \cdots < t_n=t\}$. We then have
+		\[
+		 \left|\sum_{i=0}^{|\Pi|}(M_{t_{i+1}}- M_{t_i})(I_{t_{i+1}}-I_{t_i})\right|\leq \epsilon\sum_{i=0}^{|\Pi|}|I_{t_{i+1}}-I_{t_i}|.
+		\] 
+		Since $I_t$ is of bounded variation, this sum can be made arbitrarily small as $\|\Pi\|\to 0$. Consequently, we have $\langle Y\rangle_t= \langle M\rangle_t$, which we showed in class is given by
+		\[
+		\langle Y\rangle_t = \langle M\rangle_t = \int_0^t\sigma^2_s\ ds.
+		\]
+		Finally, we apply this to our problem. Since $X_t$ is given by
+		\[
+		X_t = \int_0^tB_s\ ds + \int_0^ts\ dB_s,
+		\]
+		we have
+		\[
+		\langle X\rangle_t = \int_0^ts^2\ ds = \frac{1}{3}t^3.
+		\]
+	\end{solution}
+	\item $X(t) = \int_0^t\frac{1-t}{1-s}dB_s$.
+	\begin{solution}
+		We immediately have
+		\[
+		dX_t = \frac{1-t}{1-s}dB_s.
+		\]
+		By our previous discussion, we have
+		\[
+		\langle X\rangle_t = \int_0^t\left(\frac{1-t}{1-s}\right)^2ds = t(1-t).
+		\]
+	\end{solution}
+\end{enumerate}
+
+\noindent\textbf{Problem 3. }
+Show that the Ornstein-Uhlenbeck process
+\[
+X_t = \overline{x} + (x_0 - \overline{x})e^{-at} + \sigma\int_0^te^{-a(t-s)}dB_s
+\]
+solves
+\[
+dX = a(\overline{x}-X)dt + \sigma dB_t,\ X_0 = x_0.
+\]
+\begin{proof}
+	The trick is to multiply the differential equation through by the integrating factor $e^{at}$.
+	\begin{equation}\label{factor}
+	e^{at}dX_t = a\overline{x}e^{at}dt-ae^{at}X_tdt + \sigma e^{at}dB_t.
+	\end{equation}
+	Now consider the function $g(t, x)= e^{at}x$. By It\^o's formula we have
+	\[
+	d(e^{at}X_t) = ae^{at}X_tdt + e^{at}dX_t.
+	\]
+	Solving for $e^{at}dX_t$ and substituting into (\ref{factor}) gives
+	\[
+	d(e^{at}X_t) = a\overline{x}e^{at}dt + \sigma e^{at}dB_t.
+	\]
+	Integrating from $0$ to $t$ gives
+	\[
+	e^{at}X_t - x_0 = \overline{x}(e^{at}-1) + \sigma \int_0^te^{as}dB_s.
+	\]
+	Multiplying through by $e^{-at}$ and simplifying gives the desired result
+	\[
+	X_t = \overline{x} + (x_0-\overline{x})e^{-at} + \sigma\int_0^te^{-a(t-s)}dB_s.
+	\]
+\end{proof}
+
+\noindent\textbf{Problem 4. }
+Show that the following processes are Martingales.
+\begin{enumerate}[a)]
+	\item $X_t = \exp(t/2)\cos(B_t)$.
+	\begin{proof}
+		Consider the function $g(t, x) = e^{t/2}\cos x$. This function is $C^{1, 2}$, so by It\^o's formula we have
+		\[
+		d(e^{t/2}\cos B_t) = \frac{1}{2}e^{t/2}\cos(B_t)dt - e^{t/2}\sin(B_t)dB_t - \frac{1}{2}e^{t/2}\cos(B_t)(dB_t)^2.
+		\]
+		Since $(dB_t)^2 = dt$, the first and third terms on the right-hand side cancel. Integrating from $0$ to $t$ gives
+		\[
+		e^{t/2}\cos(B_t) = 1 - \int_0^te^{t/2}\sin(B_t)\ dt.
+		\]
+		Since the It\^o integral is a martingale and adding a constant to a martingale yields a martingale, the above quantity is a martingale.
+	\end{proof}
+	\item $X_t = (B_t+t)\exp(-B_t-t/2)$.
+	\begin{proof}
+		Let $g(t, x) = (x+t)\exp(-x-\frac{1}{2}t)$. We then have
+		\begin{gather*}
+		g_t(t, x) = \exp\left(-x-\frac{1}{2}t\right)\left(1-\frac{1}{2}x-\frac{1}{2}t\right),\quad g_x(t, x) = \exp\left(-x-\frac{1}{2}t\right)(1-x-t),\\
+		g_{xx}(t, x) = \exp\left(-x-\frac{1}{2}t\right)(x+t-2).
+		\end{gather*}
+		By It\^o's formula we then have
+		\begin{multline*}
+		d(X_t) = \exp\left(-B_t-\frac{1}{2}t\right)\left(1-\frac{1}{2}B_t-\frac{1}{2}t\right)dt+ \exp\left(-B_t-\frac{1}{2}t\right)(1-B_t-t)dB_t\\
+		 + \frac{1}{2}\exp\left(-B_t-\frac{1}{2}t\right)(B_t+t-2)(dB_t)^2.
+		\end{multline*}
+		Since $(dB_t)^2 = dt$, the first and last terms on the right-hand side cancel and we have after integrating
+		\[
+		X_t = (B_t+t)\exp\left(-B_t-\frac{1}{2}t\right) = \int_0^t\exp\left(-B_s-\frac{1}{2}s\right)(1-B_s-s)\ dB_s.
+		\]
+		Since the It\^o integral is a martingale, $X_t$ is a martingale.
+	\end{proof}
+\end{enumerate}
+
+\noindent\textbf{Problem 5. }
+Consider the vector It\^o process $X=[X_1, \ldots, X_m]$:
+\[
+dX_t^{(i)} = \mu_t^{(i)}dt + \sum_{j=1}^d\sigma^{(i,j)}_tdB_t^{(j)},
+\]
+with $\mu^{(i)}$, $\sigma^{(i,j)}$ satisfying the standard It\^o process conditions. Prove that for $f$ of class $C^{1,2}$:
+\[
+f(t, X_t)-f(0, X_0) = \int_0^tf_t(s, X_s)ds + \int_0^t\nabla_xf(s, X_s)\cdot dX_s + \frac{1}{2}\int_0^tH_xf(s, X_s):d\langle X\rangle_s,
+\]
+where $H_x$ is the Hessian, $:$ means contraction, and $\langle X\rangle^{(i,j)}_t = \langle X^{(i)}, X^{(j)}\rangle_t$.
+\begin{proof}
+	
+\end{proof}
+
+\end{document}

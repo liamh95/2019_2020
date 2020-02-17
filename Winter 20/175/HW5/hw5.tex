@@ -1,0 +1,76 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{bbm}
+\usepackage{hyperref}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 175 - Homework 5}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item The Catalan numbers satisfy the recurrence relation
+	\[
+	C_{n+1} = \sum_{k=0}^nC_kC_{n-k},\ C_0 = 1.
+	\]
+	Find the generating function $C(x) = \sum_{n=0}^\infty C_nx^n$. \textit{Hint: If $C(x) = \sum_{n=0}^\infty C_nx^n$, what is the $n$-th coefficient of $C(x)^2$?}
+
+	\vfill
+
+	\item There are $2n$ customers in line to see a movie where tickets cost $\$5$. $n$ customers have a $\$5$ bill and $n$ have a $\$10$ bill. The cashier initially has no money in the register. How many ways are there to order the customers so that each can buy their ticket and receive change if they have to? What is the probability that each can buy their ticket and receive change if the customers are ordered randomly?
+	\vfill
+
+	\item \begin{enumerate}
+		\item Show that the number of nondecreasing functions from $[n]$ to $[m]$ equals the number of shortest routes from the lattice point $(1, 1)$ to the lattice point $(n+1, m)$. A shortest route from $(a,b)$ to $(c,d)$, $a\leq c$, $b\leq d$ is a path from $(a,b)$ to $(c,d)$ whose steps are either ``move right one unit'' or ``move up one unit.''
+		\vfill
+		\item Show that the number of increasing functions $\alpha: [n]\to \{0, 1, \ldots, n-1\}$ such that $\alpha(a)<a$ is given by $\frac{1}{n+1}\binom{2n}{n}$. \textit{Hint: Use part (a) and the reflection principle.}
+		\vfill
+	\end{enumerate}
+
+	\item Three gamblers each roll a six-sided die. Find the number of ways for their rolls to sum to 14. \textit{Hint: The generating function approach is good here.}
+	\vfill
+
+
+	\item Suppose there are $n$ companies and $n$ applicants. Each company ranks the applicants in order of preference and each applicant ranks the companies in the same way.
+	\begin{enumerate}
+		\item Suppose $n = 2$. Come up with a list of preferences for the companies and applicants where \textit{every} matching is stable.
+
+		\item A company $C$ is a \textit{valid match} for applicant $A$ if there exists a stable matching of companies and applicants where $C$ and $A$ are matched. A stable matching is called \textit{applicant pessimal} if each applicant is matched with their least favorite valid company.\\
+		\noindent Consider a stable matching produced by the Gale-Shapley algorithm where the companies send out offers to applicants in decreasing order of preference. Show that this matching is applicant pessimal. \textit{Hint: You can use the fact that Gale-Shapley produces a matching that is company-optimal, which we showed in discussion.}
+	\end{enumerate}
+	\vfill
+\end{enumerate}
+
+
+
+\end{document}

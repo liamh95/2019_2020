@@ -56,8 +56,56 @@ Let $X_1, X_2, \ldots$ be independent random variables with means $\mu_i$ and fi
 	\end{align*}
 	Here we've used the fact that $S_n$ is $\mcal{F}_n$-measurable and $X_{n+1}$ is independent of $\mcal{F}_n$. The sequences we want are then
 	\[
-	b_n = -2\sum_{i=1}^n\mu_i,\qquad c_n = \left(\sum_{i=1}^n\mu_i\right)^2 - \sum_{i=1}^n\sigma_i^2
+	b_n = -2\sum_{i=1}^n\mu_i,\qquad c_n = \left(\sum_{i=1}^n\mu_i\right)^2 - \sum_{i=1}^n\sigma_i^2.
 	\]
 \end{solution}
+
+\noindent\textbf{Problem 2. }
+\begin{enumerate}[(a)]
+	\item Show that if $(X_n)$ and $(Y_n)$ are martingales with respect to the same filtration, then $X_n\lor Y_n$ is a submartingale.
+	\begin{proof}
+		We use the trusty identity
+		\[
+		X_n\lor Y_n = \frac{1}{2}[(X_n+Y_n) + |X_n - Y_n|].
+		\]
+		Since the sum of martingales is a martingale and conditional Jensen says the absolute value of a martingale is a submartingale, we have
+		\begin{align*}
+			\E[X_{n+1}\lor Y_{n+1}|\mcal{F}_n] &= \frac{1}{2}(\E[X_{n+1}+Y_{n+1}|\mcal{F}_n] + \E[|X_{n+1} -Y_{n+1}|\ |\ \mcal{F}_n])\\
+			&\geq \frac{1}{2}[(X_n + Y_n) + |X_n - Y_n|]\\
+			&= X_n\lor Y_n.
+		\end{align*}
+		Hence, $X_n\lor Y_n$ is a submartingale.
+	\end{proof}
+
+	\item Give an example showing that $X_n \lor Y_n$ need not be a martingale.
+	\begin{proof}
+		
+	\end{proof}
+\end{enumerate}
+
+\noindent\textbf{Problem 3. }
+Give an example of a martingale $(X_n)$ such that $X_n\to -\infty$ a.s.
+\begin{solution}
+	Durrett gives a hint to let $X_n = \xi_1 + \cdots + \xi_n$ for some independent centered $\xi_i$'s. The idea is to concentrate most of the mass of $\xi_i$ around some negative value and put the rest (some summable amount) around some positive value, then apply Borel-Cantelli.\\
+
+	\noindent Concretely, let $\xi_i$ be given by
+	\[
+	\xi_i = \begin{cases}
+		2^j&\text{with probability }\frac{1}{2^j}\\
+		-\frac{1}{1-2^{-j}}&\text{with probability }1-\frac{1}{2^j}
+	\end{cases}.
+	\]
+	Clearly $\xi_i$ is centered, so $X_n = \xi_1 + \cdots + \xi_n$ is a martingale. Note that
+	\[
+	\sum_{i=1}^\infty \Prob[\xi_i = 2^j] = \sum_{i=1}^\infty \frac{1}{2^j} = 1<\infty.
+	\]
+	By Borel-Cantelli, we have that $\xi_i = -\frac{1}{1-2^{-j}}$ eventually with probability 1, so $X_n\to -\infty$ a.s.
+\end{solution}
+
+\noindent\textbf{Problem 4. }
+Let $(X_n)$ be a martingale that is bounded a.s. either above or below by some constant $M$. Show that $\sup_n \E|X_n|<\infty$.
+\begin{proof}
+	If $X_n$ is bounded below, then $X_n+c$ is a nonnegative martingale for some $c>0$. By the martingale convergence theorem, $X_n+c$ converges almost surely to some limit $Y$ with $\E|Y|<\infty$. Consequently, $X_n$ also converges a.s. to an integrable function, so $\sup_n \E|X_n|<\infty$. If $X_n$ is bounded above, then $-X_n+c$ is a nonnegative martingale for some $c$ and the same argument works.
+\end{proof}
 
 \end{document}

@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}  
+%%Read the manual for other options. 
+
+\pagestyle{empty} %%Eliminates page numbers
+%%\input rmb_macros
+%%Collect your favorite macros in a 
+%%separate file
+
+%\input amssym.def
+%\input amssym
+%\input mssymb
+%%Defines additional symbols
+
+
+
+\usepackage{graphics}
+\usepackage{amsmath,amssymb,amsthm, multicol}
+\usepackage[pdftex]{graphicx}
+\usepackage{hyperref}
+%%Use to include pictures. 
+
+%\newcommand{\comment}[1]{}
+%\newcommand{\sobolev}[2]{W^{#1,#2}}
+%\newcommand{\sobolev}[2]{L^#2_#1}
+%%Some examples of macros or new commands.
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\integers}{\mathbb{Z}}
+\addtolength{\oddsidemargin}{-.75in}
+\addtolength{\evensidemargin}{-.75in}
+\addtolength{\textwidth}{1.5in}
+\addtolength{\topmargin}{-1in}
+\addtolength{\textheight}{2.25in}
+%%Set margins, defaults are ok. 
+
+\begin{document}
+\begin{flushleft} 
+%%Paragraphs will not be indented in this 
+%%environment
+\centerline{\LARGE{Quiz 4}} 
+\vspace{5 mm}
+
+{Student ID Number:}\hfill  
+%%\hfill forces following text 
+%%to right margin
+{Name \rule {2 in}{0.01in}}\\
+Math 173B, 1PM
+\\
+%%gives a line of length 2in and 
+%%thickness 0.01in
+{Please justify all your answers}\hfill {February 20, 2020}
+\\
+{Please also write your full name on the back} 
+
+\medskip
+\end{flushleft}
+
+\begin{enumerate}
+	\item True or false?
+	\begin{enumerate}
+		\item Let $E$ be an elliptic curve over the finite field $\field_{p^k}$. Then for any integer $m$, the $m$-torsion subgroup $E(\field_{p^k})[m]$ is isomorphic to $\integers/m\integers \times \integers/m\integers$.
+		\item The Weil pairing, $e_m: E(\field_q)[m]\to \field_q^\times$ satisfies $e_m(P, P) = 1$ for all $P\in E(\field_q)[m]$.
+	\end{enumerate}
+	\item Let $E$ be an elliptic curve over $\field_{q}$ and let $P\in E(\field_q)[\ell]$ be a point of prime order such that there is an $\ell$-distortion map for $P$. Let $\hat{e}_\ell$ be the associated modified Weil pairing. Show that you can use $\hat{e}_\ell$ to solve the decision Diffie-Hellman problem. That is, given $aP$, $bP$, and $cP$, show that we can decide whether $abP = cP$.
+	\vfill
+\end{enumerate}
+
+%\vfill will divide page evenly
+%use \begin{enumerate} environment for ordered lists
+\end{document}

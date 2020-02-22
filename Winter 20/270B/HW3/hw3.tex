@@ -105,7 +105,10 @@ Give an example of a martingale $(X_n)$ such that $X_n\to -\infty$ a.s.
 \noindent\textbf{Problem 4. }
 Let $(X_n)$ be a martingale that is bounded a.s. either above or below by some constant $M$. Show that $\sup_n \E|X_n|<\infty$.
 \begin{proof}
-	If $X_n$ is bounded below, then $X_n+c$ is a nonnegative martingale for some $c>0$. By the martingale convergence theorem, $X_n+c$ converges almost surely to some limit $Y$ with $\E|Y|<\infty$. Consequently, $X_n$ also converges a.s. to an integrable function, so $\sup_n \E|X_n|<\infty$. If $X_n$ is bounded above, then $-X_n+c$ is a nonnegative martingale for some $c$ and the same argument works.
+	If $X_n$ is bounded below, then $X_n+M$ is a nonnegative martingale. By the martingale convergence theorem, $X_n+M$ converges almost surely to some limit $Y$ with $\E|Y|<\infty$. Consequently, $X_n$ also converges a.s. to an integrable function, so $\sup_n \E|X_n|<\infty$. If $X_n$ is bounded above, then $-X_n+M$ is a nonnegative martingale and the same argument works.
 \end{proof}
+
+\noindent\textbf{Problem 5. }
+
 
 \end{document}

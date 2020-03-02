@@ -1,0 +1,107 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{bbm}
+\usepackage{hyperref}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{March 2, 2020} }
+\begin{center}
+{\bf \Large 271B - Homework 4}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\noindent\textbf{Problem 1. }
+Consider the process
+\[
+X_t = B^{(1)}_tB^{(2)}_t + e^{t}-t_0 + (B^{(3)}_t)^2,
+\]
+where $\E[B^{(i)}_tB^{(j)}_t] = \rho_{i,j}t$. Find the stochastic differential equation satisfied by this process.
+\begin{solution}
+	Let $g(t, x_1, x_2, x_3) = x_1x_2+e^t-t_0+x_3^2$. We apply It\^o's lemma to obtain
+	\begin{align*}
+		dX_t &= e^tdt + B^{(2)}_tdB^{(1)}_t + B^{(1)}_tdB^{(2)}_t + 2B^{(3)}_tdB^{(3)}_t + (dB^{(3)}_t)^2 + \rho_{1,2}dt\\
+		&= (e^t + 1+\rho_{1,2})dt + B^{(2)}_tdB^{(1)}_t + B^{(1)}_tdB^{(2)}_t + 2B^{(3)}_tdB^{(3)}_t
+	\end{align*}
+\end{solution}
+
+
+\noindent\textbf{Problem 2. }
+Consider
+\[
+Z_t = \mu_tdt + \theta_t\cdot dB_t,\ Z_0 = z_0,
+\]
+for $B$ a standard $n$-dimensional Brownian motion and $\theta$ a bounded deterministic $n$-dimensional vector process and $\mu$ a bounded deterministic process, all progressively measurable.
+\begin{enumerate}[(a)]
+	\item Use the Kolmogorov forward equation to derive the density of $Z_T$.
+	\begin{solution}
+		Let $p_t(x)$ be the density of $Z_t$. The Kolmogorov forward equation says that
+		\[
+		\begin{cases}\partial_tp_t(x) = \left(-\mu_t\partial_x + \frac{1}{2}|\theta_t|^2\partial^2_x\right)p_t(x)\\
+		p_0(x) = \delta(x - z_0)
+		\end{cases}.
+		\]
+		If $\widehat{p}_t(\omega)$ is the Fourier transform of $p_t(x)$, then after integrating by parts twice we arrive at
+		\[
+		\begin{cases}\partial_t\widehat{p}_t(\omega) = \left(i\omega\mu_t -\frac{1}{2}\omega^2|\theta_t|^2\right)\widehat{p}_t(\omega)\\
+		\widehat{p}_0(\omega) = e^{iz_0\omega}
+		\end{cases}.
+		\]
+		The first equation is a separable ODE, so we obtain
+		\[
+		\widehat{p}_t(\omega) = e^{iz_0\omega}\exp\left[\int_0^t\left(i\omega\mu_s - \frac{1}{2}\omega^2|\theta_s|^2 \right)ds \right].
+		\]
+		Taking the inverse Fourier transform gives $p_t(x)$.
+	\end{solution}
+\end{enumerate}
+
+\noindent\textbf{Problem 3. }
+Show that
+\[
+\int_0^tB_s\circ dB_s = \frac{1}{2}B_t^2.
+\]
+\begin{proof}
+	For all $i$ let $t_i^* = \frac{1}{2}(t_i +t_{i-1})$. We have
+	\begin{align*}
+		\sum_{i = i}^{t/\Delta t}B_{t_i^*}(B_{t_i}-B_{t_{i-1}}) &= \sum_{i = i}^{t/\Delta t}(B_{t_{i-1}} + (B_{t_i^*}-B_{t_{i-1}}))(B_{t_i}-B_{t_{i-1}})\\
+		&= \sum_{i=1}^{t/\Delta t}B_{t_{i-1}}(B_{t_i}-B_{t_{i-1}}) + \sum_{i=1}^{t/\Delta t}(B_{t_i^*} - B_{t_{i-1}})[(B_{t_i^*} - B_{t_{i-1}})+(B_{t_i} - B_{t_i^*})].
+	\end{align*}
+	The first sum converges to the It\^o integral $\int_0^tB_sdB_s = \frac{1}{2}B_t^2 - \frac{1}{2}t^2$, while the second sum converges to $\frac{1}{2}t^2$. In all, we have that $\int_0^tB_s\circ dB_s = \frac{1}{2}B_t^2$.
+\end{proof}
+
+\noindent\textbf{Problem 4. }
+Show that the following quantities define metrics on the appropriate spaces.
+\begin{gather*}
+	[f] = \sum_{n=1}^\infty 2^{-n}\left( 1 \land \sqrt{\E\int_0^nf_s^2\ ds} \right)\\
+	\|X\| = \sum_{n=1}^\infty 2^{-n}\left(1 \land \sqrt{\E X_n^2} \right).
+\end{gather*}
+
+\end{document}

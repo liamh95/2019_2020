@@ -1,0 +1,74 @@
+\documentclass[12pt]{article}  
+%%Read the manual for other options. 
+
+\pagestyle{empty} %%Eliminates page numbers
+%%\input rmb_macros
+%%Collect your favorite macros in a 
+%%separate file
+
+%\input amssym.def
+%\input amssym
+%\input mssymb
+%%Defines additional symbols
+
+
+
+\usepackage{graphics}
+\usepackage{amsmath,amssymb,amsthm, multicol}
+\usepackage[pdftex]{graphicx}
+\usepackage{hyperref}
+%%Use to include pictures. 
+
+%\newcommand{\comment}[1]{}
+%\newcommand{\sobolev}[2]{W^{#1,#2}}
+%\newcommand{\sobolev}[2]{L^#2_#1}
+%%Some examples of macros or new commands.
+
+\addtolength{\oddsidemargin}{-.75in}
+\addtolength{\evensidemargin}{-.75in}
+\addtolength{\textwidth}{1.5in}
+\addtolength{\topmargin}{-1in}
+\addtolength{\textheight}{2.25in}
+%%Set margins, defaults are ok. 
+
+\begin{document}
+\begin{flushleft} 
+%%Paragraphs will not be indented in this 
+%%environment
+\centerline{\LARGE{Quiz 6}} 
+\vspace{5 mm}
+{Student ID Number:}\hfill  
+%%\hfill forces following text 
+%%to right margin
+{Name \rule {2 in}{0.01in}}\\
+Math 175, 12PM
+\\
+%%gives a line of length 2in and 
+%%thickness 0.01in
+{Please justify all your answers}\hfill {February 27, 2020}
+\\
+{Please also write your full name on the back} 
+
+\medskip
+\end{flushleft}
+
+\begin{enumerate}
+	\item True or False?
+	\begin{enumerate}
+		\item A graph is a tree if and only if it is acyclic.
+		\item If every vertex in a graph $G$ has degree 2 then $G$ is a cycle.
+	\end{enumerate}
+	\item Let $G$ be a bipartite graph with parts $U$ and $V$ (that is, every edge in $G$ has one vertex in $U$ and one in $V$). What is the maximum number of edges $G$ can have?
+	\vfill
+	\item If every vertex in a graph $G$ has degree $k$ we say $G$ is $k$-regular.
+	\begin{enumerate}
+		\item Let $G$ be an $n$-vertex $k$-regular graph. How many edges does $G$ have?
+		\vfill
+		\item Show that if $G$ has $n$ vertices and is $k$-regular and $k$ is odd, then $n$ must be even.
+		\vfill
+	\end{enumerate}
+\end{enumerate}
+
+%\vfill will divide page evenly
+%use \begin{enumerate} environment for ordered lists
+\end{document}

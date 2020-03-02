@@ -103,5 +103,81 @@ Show that the following quantities define metrics on the appropriate spaces.
 	[f] = \sum_{n=1}^\infty 2^{-n}\left( 1 \land \sqrt{\E\int_0^nf_s^2\ ds} \right)\\
 	\|X\| = \sum_{n=1}^\infty 2^{-n}\left(1 \land \sqrt{\E X_n^2} \right).
 \end{gather*}
+\begin{proof}
+	Symmetry and ``zero if and only if zero'' are obvious, so we check the triangle inequality. This essentially follows from the triangle inequality of the $L^2(\Prob \otimes \text{Leb})$ norm: we recognize $(\E\int_0^n f^2_s\ ds)^{1/2}$ as the $L^2$ norm of $f\cdot \ind_{\Omega \times [0, n]}$, which we write as $\|f\|_{2(n)}$. We then have
+	\[
+	1 \land \|f+g\|_{2(n)} \leq 1 \land (\|f\|_{2(n)}+\|g\|_{2(n)}).
+	\]
+	The desired conclusion follows from considering the two cases of $\|f\|_{2(n)}+\|g\|_{2(n)} \leq 1$ and $\|f\|_{2(n)}+\|g\|_{2(n)} \geq 1$. The exact same argument works for $\|X\|$.
+\end{proof}
+
+\noindent\textbf{Problem 5. }
+Consider
+\[
+Z_t = \exp\left(\int_0^t\theta_s\cdot dB_s - \frac{1}{2}\int_0^t|\theta_s|^2ds\right),
+\]
+for $B$ an $n$-dimensional standard Brownian motion and $\theta$ a bounded $n$-dimensional progressively measurable vector process.
+\begin{enumerate}[(a)]
+	\item Show that $Z$ is a martingale.
+	\begin{proof}
+		Let $Y_t$ be the expression inside the exponential defining $Z_t$:
+		\[
+		Y_t = \int_0^t\theta_s\cdot dB_s - \frac{1}{2}\int_0^t|\theta_s|^2ds.
+		\]
+		This gives
+		\[
+		dY_t = -\frac{1}{2}|\theta_t|^2dt + \theta_t\cdot dB_t,\quad (dY_t)^2 = |\theta_t|^2.
+		\]
+		By It\^o's lemma we have
+		\begin{align*}
+			dZ_t &= Z_tdY_t + \frac{1}{2}Z_t(dY_t)^2\\
+			&= Z_t\theta_t\cdot dB_t.
+		\end{align*}
+		The restrictions on $\theta$ guarantee that $Z_t\theta_t$ is of class II$^*$, so $Z_t$ is an It\^o process with only a martingale component, and is hence a martingale.
+	\end{proof}
+
+	\item Assume that $\theta$ is independent of $B$. Derive an expression for the variance of $Z_t$.
+	\begin{solution}
+	The variance of $Z_t$ is given by
+	\[
+	\Var[Z_t] = \E[Z_t^2] - \E[Z_t]^2.
+	\]
+	Since $Z_t$ is a martingale, $\E[Z_t] = \E[Z_0] = 1$. By the It\^o isometry, martingale property, and independence, we have
+	\begin{align*}
+		\E[Z_t^2] &= \E\left( \int_0^t Z_s\theta_s\cdot dB_s+1\right)^2 \\
+		&= \E\left(\int_0^tZ_s\theta_s\cdot dB_s\right)^2 + 2\E\int_0^tZ_s\theta_s\cdot dB_s + 1\\
+		&= \E\left[\int_0^tZ_s^2|\theta_s|^2ds\right]+2\sum_{i<j}\E\left(\int_0^tZ_s\theta^{(i)}_sdB^{(i)}_s\right)\E\left(\int_0^tZ_s\theta^{(j)}_sdB^{(j)}_s\right)+1\\
+		&= \E\left[\int_0^tZ_s^2|\theta_s|^2ds\right]+1.
+	\end{align*}
+	Thus, we have
+	\[
+	\Var[Z_t] = \E\left[\int_0^tZ_s^2|\theta_s|^2ds\right].
+	\]
+	\end{solution}
+\end{enumerate}
+
+\noindent\textbf{Problem 6. }
+Consider the scalar process
+\[
+dZ_t = \mu_tdt + dB_t,
+\]
+for $\mu_t$ bounded and progressively measurable. Find $X_t$ so that $Z_tX_t$ is a martingale.
+\begin{solution}
+	Let $X_t$ be defined by
+	\[
+	X_t = \exp\left(-\int_0^t\mu_t\ dB_t - \frac{1}{2}\int_0^t\mu_t^2\ dt \right).
+	\]
+	By It\^o's lemma and the same reasoning used in the previous problem, we have
+	\[
+	dX_t = -X_t\mu_t\ dB_t.
+	\]
+	We also have
+	\begin{align*}
+		d(Z_tX_t) &= Z_tdX_t + X_tdZ_t + d\langle Z_t, X_t\rangle\\
+		&= Z_t(-X_t\mu_tdB_t) + X_t(\mu_tdt + dB_t) - X_t\mu_tdt\\
+		&= X_t(1-Z_t\mu_t)dB_t.
+	\end{align*}
+	This is an It\^o process with only a martingale component, so $Z_tX_t$ is a martingale.
+\end{solution}
 
 \end{document}

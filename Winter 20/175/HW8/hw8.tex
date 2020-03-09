@@ -1,0 +1,88 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{bbm}
+\usepackage{hyperref}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\Aut}{\text{Aut}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 175 - Homework 8}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item Find the number of $n$-digit quaternary sequences (each digit is 0, 1, 2, or 3) that contain an odd number of 0's, an even number of 1's, and at least one 3.
+	\vfill
+	\item For $m, n\in \naturals$, let $\mcal{M}$ be the set of all $m\times n$ matrices whose entries are zeros or ones. Let 
+	\[
+	\mcal{M}_r = \{M\in \mcal{M}: M\text{ has at least one zero row}\}
+	\]
+	and
+	\[
+	\mcal{M}_c = \{M\in \mcal{M}: M\text{ has at least one zero column}\}.
+	\]
+	Show that the number of matrices in $(\mcal{M}\setminus \mcal{M}_r)\cap \mcal{M}_c$ is given by
+	\[
+	\sum_{i=1}^n(-1)^{i-1}\binom{n}{i}(2^{n-i}-1)^m.
+	\]
+	\vfill
+	\item Let $S_1, S_2, \ldots, S_{50}$ be subsets of a finite set $S$ such that any subset has more than half of the number of elements of $S$. Prove that there exists a subset of $S$ with at most 5 elements that has nonempty intersection with each of the 50 subsets. \textit{Hint: let $S = \{s_1, \ldots, s_n\}$ and for $s\in S$ define $d(i)$ to be the number of subsets among $S_1, \ldots, S_{50}$ that contain $s_i$. Consider the sum}
+	\[
+	d(1) + d(2) + \cdots +d(n).
+	\]
+	\vfill
+	\item Let $G = (V, E)$ be a finite graph and let $c(G)$ be the number of connected components of $G$.
+	\begin{enumerate}
+		\item Show that for any edge $e\in E$, $c(G) \geq c(G-e)-1$, where $G - e$ is the graph obtained by deleting the edge $e$ from $G$.
+		\vfill
+		\item Show that $c(G) + |E| \geq |V|$. \textit{Hint: Induction.}
+	\end{enumerate}
+	\vfill\pagebreak
+
+	\item In the last homework we defined an isomorphism of graphs. If $G$ is a graph, an \textit{automorphism} of $G$ is an isomorphism from $G$ to itself.
+	\begin{enumerate}
+		\item Let $\Aut(G)$ be the set of automorphisms of $G$. Show that $\Aut(G)$ is a group under composition.
+		\item A graph whose vertices are labeled but whose edges are not is called a \textit{labeled graph}. Let $\mcal{G}_n$ be the set of labeled graphs with vertex set $V = \{v_1, \ldots, v_n\}$. Draw a picture of all the graphs in $\mcal{G}_3$.
+		\item Show that the number of distinct labellings of a given unlabeled graph $G$ on $n$ vertices is $n!/|\Aut(G)|$. Deduce that
+		\[
+		\sum_{G\in \mcal{G}_n}\frac{n!}{|\Aut(G)|} = 2^{\binom{n}{2}}.
+		\]
+		\item Deduce further that the number of unlabeled graphs on $n$ vertices is at least
+		\[
+		\left\lceil \frac{2^{\binom{n}{2}}}{n!}\right\rceil.
+		\]
+	\end{enumerate}
+\end{enumerate}
+
+
+
+\end{document}

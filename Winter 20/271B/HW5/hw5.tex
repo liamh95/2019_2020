@@ -52,6 +52,63 @@ with $\mu(x) = x+a$, $\sigma(x) = 4x$. Assuming $X_t > 0$, find $dY_t$ when $Y_t
 		&= \frac{1}{2}X_t^{-1/2}[(X_t+a)dt] - \frac{1}{8}X_t^{-3/2}(16X_t^2dt)\\
 		&= \frac{a-3Y_t^2}{2Y_t}dt + 2Y_tdB_t.
 	\end{align*}
+	Using $dY_t$ to find $Y_t$ proved difficult. Finding $X_t$ and taking the square root worked however. We use the stochastic version of integrating factors. Define the function
+	\[
+	F_t = \exp\left(\frac{1}{2}\int_0^t16\ ds -\int_0^t4\ dB_s \right) = \exp(8t - 4B_t).
+	\]
+	From this we get
+	\[
+	dF_t = 16F_tdt - 4F_tdB_t.
+	\]
+	We apply the multivariable It\^o lemma to obtain (after some tedious algebra)
+	\begin{align*}
+	d(X_tF_t) &= X_tdF_t + F_tdX_t + d\langle X_t, F_t\rangle\\
+	&= F_t(a+X_t)dt.
+	\end{align*}
+	Setting $Z_t = X_tF_t$, we obtain the linear DE
+	\[
+	\frac{dZ_t}{dt}-Z_t = aF_t.
+	\]
+	We multiply through by $e^{-t}$ to obtain
+	\[
+	\frac{d}{dt}(Z_te^{-t}) = ae^{7t-4B_t}.
+	\]
+	Integrating through and substituting $X_t$ back in gives
+	\[
+	X_t = \frac{1 + \int_0^t\exp(7s-4B_s)ds}{\exp(7t-4B_t)}.
+	\]
+	Taking the square root gives $Y_t$.
+	\[
+	Y_t = \left(\frac{1 + \int_0^t\exp(7s-4B_s)ds}{\exp(7t-4B_t)} \right)^{1/2}.
+	\]
+\end{solution}
+
+\noindent\textbf{Problem 2. }
+Let $X_t$ be as in (\ref{sde}) but with $\mu(x) = 2x$ and $\sigma(x) = x^a$ and and $Y_t = X_t^b$. Find $b$ so that $\langle Y\rangle_t$ is linear in $t$.
+\begin{solution}
+	By It\^o's lemma we have
+	\begin{align*}
+		dY_t &= bX^{b-1}dX_t + \frac{1}{2}b(b-1)X^{b-2}(dX_t)^2\\
+		&= f(X_t)dt + bX_t^{a+b-1}dB_t,
+	\end{align*}
+	for some function $f$. Consequently we have
+	\[
+	d\langle Y\rangle_t = (bX_t^{a+b-1})^2dt.
+	\]
+	From this we compute the quadratic variation:
+	\[
+	\langle Y\rangle_t = \int_0^td\langle Y\rangle_t = b^2\int_0^tX_s^{2a+2b-2}ds.
+	\]
+	Setting $b = 1-a$ makes the exponent in the integrand zero, which makes $\langle Y\rangle_t$ linear in $t$.
+\end{solution}
+
+\noindent\textbf{Problem 3. }
+Let
+\[
+dX_t = \sqrt{1+X_t}\ dB_t,\quad X_0 = 0.
+\]
+Find $\E[X_t]$ and $\E[X_t^2]$.
+\begin{solution}
 	
 \end{solution}
 

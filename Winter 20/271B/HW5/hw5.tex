@@ -109,7 +109,66 @@ dX_t = \sqrt{1+X_t}\ dB_t,\quad X_0 = 0.
 \]
 Find $\E[X_t]$ and $\E[X_t^2]$.
 \begin{solution}
-	
+	Since $\sqrt{1+x}$ is sublinear and Lipschitz on $[0, \infty)$, the SDE solution existence and uniqueness theorem says that $\sqrt{1+X_t}$ is in class I$^*$. The given SDE then describes an It\^o process which has only a martingale component. The expectation is then given by
+	\[
+	\E[X_t] = X_0 = 0.
+	\]
+	As for the second moment, we use the It\^o isometry and the fact that $X_0 = 0$
+	\begin{align*}
+		\E[X_t^2] &= \E\left[\left(X_0 + \int_0^t\sqrt{1+X_s}dB_s\right)^2 \right]\\
+		&= \E\left[\int_0^t(1+X_s)ds \right]\\
+		&= \int_0^t\E[1+X_s]ds\\
+		&= t.
+	\end{align*}
 \end{solution}
+
+\noindent\textbf{Problem 4. }
+Let $Y$ be an $\mcal{F}_T$-measurable random variable such that $\E[|Y|^2]<\infty$ and consider Doob's martingale
+\[
+M_t = \E[Y|\mcal{F}_t],\quad 0\leq t\leq T
+\]
+with respect to the filtration $\{\mcal{F}_t\}_{0\leq t\leq T}$.
+\begin{enumerate}[(a)]
+	\item Show that $\E[M_t^2]<\infty$ for all $t\in [0, T]$.
+	\begin{proof}
+		This follows from the conditional form of Jensen's inequality.
+		\begin{align*}
+			\E[M_t^2]  = \E[\E[Y|\mcal{F}_t]^2] \leq \E[\E[Y^2|\mcal{F}_t]] = \E[Y^2]<\infty.
+		\end{align*}
+	\end{proof}
+
+	\item By the martingale representation theorem, there exists a unique process $g(t, \omega)$ in class I$^*$ such that
+	\[
+	M_t = \E[M_0] + \int_0^tg(s, \omega)dB_s,\quad t\in [0,T].
+	\]
+	Find $g$ in the following cases.
+	\begin{enumerate}[(i)]
+		\item $Y(\omega) = B^2_T(\omega)$.
+		\begin{solution}
+			\begin{align*}
+				M_t &= \E[(B_T-B_t+B_t)^2|\mcal{F}_t]\\
+				&= \E[(B_T-B_t)^2|\mcal{F}_t] + 2\E[B_t(B_T-B_t)|\mcal{F}_t] + \E[B_t^2|\mcal{F}_t]\\
+				&= (T-t) + B_t^2\\
+				&= T + \int_0^tB_s\ dB_s.
+			\end{align*}
+			So $g(s, \omega) = B_s(\omega)$.
+		\end{solution}
+
+		\item $Y(\omega) = B^3_T(\omega)$.
+		\begin{solution}
+			% \begin{align*}
+			% 	M_t &= \E[(B_T-B_t+B_t)^3|\mcal{F}_t]\\
+			% 	&= \E[(B_T-B_t)^3|\mcal{F}_t] + 3\E[B_t(B_T-B_t)^2|\mcal{F}_t] + 3\E[B_t^2(B_T-B_t)|\mcal{F}_t] + \E[B_t^3|\mcal{F}_t]\\
+			% 	&= 3B_t(T-t)
+			% \end{align*}
+			We've seen that
+			\begin{align*}
+			B_t^3 &= 3\int_0^tB_s\ ds + 3\int_0^tB_s^2\ dB_s\\
+			&= 3tB_t + 3\int_0^t(B_s^2-s)dB_s\\
+			&= 3\int_0^t(B_s^2 + (t-s))dB_s.
+			\end{align*}
+		\end{solution}
+	\end{enumerate}
+\end{enumerate}
 
 \end{document}

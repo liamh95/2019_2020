@@ -181,7 +181,19 @@ with respect to the filtration $\{\mcal{F}_t\}_{0\leq t\leq T}$.
 
 		\item $Y(\omega) = \exp(\sigma B_T)$, $\sigma \in \reals$ is a constant.
 		\begin{solution}
-			
+			Since $\exp(\sigma B_t - \frac{1}{2}\sigma^2t)$ is a martingale we have
+			\begin{align*}
+				M_t &= \E\left[\exp(\sigma B_T-\frac{1}{2}\sigma^2T)\exp(\frac{1}{2}\sigma^2T)|\mcal{F}_t \right]\\
+				&= \exp(\sigma B_t-\frac{1}{2}\sigma^2t)\exp(\frac{1}{2}	\sigma^2T).
+			\end{align*}
+			Applying It\^o's lemma to the function $g(t, x) = \exp(\sigma x - \frac{1}{2}\sigma^2t)\exp(\frac{1}{2}\sigma^2T)$ shows that $M_t$ solves the SDE
+			\[
+			dM_t = \sigma M_t\ dB_t.
+			\]
+			From this we see that
+			\[
+			g(s, \omega) = \sigma\exp\left(\sigma B_s(\omega) + \frac{1}{2}\sigma^2(T-s) \right).
+			\]
 		\end{solution}
 	\end{enumerate}
 \end{enumerate}

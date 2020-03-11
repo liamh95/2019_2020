@@ -156,17 +156,32 @@ with respect to the filtration $\{\mcal{F}_t\}_{0\leq t\leq T}$.
 
 		\item $Y(\omega) = B^3_T(\omega)$.
 		\begin{solution}
-			% \begin{align*}
-			% 	M_t &= \E[(B_T-B_t+B_t)^3|\mcal{F}_t]\\
-			% 	&= \E[(B_T-B_t)^3|\mcal{F}_t] + 3\E[B_t(B_T-B_t)^2|\mcal{F}_t] + 3\E[B_t^2(B_T-B_t)|\mcal{F}_t] + \E[B_t^3|\mcal{F}_t]\\
-			% 	&= 3B_t(T-t)
-			% \end{align*}
-			We've seen that
 			\begin{align*}
-			B_t^3 &= 3\int_0^tB_s\ ds + 3\int_0^tB_s^2\ dB_s\\
-			&= 3tB_t + 3\int_0^t(B_s^2-s)dB_s\\
-			&= 3\int_0^t(B_s^2 + (t-s))dB_s.
+				M_t &= \E[(B_T-B_t+B_t)^3|\mcal{F}_t]\\
+				&= \E[(B_T-B_t)^3|\mcal{F}_t] + 3\E[B_t(B_T-B_t)^2|\mcal{F}_t] + 3\E[B_t^2(B_T-B_t)|\mcal{F}_t] + \E[B_t^3|\mcal{F}_t]\\
+				&= 3B_t(T-t) + B_t^3.
 			\end{align*}
+			Let $g(t, X)= 3x(T-t)+x^3$ so that $M_t = g(t, B_t)$. By It\^o's lemma
+			\begin{align*}
+				dM_t &= -3B_tdt + [3(T-t)+3B_t^2]dB_t+3B_tdt = 3[(T-t)+B_t^2]dB_t.
+			\end{align*}
+			Consequently, our $g(s, \omega) = 3[(T-t)+B_t^2]$.
+			% We've seen that
+			% \begin{align*}
+			% B_t^3 &= 3\int_0^tB_s\ ds + 3\int_0^tB_s^2\ dB_s\\
+			% &= 3tB_t + 3\int_0^t(B_s^2-s)dB_s\\
+			% &= 3\int_0^t(B_s^2 + (t-s))dB_s.
+			% \end{align*}
+			% Conditioning on $\mcal{F}_t$ gives $M_t$:
+			% \[
+			% M_t = \E[B_T(\omega)|\mcal{F}_t] = 3\int_0^t(B_s^2 + (t-s))dB_s.
+			% \]
+			% We then have $g(s, \omega) = B_s^2(\omega) + t-s$.
+		\end{solution}
+
+		\item $Y(\omega) = \exp(\sigma B_T)$, $\sigma \in \reals$ is a constant.
+		\begin{solution}
+			
 		\end{solution}
 	\end{enumerate}
 \end{enumerate}

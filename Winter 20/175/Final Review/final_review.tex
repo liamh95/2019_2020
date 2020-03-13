@@ -1,0 +1,120 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{bbm}
+\usepackage{hyperref}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 175 - Final Exam Review Problems}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item Calculate the following sum (that is, find an explicit formula with at most two summands):
+	\[
+	\sum_{k=3}^n\binom{n}{k}\binom{k}{3}.
+	\]
+	\item Stanford beats Washington at soccer by the score 8-6. Joe didn't watch the game but he knows the game was never tied except for 0-0 at the beginning. How many arrangements of the goals (that is, sequences of length 14 with 8 S's and 6 W's) exist?
+	\item Let $a_n$ be the number of sequences of length $n$ over the alphabet $\{0, 1, 2\}$ for which no two consecutive digits are even. Find an explicit expression for $a_n$.
+	\item Calculate the following sum
+	\[
+	\sum_{k=0}^n \binom{2n+1}{k}.
+	\]
+	\item In how many non-negative integers smaller than 10000 does each of the digits 2, 5, 8 appear at least once?
+	\item Suppose that we color the squares of a $6\times 16$ chessboard using 3 colors. Show that there exists a rectangle with all of its corners the same color.
+	\item Show that if a graph $G$ on $n$ vertices has more than $n^2/4$ edges, then it must contain a triangle.
+	\item How many labeled trees with $n$ vertices have exactly $n/2$ leaves? \textit{Hint: Look at Pr\"ufer codes.}
+	\item Let $A$ be an $n\times n$ matrix such that all the entries are nonnegative. Moreover, assume that for each $i$ and for each $j$ we have
+	\[
+	\sum_{k=1}^na_{ik} = 1,\quad\text{and}\quad\sum_{k=1}^na_{kj}=1.
+	\]
+	That is, the sum of each row and each column is 1. Show that there is a permutation $\pi:[n]\to [n]$ for which all the entries $a_{i\pi(i)}$ are positive. \textit{Hint: Define a bipartite graph whose parts are copies of $[n]$ with appropriate edges.}
+	\item Let $a_n$ be the number of nonnegative integer solutions to $x_1 + \cdots + x_{10} = n$ for which $x_1, \ldots, x_5$ are even and $x_6, \ldots, x_{10}$ are odd. Find the generating function of the sequence $(a_n)$ and calculate $a_{2020}$.
+
+	\item Let $a_n$ be the number of subsets $A\subseteq [n]$ for which the following restriction holds: for every $i\leq n$, if $i\in A$ then at least one of $i-1$, $i+1$ is in $A$ as well. For example, if $5\in A$ then at least one of $4$ and $6$ is in $A$. Find a recurrence relation for $a_n$. \textit{Hint: write $A$ as a binary vector.}
+
+	\item Show that there exists an integer $k$ for which the number $7^k$ ends with the digits 0001 (i.e. $7^k - 1$ is divisible by 10000).
+	\item How many nonnegative integers solutions are there to $x_1+x_2+x_3 = 70$ if
+	\begin{enumerate}
+		\item $x_1, x_2, x_3\leq 30$?
+		\item $x_2, x_3\geq 15$ and $x_1\geq 10$?
+		\item $x_1\leq 5$, $x_2\leq 40$ and $x_3\leq 40$?
+	\end{enumerate}
+
+	\item Consider the grid $\integers\times \integers$. Suppose that Fred the mosquito is standing at $(0, 0)$ and wants to reach $(n, k)$. At each time step, Fred can move either one step up or one step to the right. In how many ways can Fred reach $(n, k)$? What if Fred wants to reach $(100, 70)$ but is not allowed to pass through $(60, 50)$?
+	\item Let $m\geq n$. Show that the number of surjective functions $f:[m]\to [n]$ is precisely
+	\[
+	\sum_{k=0}^{n-1}(-1)^k\binom{n}{k}(n-k)^m.
+	\] 
+	When $m = n$ prove the identity
+	\[
+	n!=\sum_{k=0}^{n-1}(-1)^k\binom{n}{k}(n-k)^n.
+	\]
+	\item How many positive integers less than 1000 have no factor between 1 and 10?
+	\item Let $A$ be an $n\times n$ matrix with entries $1, 2, \ldots, n^2$ (each number appears exactly once in $A$). Count the number of matrices $B$ with the same property for which no row of $B$ is identical to any of the rows of $A$.
+
+	\item Find a generating function for $a_k$ in each case.
+	\begin{enumerate}
+		\item $a_k$ is the number of solutions to $x_1+x_2+x_3 = k$ where $x_i\geq 0$ for each $i$ and $x_i\neq x_j$ for all $i\neq j$.
+		\item $a_k$ is the number of solutions to $x_1+x_2+x_3+x_4 = k$ where $x_i\geq 0$ for each $i$, $x_1$ is divisible by 4, $x_2<5$ and $x_3\leq x_4$.
+		\item $a_k$ is the number of solutions to $x_1 + \cdots + x_r\leq k$.
+	\end{enumerate}
+
+	\item Find the coefficient of $x^{25}$ in $(1+x^3+x^8)^{10}$.
+
+	\item Draw $n$ straight lines in the plane so that each pair of lines intersects but no three lines intersect. Find a recurrence relation for $a_n$, the number of regions the plane is divided into after drawing the $n$ lines. Find an explicit formula for $a_n$ using generating functions.
+
+	\item Let $G$ be a $d$-regular graph on $n$ vertices containing no cycle of length 4.
+	\begin{enumerate}
+		\item Count the number of paths with three vertices in $G$.
+		\item Show that no two vertices have more than one common neighbor.
+		\item Deduce that $d<2\sqrt{n}$.
+	\end{enumerate}
+
+	\item Let $G$ be a graph with $n$ vertices.
+	\begin{enumerate}
+		\item Show that if $G$ is disconnected, then it can have at most $\binom{n-1}{2}$ edges.
+		\item Show that if the minimum degree of $G$ is at least $n/2$, then it is connected.
+		\item Show that if $G$ has no triangles and the minimum degree is at least $n/4+1$, then it is connected.
+	\end{enumerate}
+
+	\item Let $G = (A\cup B, E)$ is a bipartite graph and let $k$ be a positive integer. Suppose that for each $X\subseteq A$ we have $|N(X)|\geq |X|-k$. Prove that there exists a matching which saturates at least $|A|-k$ vertices in $A$.
+
+	\item Let $G = (A\cup B, E)$ be a bipartite graph such that for all $v\in A$, $d(v) = s$ and for all $u\in B$, $d(u) = t$. Show that if $s\geq t$ then $G$ contains a matching saturating $A$.
+
+	\item Let $S = \{1, \ldots, mn\}$ with $m\leq n$. Partition this set into sets $A_1, \ldots, A_m$ each of which has size $n$. Now take a second partitioning of $S$ into sets $B_1, \ldots, B_m$ each of which as size $n$. Show that the sets can be renumbered in such a way that for all $i$, $A_i\cap B_i \neq \emptyset.$
+
+	\item Let $k$ be a positive integer and let $G = (A\cup B, E)$ be a bipartite graph with $|A| = n$ and $|B| = kn$. Suppose that for every $X\subseteq A$ we have $|N(X)|\geq k|X|$. Show that one can partition $B = V_1\cup \ldots \cup V_k$ into disjoint sets $V_i$ such that for each $i$ there exists a perfect matching between $A$ and $V_i$.	
+\end{enumerate}
+
+
+\end{document}

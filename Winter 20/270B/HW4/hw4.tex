@@ -94,7 +94,11 @@ Let $S$ and $T$ be stopping times with respect to a filtration $(\mcal{F}_n)$. D
 
 	\item Show that if $S\leq T$ a.s. then $\mcal{F}_S\subset \mcal{F}_T$.
 	\begin{proof}
-		If $S\leq T$ a.s., then $\{S\leq T\}$ is a set with probability 1. By part (c), if $E\in \mcal{F}_S$, then all but a measure zero subset of $E$ is in $\mcal{F}_T$.
+		Suppose $F\in \mcal{F}_S$. We then have
+		\[
+		F\cap \{T\leq n\} = (F\cap \{S\leq n\})\cap \{T\leq n\} \in \mcal{F}_n,
+		\]
+		so $F\in \mcal{F}_T$.
 	\end{proof}
 \end{enumerate}
 
@@ -130,19 +134,123 @@ A die is rolled repeatedly. Which of the following are Markov chains? For those 
 \begin{enumerate}[(a)]
 	\item The largest number $X_n$ shown up to the $n$-th roll.
 	\begin{solution}
-		Intuitively, this should be a Markov chain: to check if the current roll is the largest thus far, we need only compare it to the largest roll seen before. More concretely, consider $i_1\leq i_2 \leq \cdots \leq i_n$. Then
+		Intuitively, this should be a Markov chain: to check if the current roll is the largest thus far, we need only compare it to the largest roll seen before. More concretely, consider $1\leq i_1, i_2,  \ldots, i_n\leq 6$. Then
 		\[
 		\Prob[X_{n+1} = i_{n+1}\ |\ X_n = i_n, \ldots, X_1 = i_1] = \begin{cases}
-			\frac{1}{6}&\text{if }i_{n+1}\geq i_n\\
+			i_n/6&\text{if }i_{n+1} = i_n\\
+			1/6&\text{if }i_{n+1} > i_n\\
 			0&\text{otherwise}
 		\end{cases} = \Prob[X_{n+1} = i_{n+1}\ |\ X_n = i_n].
+		\]
+		The state space of this Markov chain is $\{1, 2, 3, 4, 5, 6\}$ and the transition matrix $P_{i,j}$ is given by
+		\[
+		P_{i,j}= \begin{cases}
+			i/6&\text{if }j = i\\
+			1/6&\text{if }j > i\\
+			0&\text{otherwise}
+		\end{cases}
 		\]
 	\end{solution}
 
 	\item The number $N_n$ of sixes in $n$ rolls.
 	\begin{solution}
-		Again, intuition tells us that this should be a Markov chain: the number of sixes on the $n+1$-st roll will either be the same as or one greater than the number of sixes on the $n$-th roll. 
+		$N_n$ is a Markov chain: the number of sixes on the $n+1$-st roll will either be the same as or one greater than the number of sixes on the $n$-th roll. $N_{n+1}$ will only depend on $N_n$ since the dice rolls are independent. The state space is the set of nonnegative integers and the transition matrix is given by
+		\[
+		P_{i,j} = \begin{cases}
+			5/6&\text{if }j = i\\
+			1/6&\text{if }j = i+1\\
+			0&\text{otherwise}
+		\end{cases}.
+		\]
+	\end{solution}
+
+	\item At time $r$, the time $C_r$ since the most recent six.
+	\begin{solution}
+		If $E_n$ is the even that the $n$-th roll is a six, then we have $C_{n+1} = C_n + \ind_{E_{n+1}}$. Since the $(n+1)$-st roll is independent of the previous states of the process, we see that $C_n$ is a Markov chain. The state space is the set of nonnegative integers and its transition matrix is given by
+		\[
+		P_{i,j} = \begin{cases}
+			1/6&\text{if }j = i+1\\
+			5/6&\text{if }j = i\\
+			0&\text{otherwise}
+		\end{cases}.
+		\]
+	\end{solution}
+
+	\item At time $r$, the time $B_r$ until the next six.
+	\begin{solution}
+		If $B_r > 1$, then $B_{r+1} = B_r - 1$ almost surely - if the next six will come in $B_r>1$ rolls, then on the next roll it will come in $B_r-1$ rolls. Now if $B_r  = 1$, then the process ``restarts'' and the time until the next six will follow a geometric distribution with parameter $1/6$, i.e. $\Prob[B_{r+1} = j] = \frac{1}{6}(\frac{5}{6})^{j-1}$. In either case, the distribution of $B_{r+1}$ depends only on the value of $B_r$ and we have a Markov chain. The transition matrix is given by
+		\[
+		P_{i,j} = \begin{cases}
+			1&\text{if }i>1,\ j = i-1\\
+			\frac{1}{6}(\frac{5}{6})^{j-1}&\text{if }i=1,\ j\geq 1\\
+			0&\text{otherwise}
+		\end{cases}.
+		\]
 	\end{solution}
 \end{enumerate}
+
+\noindent\textbf{Problem 5. }
+Let $S_n$ be a simple random walk starting at $S_0 = 0$. Show that $X_n = |S_n|$ is a Markov chain.
+\begin{proof}
+	If $|S_n| = i_n$, then $S_n = i_n$ or $S_n = -i_n$. We then have for $i_n > 0$
+	\begin{align*}
+	\Prob[|S_{n+1}| = i_{n+1}\ |\ |S_n| = i_n, \ldots, |S_1|=i_1]&= \Prob[S_{n+1} = i_{n+1}\ |\ S_n = i_n, \ldots, |S_1|=i_1]\\
+	&+\Prob[S_{n+1}=-i_{n+1}\ |\ S_n = -i_n, \ldots, |S_1|=i_1]
+	\end{align*}
+\end{proof}
+
+\noindent\textbf{Problem 6. }
+Let $(X_n)$ be a Markov chain, and let $T$ be a stopping time with respect to the filtration $\mcal{F}_n = \sigma(X_1, \ldots, X_n)$. Show that
+\[
+\Prob[X_{T+1}=j\ |\ X_k = x_k\text{ for }0\leq k<T,\ X_T = i] = \Prob[X_{T+1}=j\ |\ X_T=i]
+\]
+for all $m\geq 0$ $i,j$ and $x_k$.
+\begin{proof}
+	For ease of notation, let $E_m = \{X_k = x_k$ for $0\leq k\leq m\}$. We then have
+	\begin{equation}\label{sum}
+	\Prob[X_{T+1} = j\ |\ E_T]= \sum_{n=1}^\infty\Prob[X_{T+1}=j\ |\ E_T,\ T=n]\cdot\Prob[T=n\ |\ E_T].
+	\end{equation}
+	By the definition of conditional probability we have
+	\[
+	\Prob[X_{T+1}=j\ |\ E_T,\ T=n] = \frac{\Prob[X_{T+1}=j,\ E_T,\ T=n]}{\Prob[E_T,\ T=n]} = \frac{\Prob[X_{n+1}=j,\ E_n,\ T=n]}{\Prob[E_n,\ T=n]}.
+	\]
+	Now since $T$ is a stopping time, it is $\mcal{F}_n$ measurable. I want to say that $E_n\cap \{T=n\} = E_n$. This gives, by the Markov property
+	\[
+	\Prob[X_{T+1}=j\ |\ E_T,\ T=n] = \frac{\Prob[X_{n+1}=j, E_n]}{\Prob[E_n]} = \Prob[X_{n+1}=j\ |\ E_n] = \Prob[X_{n+1}=j\ |\ X_n = i_n].
+	\]
+	Combining this with (\ref{sum}), and using the presumed stationarity of the chain, we have
+	\[
+	\Prob[X_{T+1} =j\ |\ E_T] = \Prob[X_{n+1}=j\ |\ X_n = i_n] = \Prob[X_{T+1}=j\ |\ X_T=i_T].
+	\]
+\end{proof}
+
+\noindent\textbf{Problem 7. }
+Find an example of two Markov chains $(X_n)$ and $(Y_n)$ such that $X_n+Y_n$ is not a Markov chain.
+\begin{solution}
+	Let $X_n$ be a simple symmetric random walk on $\integers$ that starts at the origin and let $Y_n$ be given by
+	\[
+	Y_n = \begin{cases}
+		1&\text{if }X_1 = 1\\
+		0&\text{if }X_1 = -1
+	\end{cases}.
+	\]
+	We've established that $X_n$ is a Markov chain. Since $Y_n$ is constant, it is also a Markov chain. However, we claim that $Z_n = X_n+Y_n$ is not a Markov chain. Intuitively, the steps $Z_n$ can take to get to $Z_{n+1}$ depend on the first step, $Z_0$. Concretely, consider $\Prob[Z_5 = 3\ |\ Z_4 = 2]$. $Z_4$ could've reached 2 in several different ways, e.g.: $-1, +1, +1, +1$ or $+2,0, 0, 0$. If $Z_1 = -1$, then the probability that $Z_5=3$ is $1/2$. On the other hand, if $Z_1 = 2$, then the probability that $Z_5 = 3$ is $0$.
+\end{solution}
+
+\noindent\textbf{Problem 8. }
+A particle performs a random walk on the vertices of a three-dimensional cube. At each step it remains where it is with probability 1/4 or moves to one of its neighboring vertices each having probability 1/4. Compute the mean number of steps until the particle returns to the vertex from which the walk started.
+\begin{solution}
+	Suppose that the particle starts at vertex $u$. Let $\mu_u$ be the expected return time. At each step the particle can stay put with positive probability, so the Markov chain is aperiodic. Furthermore, the cube is connected and finite, so the Markov chain is also irreducible. This chain then admits a stationary distribution $\pi$. We also know that $\mu_u = \frac{1}{\pi_u}$. The uniform measure $\pi_u = \frac{1}{8}$ satisfies the detailed balance equations: for $u$ and $v$ adjacent (note that $u$ is adjacent to itself here)
+	\[
+		\pi_uP_{u,v} = \pi_vP_{v,u} \iff \frac{1}{8}\cdot \frac{1}{4} = \frac{1}{8}\cdot \frac{1}{4}.
+	\]
+	We conclude that the mean number of steps until the particle returns to its starting location is 8.
+\end{solution}
+
+\noindent\textbf{Problem 9. }
+Prove that the symmetric random walk on $\integers^2$ is recurrent while the symmetric random walk on $\integers^3$ is transient.
+\begin{proof}
+	
+\end{proof}
 
 \end{document}

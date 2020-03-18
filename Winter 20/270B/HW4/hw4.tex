@@ -250,7 +250,74 @@ A particle performs a random walk on the vertices of a three-dimensional cube. A
 \noindent\textbf{Problem 9. }
 Prove that the symmetric random walk on $\integers^2$ is recurrent while the symmetric random walk on $\integers^3$ is transient.
 \begin{proof}
-	
+	Let $S_n$ be the position of the random walk at time $n$. We showed in class that a state $x$ is recurrent if
+	\[
+	\sum_{n=1}^\infty \Prob[S_n = x] = \infty.
+	\]
+	Since recurrence is a class property and all lattice points in $\integers^2$ communicate with one another, it suffices to show that $\sum_{n=1}^\infty \Prob[S_n =0]= \infty$.\\
+
+	\noindent A particle moving according to this random walk can only return to the origin on even time steps. Suppose $S_{2n} = 0$. Then the particle's up and down steps must be equal, as must be its left and right steps. If the particle takes $m$ steps up, $0\leq m\leq n$, then it must take $m$ steps down. The remaining $2n-2m$ steps must be in the left-right directions, so we have $n-m$ left steps and $n-m$ right steps. The number of ways to choose these steps is given by the multinomial coefficient, $\binom{2n}{m,m, n-m, n-m}$. There are $4^{2n}$ possible step sequences of length $2n$, so we have
+	\begin{align*}
+		\Prob[S_{2n} = 0] = 4^{-2n}\sum_{m=0}^n\binom{2n}{m, m, n-m, n-m}.
+	\end{align*}
+	The multinomial coefficient $\binom{2n}{m, m, n-m, n-m}$ represents choosing two sets of $m$ elements and two sets of $n-m$ elements. This process can be thought of as making two sets with $n$ elements, each with $m$ distinguished elements. This can be done by first splitting the $2n$ elements into two sets of size $n$, and then picking $m$ elements from both of these subsets. This gives
+	\[
+	\Prob[S_{2n}=0] = 4^{-2n}\sum_{m=0}^n\binom{2n}{n}\binom{n}{m}^2.
+	\]
+	We claim that $\sum_{m=0}^n\binom{n}{m}^2 = \binom{2n}{n}$. Split the $2n$ elements into two sets of size $n$. Each term in this sum represents picking $m$ elements from one set and $n-m$ from the other, since $\binom{n}{m} = \binom{n}{n-m}$. Summing over $m$ then counts all ways to choose a subset of size $n$. We then have
+	\[
+	\Prob[S_{2n}=0] = \frac{1}{4^{2n}}\binom{2n}{n}^2.
+	\]
+	We apply Stirling's approximation to check out the asymptotics:
+	\[
+	\Prob[S_{2n}=0] \sim \frac{1}{4^{2n}}\left(\frac{2^{2n}}{\sqrt{\pi n}}\right)^2 =\frac{1}{\pi n}.
+	\]
+	This quantity isn't summable in $n$, so the Markov chain is recurrent.
 \end{proof}
+
+\noindent\textbf{Problem 10. }
+Which of the following are reversible Markov chains?
+\begin{enumerate}[(a)]
+	\item Move from 0 to 1 with probability $p$ and stay at 0 with probability $1-p$; move from 1 to 0 with probability $q$ and stay at 1 with probability $1-q$.
+	\begin{solution}
+		If this chain were reversible, it would give an invariant measure $\pi$ that satisfies the detailed balance equations. The transition matrix for this chain is given by
+		\[
+		P = \begin{bmatrix}
+			1-p & p\\
+			q & 1-q
+		\end{bmatrix}.
+		\]
+		The condition that $[\pi_0\ \pi_1]$ is a left eigenvector with eigenvalue 1 forces $p\pi_0 = q\pi_1$. This is exactly the detailed balance condition, so the chain is reversible if and only if it has a stationary measure. If $p = q= 0$, then $P$ is the identity matrix and every measure is stationary: the chain is constant. If neither $p$ nor $q$ is zero, then $\pi_0 = \frac{q}{p}\pi_1$ and normalization gives the unique stationary measure. If say $p = 0$ and $q\neq 0$, then $[1\ 0]$ is the stationary measure. In all cases, the chain is reversible.
+	\end{solution}
+
+	\item A random walk on the vertices of a given triangle: at each time, move to the next vertex counterclockwise with probability $p$ and clockwise with probability $1-p$.
+	\begin{solution}
+		Since the triangle is an odd cycle, this chain is aperiodic. All states communicate, so the chain is also irreducible. We conclude that the chain admits a unique stationary measure. The chain is reversible if and only if this measure satisfies the detailed balance condition. If we label the vertices of the triangle 1, 2, and 3 in a clockwise fashion, the transition matrix of the chain becomes
+		\[
+		P = \begin{bmatrix}
+			0 & 1-p & p\\
+			p & 0 & 1-p\\
+			1-p & p & 0
+		\end{bmatrix}.
+		\]
+		We can see by inspection that the uniform measure $\pi = \frac{1}{3}[1\ 1\ 1]$ is stationary. $\pi$ satisfying the detailed balance condition $\pi_i P_{i,j} = \pi_jP_{j,i}$ is equivalent to $P$ being symmetric. This holds if and only if $p = 1/2$. We conclude that the chain is reversible if and only if $p=1/2$.
+	\end{solution}
+\end{enumerate}
+
+\noindent\textbf{Problem 11. }
+A king performs a random walk on a chessboard; at each step it is equally likely to make any one of the available moves and never stays put. What is the mean recurrence time of a corner square?
+\begin{solution}
+	The chain is clearly irreducible since the king can move between any two squares in a finite amount of time. It is also aperiodic since if the king starts on any square, it can return in two or three moves. Thus, the chain admits a unique stationary measure.\\
+
+	\noindent We showed in class that in a random walk on a connected graph, the entry $\pi_i$ of the stationary distribution is proportional to the degree of vertex $i$,
+	\[
+	\pi_i = \frac{\deg i}{2\cdot e},
+	\]
+	where $e$ is the number of edges in the graph. We use the handshaking lemma to count the number of edges:
+	\[
+	2e = \sum_{i}\deg i = \underbrace{3\cdot 4}_{\text{corners}} + \underbrace{5\cdot 24}_{\text{non-corner boundary}} + \underbrace{8\cdot 36}_{\text{internal}} = 420.
+	\]
+	The stationary probability of a corner vertex is then $3/420 = 1/140$. Since the mean return time is the reciprocal of the stationary probability, the mean return time of a corner vertex is 140.
+\end{solution}
 
 \end{document}

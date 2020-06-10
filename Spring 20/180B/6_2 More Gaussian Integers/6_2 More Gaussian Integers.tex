@@ -1,0 +1,75 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 180B - More on Gaussian Integers}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item Find a greatest common divisor for each of the following pairs of Gaussian integers.
+	\begin{enumerate}
+		\item $\alpha = 8+38i$ and $\beta = 9+59i$
+		\item $\alpha = -9+19i$ and $\beta= -19+4i$
+	\end{enumerate}
+
+	\vfill
+
+	\item Let $R$ be the following set of complex numbers:
+	\[
+	R = \{a+bi\sqrt{5}: a,b\in \integers\}.
+	\]
+	\begin{enumerate}
+		\item Verify that $R$ is a ring.
+		\vfill
+		\item Show that the only units in $R$ are $1$ and $-1$.
+		\vfill
+		\item Recall that an element $\alpha$ of $R$ is irreducible if and only if its only divisors in $R$ are units and unit multiples of $\alpha$. Prove that 2 is an irreducible element of $R$.
+		\vfill
+		\item Define the norm of an element $\alpha = a+bi\sqrt{5}$ to be $N(\alpha) = \alpha\bar{\alpha} = a^2+5b^2$. Let $\alpha = 11+2i\sqrt{5}$ and $\beta = 1+i\sqrt{5}$. Show that it is not possible to find elements $\gamma$ and $\rho$ in $R$ satisfying
+		\[
+		\alpha = \beta\gamma + \rho\quad\text{and}\quad N(\rho)<N(\beta).
+		\]
+		Thus, $R$ does not have the division with remainder property.
+
+		\vfill
+
+		\item Show that 2 does not divide either factor in the product.
+		\[
+		(1+i\sqrt{5})(1-i\sqrt{5}) = 6.
+		\]
+		Conclude that 2 is not prime in $R$.
+
+		\vfill
+
+		\item Conclude that $R$ does not have the unique factorization property
+		\vfill
+	\end{enumerate}
+\end{enumerate}
+
+\end{document}

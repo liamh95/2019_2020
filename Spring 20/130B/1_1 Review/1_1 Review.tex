@@ -1,0 +1,110 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{tikz}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\affine}{\mathbb{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 130B - Review of 130A}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\textbf{Do the fourth problem in each section.}
+\section{Combinatorics}
+\begin{enumerate}
+	\item Give a combinatorial explanation of the identity
+		\[
+		\binom{n}{r} = \binom{n}{n-r}.
+		\]
+
+
+	\item From ten married couples, we want to select a group of six people that is not allowed to contain a married couple. How many choices are there? How many choices are there if the group must also consist of three men and three women?
+
+
+	\item 1500 teams are competing in a soccer tournament. The organizers let the teams know that every game must have a winner and that the team that loses a game is immediately excluded from the tournament. how many games will be played until the champion is known?
+
+	\item Determine the number of solutions to the inequality 
+	\[
+		x_1 + x_2 + \cdots + x_n \leq k,
+	\]
+	where each $x_i$ is a nonnegative integer.
+
+
+\end{enumerate}
+
+\section{Axioms of Probability}
+\begin{enumerate}
+
+	\item If a die is rolled four times, what is the probability that 6 comes up at least once?
+
+
+
+	\item An urn contains $n$ white and $m$ black balls, where $n$ and $m$ are positive numbers.
+	\begin{enumerate}
+	 	\item If two balls are randomly withdrawn, what is the probability that they are the same color?
+	 	\item If a ball is randomly withdrawn and then replaced before the second one is drawn, what is the probability that the withdrawn balls are the same color?
+	 	\item Show that the probability in part (b) is always larger than the one in part (a).
+	\end{enumerate} 
+
+	\item Show that if $\Pr[A_i] = 1$ for all $i\geq 1$ then $\Pr[\cap_{i\geq 1}A_i] = 1$.
+
+	\item Consider an experiment whose sample space consists of a countably infinite number of points. Show that not all points can be equally likely. Can all points have a positive probability of occurring?
+
+\end{enumerate}
+
+\section{Conditional Probability and Independence}
+\begin{enumerate}
+
+	\item Two fair dice are rolled. What is the conditional probability that at least one lands on 6 given that the dice land on different numbers?
+
+	\item Three cards are randomly selected, without replacement, from an ordinary deck of 52 playing cards. Compute the conditional probability that the first card selected is a spade given that the second and third cards are spades.
+
+	\item In a class there are four first-year boys, six first-year girls, and six sophomore boys. How many sophomore girls must be present if sex and grade level are to be independent when a student is selected at random?
+
+	\item Prove or give a counterexample. If $E_1$ and $E_2$ are independent, then they are conditionally independent given $F$.
+\end{enumerate}
+
+\section{Random Variables}
+\begin{enumerate}
+	\item If $X$ has distribution function $F$, what is the distribution function of $e^X$?
+	
+	\item Let $X$ be a binomial random variable with parameters $(n, p)$. What value of $p$ maximizes $\Pr[X=k]$ for $k = 0, 1, \ldots, n$?
+
+	\item An urn initially contains one red and one blue ball. At each stage, a ball is randomly chosen and then replaced along with another of the same color. Let $X$ denote the selection number of the first chosen ball that is blue. For instance, if the first selection is red and the second is blue then $X = 2$.
+	\begin{enumerate}[(a)]
+		\item Find $\Pr[X>i]$, $i\geq 1$.
+		\item Show that with probability 1, a blue ball is eventually chosen. (That is, show that $\Pr[X<\infty]=1$.)
+		\item Find $\E[X]$.
+	\end{enumerate}
+
+	\item Take a stick of finite length and choose two points on it uniformly at random to cut. What is the probability that you can form a triangle with the three pieces? (\textit{Hint: Set up coordinates and let $X$ and $Y$ be random variables corresponding to the breaking points.})
+\end{enumerate}
+
+\end{document}

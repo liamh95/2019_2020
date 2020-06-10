@@ -1,0 +1,57 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 130B - Graphs and Expectation}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item Let $G = (V, E)$ be a (simple) graph with finite vertex set. Show that $\sum_{v\in V}d(v) = 2|E|$, where $d(v)$ is the \textit{degree} of the vertex $v$ (the number of edges incident to $v$).
+
+	\vfill
+
+	\item Recall that the random graph $G\sim \mcal{G}(n,p)$ has $n$ vertices and each pair of vertices has an edge between them with probability $p$, independent of one another. Show that if $p = o(1/n)$ then $G\sim \mcal{G}(n,p)$ has no cycles with probability $1-o(1)$. \textit{Hint: Fix some $t\geq 3$ and let $X_t$ be the number of cycles of length $t$. Calculate $E[X_t]$. You might want to use the fact that $\binom{n}{k}\leq \frac{n^k}{k!}$.}
+
+	\vfill
+
+	\item Let $G = (V, E)$ be a simple graph. Recall that an independent set in $G$ is a set of vertices, no two of which have an edge between them. The \textit{independence number} $\alpha(G)$ is the size of the largest independent set in $G$. Here we'll prove that
+	\begin{equation}\label{result}
+		\alpha(G)\geq \sum_{v\in V(G)}\frac{1}{d(v)+1}.
+	\end{equation}
+	\begin{enumerate}
+		\item Choose an ordering $v_1, \ldots, v_n$ of $V(G)$ uniformly at random. Let $S$ be the set of all vetices that appear before all of their neighbors in the ordering. Show that $S$ is an independent set.
+
+		\vfill
+
+		\item For each vertex $v$, let $X_v$ be the indicator random variable which has value 1 if $v\in S$ and 0 otherwise. Compute $E[X_v]$. Use this to compute $E[|S|]$ and deduce (\ref{result}).
+	\end{enumerate}
+	\vfill
+\end{enumerate}
+
+\end{document}

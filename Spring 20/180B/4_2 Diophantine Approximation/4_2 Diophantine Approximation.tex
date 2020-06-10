@@ -1,0 +1,61 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 180B - Diophantine Approximation}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item Show that if $d$ is divisible by a prime congruent to 3 mod 4 then $x^2 - dy^2 = -1$ has no solutions in integers.
+
+	\vfill
+
+	\item Prove that there exist irrational numbers $\alpha$ and $\beta$ such that $\alpha^\beta$ is rational.
+
+	\vfill
+
+
+	\item Recall that the Farey sequence of order $n$, $\mathbf{F}_n$, is the sequence of reduced fractions $0\leq \frac{a}{b}\leq 1$ arranged in increasing order. Prove that the number of terms in $\mathbf{F}_n$ is $1 + \sum_{j=1}^n \phi(j)$ and that their sum is exactly half this value. Using this, come up with a recursive formula for $|\mathbf{F}_n|$.
+
+	\vfill
+
+	\item Consider the Farey sequence
+	\[
+	\mathbf{F}_n= \left(\frac{a_1}{b_1},\frac{a_2}{b_2}, \ldots, \frac{a_k}{b_k}\right),
+	\]
+	where $b_1  = 1$ and $b_k = 1$. Prove that
+	\[
+	\sum_{j=1}^{k-1}\frac{1}{b_jb_{j+1}} = 1.
+	\]
+	\vfill
+\end{enumerate}
+
+
+
+\end{document}

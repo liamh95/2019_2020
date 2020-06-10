@@ -1,0 +1,60 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 130B - Joint Distributions of Functions of Random Variables}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item If $X$ and $Y$ are independent and identically distributed uniform random variables on $(0,1)$, compute the joint density of
+	\begin{enumerate}
+		\item $U =X+Y$, $V = X/Y$,
+		\item $U = X$, $V = X/Y$,
+		\item $U = X+Y$, $V = X/(X+Y)$.
+	\end{enumerate}
+
+	\vfill
+
+	\item If $X_1$ and $X_2$ are independent exponential random variables, each having parameter $\lambda$, find the joint density function of $Y_1 = X_1 + X_2$ and $Y_2 = e^{X_1}$.
+
+	\vfill
+
+	\item The joint density function of $X$ and $Y$ is given by
+	\[
+	f(x,y) = xe^{-x(y+1)},\quad x>0,y>0.
+	\]
+	\begin{enumerate}
+		\item Find the conditional density of $X$, given $Y = y$, and that of $Y$, given $X = x$.
+		\item Find the density function of $Z= XY$.
+	\end{enumerate}
+
+	\vfill
+\end{enumerate}
+
+\end{document}

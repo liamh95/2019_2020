@@ -1,0 +1,594 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\subg}[1]{\left\|{#1}\right\|_{\psi_2}}
+\newcommand{\Lp}[2]{\left\|{#1}\right\|_{L^{#2}}}
+\newcommand{\Lip}[1]{\left\|{#1}\right\|_{\text{Lip}}}
+\newcommand{\Unif}{\text{Unif}}
+\newcommand{\tr}{\text{tr}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{May 27, 2020} }
+\begin{center}
+{\bf \Large 270C - Homework 3}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+%Exercises 5.1.2, 5.1.3, 5.1.9, 5.1.15, 5.2.3, 5.2.11, 5.2.12, 5.3.3, 5.4.5, 5.4.11, 5.4.12, 5.4.13, 5.4.15, 5.6.8, 7.1.8, 7.1.13, 7.2.4.
+
+
+\section*{5.1.2}
+Prove the following statements.
+\begin{enumerate}[(a)]
+	\item Every Lipschitz function is uniformly continuous.
+	\begin{proof}
+		Let $f:X\to Y$ be a Lipschitz function between metric spaces $(X, d_X)$ and $(Y, d_Y)$ with Lipschitz constant $K$. Let $\epsilon>0$ be given. Then if $d_X(x,y)<\epsilon/K$, we have that
+		\[
+		d_Y(f(x), f(y)) \leq Kd_X(x,y) \leq \epsilon,
+		\]
+		so $f$ is uniformly continuous.
+	\end{proof}
+
+	\item Every differentiable function $f: \reals^n\to \reals$ is Lipschitz and
+	\[
+		\Lip{f}\leq \sup_{x\in \reals^n}\|\nabla f(x)\|_2.
+	\]
+	\begin{proof}
+		Let $\epsilon>0$ be given. Since $f$ is differentiable, for each $x$ there exists a $\delta_x$ such that $\|x-y\|<\delta$ implies that
+		\[
+		\|f(y)-f(x)-\nabla f(x)^T(y-x)\|_2 <\epsilon\|y-x\|_2.
+		\]
+		By the triangle inequality, $\|f(y)-f(x)\|_2 \leq (\|\nabla f(x)\|_2 + \epsilon)\|y-x\|_2$. Taking $\epsilon\to 0$ establishes the bound (locally). If we restrict ourselves to a compact set (gets rid of locality) and assume $f$ is continuously differentiable we can establish the desired claim I think.
+	\end{proof}
+
+	\item Give an example of a non-Lipshitz but uniformly continuous function $f:[-1,1]\to \reals$.
+	\begin{proof}
+		Consider $f(x) = |x|^{1/2}$. Qualitatively, the sharp cusp at the origin keeps $f$ from being Lipshitz on $[-1, 1]$, while $f$ is uniformly continuous since it's a continuous function on a compact set. More rigorously, $|x|^{1/2}/|x| \to \infty$ as $x\to 0$, so there is no $K$ such that $|x|^{1/2}\leq K|x|$ for all $x$ sufficiently small.
+	\end{proof}
+
+
+	\item Give an example of a non-differentiable but Lipshitz function $f:[-1, 1]\to \reals$.
+	\begin{proof}
+		Since Lipshitz functions are differentiable almost everywhere, the most exotic thing we can hope for is something with only a few bad points. For example, $f(x) = |x|$ is as Lipshitz as it gets, but it isn't differentiable at the origin.
+	\end{proof}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\section*{5.1.3}
+Prove the following statements.
+\begin{enumerate}[(a)]
+	\item For a fixed $\theta\in \reals^n$, the linear functional
+	\[
+	f(x)= \langle x, \theta\rangle
+	\]
+	is a Lipshitz function on $\reals^n$ and $\Lip{f} = \|\theta\|_2$.
+	\begin{proof}
+		That $f$ is Lipshitz follows from Cauchy-Schwartz:
+		\[
+		|f(x)-f(y)| = |\langle x-y, \theta\rangle| \leq \|x-y\|_2 \cdot \|\theta\|_2.
+		\]
+		In particular, $\Lip{f}\leq \|\theta\|_2$. Now we also have
+		\[
+		\frac{|f(x)-f(y)|}{\|x-y\|_2} = \frac{|\langle x-y, \theta\rangle|}{\|x-y\|_2} = |\cos \phi|\cdot \|\theta\|_2,
+		\]
+		where $\phi$ is the angle between $x-y$ and $\theta$. Since $|\cos \phi|$ can reach its maximum value of 1, we conclude that the Lipschitz norm of $f$ is indeed $\|\theta\|_2$.
+	\end{proof}
+
+	\item More generally, an $m\times n$ matrix $A$ acting as a linear operator
+	\[
+	A: (\reals^n, \|\cdot \|_2)\to (\reals^m, \|\cdot \|_2)
+	\]
+	is Lipschitz and $\Lip{A} = \|A\|$.
+	\begin{proof}
+		$A$ is certainly Lipschitz since for any $x,y\in \reals^n$,
+		\[
+		\|Ax - Ay\|_2 = \|A(x-y)\|_2 \leq \|A\|\cdot \|x-y\|_2.
+		\]
+		In particular, $\Lip{A}\leq \|A\|$. Furthermore, by linearity we have
+		\[
+		\Lip{A} = \inf\left\{K: \frac{\|A(x-y)\|_2}{\|x-y\|_2}\leq K,\ \text{for all }x,y\in \reals^n\right\} = \sup_{v\in \reals^n,\ v\neq 0}\frac{\|Av\|_2}{\|v\|_2} = \|A\|.
+		\]
+	\end{proof}
+
+	\item Any norm $f(x) = \|x\|$ on $(\reals^n, \|\cdot\|_2)$ is a Lipschitz function. The Lipschitz norm of $f$ is the smallest $L$ that satisfies
+	\[
+	\|x\|\leq L\|x\|_2\quad\text{for all }x\in \reals^n.
+	\]
+	\begin{proof}
+		It's a standard fact from real analysis that all norms on $\reals^n$ are equivalent, so there are positive constants $C_1, C_2$ such that
+		\[
+		C_1\|x\|_2 \leq \|x\| \leq C_2\|x\|_2
+		\]
+		for all $x\in \reals^n$. By the reverse triangle inequality we then have
+		\[
+		|f(x)-f(y)|= \big|\|x\|-\|y\|\big| \leq \|x-y\| \leq C_2\|x-y\|_2,
+		\]
+		so $f$ is Lipschitz. The same argument used in part (b) gives the Lipschitz constant.
+	\end{proof}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\section*{5.1.9}
+Let $A$ be a subset of the sphere $\sqrt{n}S^{n-1}$ such that
+\[
+\sigma(A) > 2\exp(-cs^2)
+\]
+for some $s>0$.
+\begin{enumerate}[(a)]
+	\item Prove that $\sigma(A_s)>1/2$.
+	\begin{proof}
+		Suppose, for the sake of contradiction, that $\sigma(A_s)\leq 1/2$. Then the complement $B:= (A_s)^C$ satisfies $\sigma(B)\geq 1/2$ and we have by the blowup lemma that
+		\[
+		\sigma(B_t) \geq 1-2\exp(-ct^2)
+		\]
+		for all $t\geq 0$. By construction, the sets $B_s$ and $A$ are disjoint, but $\sigma(B_s)\geq 1-2\exp(-cs^2)$ and $\sigma(A)>2\exp(-cs^2)$, a contradiction.
+	\end{proof}
+
+	\item Deduce that for any $t\geq s$,
+	\[
+	\sigma(A_{2t}) \geq 1-2\exp(-ct^2).
+	\]
+	\begin{proof}
+		By part (a) and the blowup lemma we have that
+		\[
+		\sigma\big((A_s)_t \big) \geq 1-2\exp(-ct^2)
+		\]
+		for all $t\geq 0$. Setting $t\geq s$ gives the desired result since for such $t$ we have $A_{2t}\supseteq (A_s)_t$.
+	\end{proof}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\section*{5.1.15}
+Fix $\epsilon\in (0,1)$. Show that there exists a set $\{x_1, \ldots, x_N\}$ of unit vectors in $\reals^n$ which are mutually almost orthogonal:
+\[
+|\langle x_i, x_j\rangle| \leq \epsilon\quad\text{for all }i\neq j,
+\]
+and the set is exponentially large in $n$:
+\[
+N\geq \exp(c_\epsilon n).
+\]
+\begin{proof}
+	Fix any $x_0$ in the sphere $\sqrt{n}S^{n-1}$ and consider the function $f_0(x) = \langle x, x_0\rangle$. By exercise 5.1.3, $f_0$ is Lipschitz and $\Lip{f_0} = \|x_0\|_2 = \sqrt{n}$. If $X\sim Unif(\sqrt{n}S^{n-1})$, then by theorem 5.1.4 (concentration of Lipschitz functions on the sphere), we have that
+	\[
+	\Pr\big[|f(X)-E[f(X)] > t\big] = \Pr[|\langle X, x_0\rangle| > t] \leq 2\exp(-ct^2/n),
+	\]
+	for all $t\geq 0$. Now we have that
+	\begin{align*}
+		\Pr\big[|\langle X, x_0\rangle| > t\big] &= \Pr\big[n|\cos \phi| > t\big],
+	\end{align*}
+	where $\phi$ is the angle between $X$ and $x_0$. Setting $t = n\epsilon$ gives
+	\[
+	\Pr\big[|\cos\phi|>\epsilon\big]\leq 2\exp(-c\epsilon^2n).
+	\]
+	In particular, if we let $E_0$ be the set of vectors in $\sqrt{n}S^{n-1}$ that are almost orthogonal to $x_0$,
+	\[
+	E_0 = \{x\in \sqrt{n}S^{n-1}: |\langle x, x_0\rangle|\leq \epsilon\},
+	\]
+	then we have $\sigma(E_0) \geq 1-2\exp(-c\epsilon^2 n)$. This gives us a sort of algorithm for building our mutually almost orthogonal set. We first choose $x_0$ anywhere in $\sqrt{n}S^{n-1}$ and then choose $x_1\in E_0$ as defined above. Then we choose $x_2$ in $E_0\cap E_1$, where $E_1$ is defined analogously. A union bound says that on the $k$-th step we have
+	\[
+	\sigma\left(\bigcap_{i=1}^kE_i\right) \geq 1-2k\exp(-c\epsilon^2n).
+	\]
+	The above quantity is strictly positive as long as $k<\frac{1}{2}\exp(c\epsilon^2n)$, so we can build a family of mutually almost orthogonal vectors that is exponentially large in the dimension.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section*{5.2.3}
+Consider a random vector $X\sim \mcal{N}(0, I_n)$ and a Lipschitz function $f:\reals^n\to \reals$ (with respect to the Euclidean metric). Show that
+\[
+\subg{f(X)-E f(X)} \leq C\Lip{f}.
+\]
+\begin{proof}
+	The proof strategy is the basically the same that we used to prove this result on the sphere. We use the Gaussian isoperimetric inequality, a blow-up argument for half spaces, and then use the same median argument to put it all together.\\
+
+	\noindent First suppose that $A\subseteq \reals^n$ is measurable with Gaussian measure $\gamma(A)\geq 1/2$. Then we claim that for all $t\geq 0$,
+	\[
+	\gamma(A_t) \geq 1-\exp(-ct^2)
+	\]
+	for some positive constant $c$. To see this, consider the half space, $H = \{x\in \reals^n: x_1\leq 0\}$. By assumption we have
+	\[
+	\gamma(A) \geq \frac 12 = \gamma(H).
+	\]
+	Now by the Gaussian isoperimetric inequality, we have that $\gamma(A_t) \geq \gamma(H_t)$ for all $t\geq 0$. Now the $t$-neighborhood of a half space is again a half space:
+	\[
+	H_t = \{x\in \reals^n: x_1 \leq t\}.
+	\]
+	Since $x_1 \sim \mcal{N}(0, 1)$ and the standard normal is clearly sub-Gaussian, we have that
+	\[
+	\gamma(H_t) \geq 1-\exp(ct^2)
+	\]
+	for some $c>0$. From here, the proof is identical to the spherical case.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section*{5.2.11}
+Let $\Phi(x)$ denote the cumulative distribution function of the standard normal distribution $\mcal{N}(0,1)$. Consider a random vector $Z = (Z_1, \ldots, Z_n)\sim \mcal{N}(0, I_n)$. Show that
+\[
+\phi(Z):= \big(\Phi(Z_1), \ldots, \Phi(Z_n)\big)\sim \text{Unif}([0,1]^n).
+\]
+\begin{proof}
+	Since the coordinates of $Z$ are independent, so are the coordinates of $\phi(Z)$. Since the coordinates of a $\Unif([0,1]^n)$ random variable are independent $\Unif([0,1])$ random variables, we just have to show that $\Phi(Z_i)\sim \Unif([0,1])$. This is clear since for all $t\in [0,1]$ we have.
+	\[
+	\Pr[\Phi(Z_i)\leq t] = \Pr[Z_i\leq \Phi^{-1}(t)] = \Phi(\Phi^{-1}(t)) = t.
+	\]
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section*{5.2.12}
+Let $X = \phi(Z)$ be as in the previous exercise. Use Gaussian concentration to control the deviation of $f(\phi(Z))$ in terms of $\Lip{F\circ \phi}\leq \Lip{F}\Lip{\phi}$. Show that $\Lip{\phi}$ is bounded by an absolute constant and complete the proof of theorem 5.2.10.
+\begin{proof}
+	By Gaussian concentration we have
+	\[
+	\subg{(f\circ \phi)(Z) - E(f\circ \phi)(Z)}\leq C\Lip{f\circ \phi} \leq C\Lip{f}\Lip{\phi}.
+	\]
+	Let's pick apart $\Lip{\phi}$. The function $\Phi$ is differentiable and its derivative is bounded by 1. By an earlier exercise, we then have $|\Phi(x)-\Phi(y)|\leq |x-y|$ for all $x,y\in \reals$. This gives
+	\begin{align*}
+		\frac{\|\phi(x)-\phi(y)\|_2}{\|x-y\|_2} = \sqrt{\frac{\sum_{i=1}^n(\Phi(x_i)-\Phi(y_i))^2}{\sum_{i=1}^n(x_i-y_i)^2}} \leq 1.
+	\end{align*}
+	We then have that $\Lip{\phi}$ is bounded by 1 and the claim follows.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section*{5.3.3}
+Let $A$ be an $m\times n$ random matrix whose rows are independent, mean zero, sub-gaussian isotropic random vectors in $\reals^n$. Show that the conclusion of the Johnson-Lindenstrauss lemma holds for $Q = (1/\sqrt{m})A$.
+\begin{proof}
+	Our plan is to show that with probability at least $1-2\exp(-c\epsilon^2 m)$, $Q$ satisfies
+	\[
+	(1-\epsilon)\|x\|_2 \leq \|Qx\|_2 \leq (1+\epsilon)\|x\|_2\quad\text{for all }x\in \reals^n.
+	\]
+	By linearity we can assume that $\|x\|_2 = 1$. We have that
+	\[
+	(Qx)_i = \frac{1}{\sqrt{m}}\sum_{j=1}^nQ_{ij}x_j.
+	\]
+	By our assumptions on $Q$, we have that $(Qx)_i$ is centered, has unit variance, and is sub-Gaussian.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section*{5.4.5}
+Prove the following properties.
+\begin{enumerate}[(a)]
+	\item $\|X\|\leq t$ if and only if $-tI\preceq X \preceq tI$.
+	\begin{proof}
+		The eigenvalues of $X\pm tI$ are $\lambda \pm t$, where $\lambda$ is an eigenvalue of $X$. Now $\|X\| = |\lambda_1|$, where $\lambda_1$ is the eigenvalue with the largest magnitude. If $\|X\| \leq t$, then $0\leq \lambda + t$ and $t-\lambda \geq 0$ for all eigenvalues $\lambda$ of $X$, so $-tI \preceq X\preceq tI$.\\
+
+		\noindent Suppose now that $-tI\preceq X\preceq tI$. By the same reasoning used above, every eigenvalue of $X$ has magnitude less than $t$, so $\|X\|\leq t$.
+	\end{proof}
+
+
+
+
+
+	\item Let $f,g:\reals\to \reals$ be two functions. If $f(x)\leq g(x)$ for all $x\in \reals$ satisfying $|x|\leq K$, then $f(X)\preceq g(X)$ for all $X$ satisfying $\|X\|\leq K$.
+	\begin{proof}
+		Suppose $\|X\|\leq K$. The eigenvalues of $g(X)-f(X)$ are $g(\lambda)-f(\lambda)$ where $\lambda$ is an eigenvalue of $X$. Since $f(x)\leq g(x)$ for all $|x|\leq K$, we then have that the eigenvalues of $g(X)-f(X)$ are nonnegative, so $f(X)\preceq g(X)$.
+	\end{proof}
+
+
+
+
+
+	\item Let $f:\reals\to \reals$ be an increasing function and $X$, $Y$ are commuting matrices. Then $X\preceq Y$ implies $f(X)\preceq f(Y)$.
+	\begin{proof}
+		Since $X$ and $Y$ commute, they are simultaneously diagonalizable and the eigenvalues of the difference $Y-X$ are $\lambda_i-\mu_i$ for a particular ordering of the eigenvalues of $Y$ and $X$. Since $X\preceq Y$, we have that $\lambda_i-\mu_i\geq 0$. Since $f$ is increasing, $f(\lambda_i)-f(\mu_i)\geq 0$. These are the eigenvalues of $f(X)-f(Y)$, so $f(X)\preceq f(Y)$. 
+	\end{proof}
+
+
+
+
+	\item Give an example showing that property (c) may fail for non-commuting matrices.
+	\begin{proof}
+		The idea is to find two $2\times 2$ matrices $A$, $B$ such that $0\preceq A\preceq B$ but $A^2 \not\preceq B^2$.
+	\end{proof}
+
+
+
+
+
+	\item Show that $X\preceq Y$ always implies $\tr f(X) \leq\tr f(Y)$ for any increasing function $f:\reals\to \reals$.
+	\begin{proof}
+		As per the hint, we'll show that $\lambda_i(X)\leq \lambda_i(Y)$ for all $i$. By Courant-Fischer and the given hypotheses, we have
+		\begin{align*}
+			0 &\leq \lambda_i(Y-X)\\
+			&= \max_{\dim E = i}\min_{x\in S(E)}\big(\langle Yx, x\rangle - \langle Xx,x\rangle\big)\\
+			&\leq \max_{\dim E = i}\min_{x\in S(E)}\langle Yx,x\rangle - \max_{\dim E=i}\min_{x\in S(E)}\langle Xx,x\rangle\\
+			&= \lambda_i(Y)-\lambda_i(X).
+		\end{align*}
+		The claim follows since the trace is the sum of the eigenvalues.
+	\end{proof}
+
+
+
+
+
+	\item Show that $0\preceq X\preceq Y$ implies $X^{-1}\succeq Y^{-1}$ if $X$ is invertible.
+	\begin{proof}
+		First, suppose the claim holds when one of the matrices is the identity. We claim that we can multiply $X\preceq Y$ through on the left and right by $Y^{-1/2}$, which gives $Y^{-1/2}XY^{-1/2}\preceq I$. Since the desired conclusion is assumed to hold when one matrix is the identity, we have that $Y^{1/2}X^{-1}Y^{1/2}\succeq I$. Multiplying through on the right and left by $Y^{1/2}$ gives the desired $X^{-1}\succeq Y^{-1}$.\\
+
+		The product of two psd matrices is psd if and only if the product is also symmetric. Since $Y^{-1/2}(Y-X)Y^{-1/2}$ is symmetric, we have that it is also psd. We then have
+		\begin{align*}
+			X\preceq Y &\iff 0 \preceq Y-X\\
+			& \implies 0 \preceq Y^{-1/2}(Y-X)^{-1/2}\\
+			&\implies Y^{-1/2}XY^{-1/2}\preceq I,
+		\end{align*}
+		so our earlier claim is justified. It remains to show that the proposition holds for the identity, i.e. $0\preceq X\preceq I$ implies that $X^{-1}\succeq I$. But this is clear since in part (e) we showed that $0\preceq X\preceq I$ implies that each eigenvalue of $X$ is between 0 and 1. Consequently, each eigenvalue of $X^{-1}$ is at least 1, so we have $X^{-1}\succeq I$.
+	\end{proof}
+
+
+
+
+
+	\item Show that $0\preceq X\preceq Y$ implies $\log X \preceq \log Y$.
+	\begin{proof}
+		Since $0\preceq X\preceq Y$, we have $0\preceq X+t \preceq Y+t$ for all $t>0$. By part (f) we deduce that $(X+t)^{-1} \succeq (Y+t)^{-1}$. Finally, by this identity that follows from elementary calculus,
+		\[
+		\log x = \int_0^\infty \left(\frac{1}{1+t}-\frac{1}{x+t}\right)dt,
+		\]
+		we have that
+		\begin{align*}
+			\log Y - \log X &= \int_0^\infty \big((X+t)^{-1}-(Y+t)^{-1}\big)\ dt \succeq 0.
+		\end{align*}
+	\end{proof}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\section*{5.4.11}
+Let $X_1, \ldots, X_N$ be independent, mean zero, $n\times n$ symmetric random matrices, such that $\|X_i\|\leq K$ almost surely for all $i$. Deduce from Bernstein's inequality that
+\[
+E\bigg\|\sum_{i=1}^NX_i\bigg\| \lesssim \bigg\|\sum_{i=1}^NEX_i^2\bigg\|^{1/2}\sqrt{1+\log n} + K(1+\log n.)
+\]
+\begin{proof}
+	
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section*{5.4.12}
+Let $\epsilon_1, \ldots, \epsilon_n$ be independent symmetric Bernoulli random variables and let $A_1, \ldots, A_N$ be symmetric $n\times n$ matrices (deterministic). Prove that for any $t\geq 0$ we have
+\[
+\Pr\left[\bigg\|\sum_{i=1}^N\epsilon_iA_i\bigg\|\geq t\right] \leq 2n\exp(-t^2/2\sigma^2),
+\]
+where $\sigma^2 = \|\sum_{i=1}^NA_i^2\|$.
+\begin{proof}
+	We start with the usual moment generating function setup:
+	\[
+	\Pr\left[\bigg\|\sum_{i=1}^N\epsilon_iA_i\bigg\|\geq t\right] \leq e^{-\lambda t}E\exp\left(\lambda \bigg\|\sum_{i=1}^N\epsilon_iA_i\bigg\|\right).
+	\]
+	Now we have that $\|\sum_{i=1}^N\epsilon_iA_i\| = \lambda_1(\sum_{i=1}^N\epsilon_iA_i)$, the magnitude of the largest eigenvalue. As discussed in class, we can bound the maximum eigenvalue of a matrix by its trace, which gives
+	\begin{align*}
+		\exp\left(\lambda \bigg\|\sum_{i=1}^N\epsilon_iA_i\bigg\|\right) &= \exp\left(\lambda\cdot \lambda_1\left(\sum_{i=1}^N\epsilon_iA_i\right) \right)\\
+		&= \lambda_1\left[\exp\left(\lambda \sum_{i=1}^N\epsilon_iA_i \right) \right]\\
+		&\leq \tr \exp\left(\lambda\sum_{i=1}^N\epsilon_iA_i\right).
+	\end{align*}
+	Now just as in the proof of the matrix Bernstein inequality, we apply Lieb's inequality repeatedly to get
+	\[
+	E\exp\left(\lambda \bigg\|\sum_{i=1}^N\epsilon_iA_i\big\|\right) \leq \tr \exp\left(\sum_{i=1}^N\log E e^{\lambda \epsilon_iA_i}\right).
+	\]
+	We can actually compute this expectation.
+	\[
+	Ee^{\lambda \epsilon_i A_i} = \cosh(\lambda A_i) \preceq e^{\lambda^2A_i^2/2}.
+	\]
+	The semidefinite order bound follows from exercise 5.4.5(b). From 5.4.5(e) we have
+	\[
+	\tr\exp\left[\sum_{i=1}^N\log Ee^{\lambda \epsilon_iA_i}\right] \leq \tr \exp\left[ \sum_{i=1}^N\log \exp \frac{\lambda^2A_i^2}{2}\right] = \tr \exp\left(\frac{\lambda^2}{2}\sum_{i=1}^NA_i^2\right).
+	\]
+	I might be cheating here when I say that $\exp \log A = A$. I think you need some condition on $\|A-I\|$. Now we bound the trace in terms of the maximum eigenvalue.
+	\[
+	\tr \exp\left(\frac{\lambda^2}{2}\sum_{i=1}^NA_i^2\right) \leq n\cdot \lambda_i\left[ \exp\left(\frac{\lambda^2}{2}\sum_{i=1}^NA_i^2\right)\right] = n\exp\left(\frac{\lambda^2}{2}\sigma^2\right).
+	\]
+	Thus, we have
+	\[
+	\Pr\left[\bigg\|\sum_{i=1}^N\epsilon_iA_i\bigg\|\geq t\right] \leq n\exp(-\lambda t + \lambda^2\sigma^2/2).
+	\]
+	The $\lambda$ that optimizes this bound is $\lambda = t/\sigma^2$, which leaves us with the desired conclusion.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+\section*{5.4.13}
+
+
+
+
+
+
+
+
+
+
+
+\section*{5.4.15}
+
+
+
+
+
+
+
+
+
+
+
+\section*{5.6.8}
+
+
+
+
+
+
+
+
+
+
+
+\section*{7.1.8}
+Consider a random process $(X_t)_{t\in T}$.
+\begin{enumerate}[(a)]
+	\item Express the increments $\|X_t-X_s\|_2$ [I think this is supposed to be $\Lp{\cdot}{2}$] in terms of the covariance function $\Sigma(t, s)$.
+	\begin{solution}
+		We have
+		\[
+		d(t,s)^2 = E[(X_t-X_s)^2] = E[X_t^2]-2E[X_tX_s]+E[X_s^2] = \Sigma(t,t)-2\Sigma(t,s)+\Sigma(s,s).
+		\]
+	\end{solution}
+
+	\item Assuming that the zero random variable 0 belongs to the process, express the covariance function $\Sigma(t,s)$ in terms of the increments $\|X_t-X_s\|_{L^2}$.
+	\begin{solution}
+		Suppose the zero process occurs at $t=t_0$, i.e. $X_{t_0} = 0$ a.s.. We have
+		\begin{align*}
+			\Sigma(t,s) &= -\frac{1}{2}(-2E[X_tX_s])\\
+			&= \frac{1}{2}\big(E[X_t^2]+E[X_s^2]-E[X_t^2 -2X_tX_s+X_s^2] \big)\\
+			&= \frac{1}{2}\big(d(t,t_0)^2 + d(s,t_0)^2-d(t,s)^2 \big).
+		\end{align*}
+	\end{solution}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\section*{7.1.13}
+Realize an $N$-step random walk with $Z_i\sim \mcal{N}(0,1)$ as a canonical Gaussian process with $T\subseteq \reals^n$.
+\begin{solution}
+	Let $t_n$ be the vector $e_1 + \cdots +e_n$, the sum of the first $n$ standard basis vectors of $\reals^N$. If we let $g\sim \mcal{N}(0, I_N)$, then we have that $\langle g, t_n\rangle$ is a sum of $n$ independent standard normals, which is equal to $X_n$ in distribution. This process is canonical since
+	\[
+	\Lp{X_n-X_m}{2} = \Lp{\langle g, t_n-t_m\rangle}{2} = \sqrt{n-m} = \|t_n-t_m\|_2.
+	\]
+\end{solution}
+
+
+
+
+
+
+
+
+
+
+
+\section*{7.2.4}
+If $X\sim \mcal{N}(0, \sigma^2)$, show that
+\[
+EXf(X) = \sigma^2Ef'(X).
+\]
+\begin{proof}
+	Note that $X = \sigma Z$ for $N\sim \mcal{N}(0,1)$. We apply Gaussian integration by parts.
+	\[
+	E[Xf(X)] = \sigma E[Zf(\sigma Z)] = \sigma E[(f(\sigma Z))'] = \sigma^2E[f(\sigma Z)] = \sigma^2 E[f(X)].
+	\]
+\end{proof}
+
+\end{document}

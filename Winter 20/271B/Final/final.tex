@@ -73,12 +73,32 @@ where $\Sigma$ is an exponentially distributed random variable with parameter $\
 
 	\item Compute the variance of $M_t$.
 	\begin{solution}
-		The variance is given by $\Var[M_t] = \E[M_t^2] - \E[M_t]^2$. Since $X_0 = 0$ a.s. and $Y_0 = 1$ a.s., $M_t = 1$ a.s. To compute $\E[M_t^2]$, we use the It\^o isometry.
+		The variance is given by $\Var[M_t] = \E[M_t^2] - \E[M_t]^2$. Since $X_0 = 0$ a.s. and $Y_0 = 1$ a.s., $M_t = 1$ a.s. To compute $\E[M_t^2]$ we use the It\^o isometry:
+		% \begin{align*}
+		% 	\E[M_t^2] &= \E\left[\left(\int_0^tdM\right)^2 \right]\\
+		% 	&= \E\left[\left(\int_0^ts^2\Sigma\ dB_s \right)^2 \right]\\
+		% 	&= \E\left[\Sigma^2\int_0^ts^4\ ds \right]\\
+		% 	&= 
+		% \end{align*}
 		\begin{align*}
 			\E[M_t^2] &= \E\left[ \left(1 + \int_0^t(s^2\Sigma)M_s\ dB_s  \right)^2 \right]\\
 			&= 1 + \E\left[\int_0^t (s^2\Sigma)^2M_s^2\ ds \right]
 		\end{align*}
+		This gives
+		\[
+		\Var[M_t] = \E \left[ \int_0^t(s^2\Sigma)^2M_s^2\ ds \right].
+		\]
 	\end{solution}
+
+	\item Find a bound for $\Prob[\sup_{0<s<t}|M_t|>\epsilon]$.
+	\begin{solution}
+		We use Doob's martingale inequality:
+		\begin{align*}
+			\Prob\left[ \sup_{0\leq s\leq t} |M_t| \geq \epsilon\right] &\leq \frac{1}{\epsilon^2}\cdot \E[|M_t|^2]\\
+			&= \frac{1}{\epsilon^2}\left(1 + \E\left[\int_0^t(s^2\Sigma)^2M_s^2\ ds \right] \right).
+		\end{align*}
+	\end{solution}
+
 \end{enumerate}
 
 \noindent\textbf{Problem 2. }
@@ -99,7 +119,48 @@ P(t, x, T) = \E\left[\exp\left(-\int_t^Tr_s\ ds\right)\ |\ r_t = x \right].
 		\end{cases}.
 	\end{equation}
 	\begin{solution}
-		I think the idea here is to use It\^o and the Kolmogorov backward equation.
+		We have
+		\begin{equation}\label{nocnd}
+		d\ \exp\left(-\int_t^Tr_s\ ds \right) = r_t\cdot \exp\left(-\int_t^Tr_s\ ds \right)\ dt.
+		\end{equation}
+		On the other hand, It\^o tells us that
+		\begin{align*}
+		dP &= \partial_tP\ dt + \partial_xP\ dr_t + \frac{1}{2}\partial_x^2P\cdot (dr_t)^2\\
+		&= \partial_tP\ dt + \partial_xP[a(\overline{r}-r_t)dt + \sigma\ dB_t] + \frac{1}{2}\sigma^2\partial^2_xP\ dt.
+		\end{align*}
+		We condition (\ref{nocnd}) on $r_t = x$ and equate this to the above quantity to get
+		\[
+		\partial_tP\ dt + \partial_xP[a(\overline{r}-r_t)dt + \sigma\ dB_t] + \frac{1}{2}\sigma^2\partial^2_xP\ dt = r_tP\ dt.
+		\]
+		Integrating both sides from $t$ to $T$ and using $r_t = x$, we obtain (I wasn't sure how to get rid of the $\sigma\ dB_t$ term)
+		\[
+		\partial_tP\ dt + a(\overline{r}-x)\partial_xP + \frac{1}{2}\sigma^2\partial^2_xP - xP = 0.
+		\]
+	\end{solution}
+
+	\item Solve this PDE for the price.
+	\begin{solution}
+		We guess a solution of the form $P(t, x) =  A(\tau)\exp[B(\tau)x]$, where $\tau = T-t$. Plugging this into the PDE gives
+		\[
+			A'(\tau)e^{xB(\tau)}+xA(\tau)B'(\tau)e^{xB(\tau)} = a(\overline{r}-x)A(\tau)B(\tau)e^{xB(\tau)} + \frac{1}{2}\sigma^2A(\tau)B(\tau)^2e^{xB(\tau)} - xA(\tau)e^{xB(\tau)}.
+		\]
+		We separate the $A$'s and $B$'s:
+		\[
+		\frac{A'(\tau)}{A(\tau)} = a(\overline{r} - x)B(\tau) + \frac{1}{2}\sigma^2B(\tau)^2 - B'(\tau) - x.
+		\]
+		Since we're insisting that $A$ does not depend on $x$, the right-hand side cannot depend on $x$. Consequently, we have
+		\[
+		a(\overline{r}-x)B - x = 0\iff B = -\frac{1}{a}.
+		\]
+		This gives
+		\[
+		\frac{A'(\tau)}{A(\tau)} = \frac{\sigma^2}{2a^2} - \overline{r} \implies A(\tau) = Ce^{(\frac{\sigma^2}{2a^2}-\overline{r})\tau}\implies P(t, x) = C\exp\left[\left(\frac{\sigma^2}{2a^2}-\overline{r}\right)\tau - \frac{x}{a} \right],
+		\]
+		for some constant $C$. Plugging in the final condition $P(T, x) = 1$ gives $C = e^{x/a}$, and hence
+		\[
+		P(t, x) = e^{(\frac{\sigma^2}{2a^2}-\overline{r})(T-t)}
+		\]
+		solves the boundary-value problem. 
 	\end{solution}
 \end{enumerate}
 
@@ -178,5 +239,146 @@ Let $B_t = B^{(1)}_t + iB^{(2)}_t$ be a complex Brownian motion.
 		Thus, $Z_t = Z_0 + e^{\alpha B_t}$ solves the SDE.
 	\end{solution}
 \end{enumerate}
+
+\noindent\textbf{Problem 5. }
+Consider the SDE
+\begin{equation}\label{5_sde}
+dX_t = f(t, X_t)\ dt + c(t)X_t\ dB_t,\quad X_0 = x
+\end{equation}
+where $f: \reals\times\reals\to \reals$ and $c:\reals\to \reals$ are given continuous and deterministic functions.
+\begin{enumerate}[(a)]
+	\item Define the integrating factor
+	\[
+	F_t = F_t(\omega) = \exp\left(-\int_0^tc(s)\ dB_s + \frac{1}{2}\int_0^tc^2(s)\ ds\right).
+	\]
+	Show that (\ref{5_sde}) can be written
+	\[
+	d(F_tX_t) = F_t\cdot f(t, X_t)\ dt.
+	\]
+	\begin{proof}
+		If we define the process $Y_t$ by
+		\[
+		dY_t = \frac{1}{2}c^2(t)\ dt - c(t)\ dB_t,
+		\]
+		then by It\^o's lemma we have
+		\begin{align*}
+		dF_t &= F_t\ dY_t + \frac{1}{2}F_t(dY_t)^2\\
+		&= F_tc_t^2\ dt - F_tc_t\ dB_t.
+		\end{align*}
+		Again by It\^o we have
+		\begin{align*}
+			d(F_tX_t) &= F_t\ dX_t + X_t\ dF_t + d\langle F_t, X_t\rangle\\
+			&= F_t(f(t, X_t)\ dt + c_tX_t\ dB_t) + X_t(F_tc_t^2\ dt - F_tc_t\ dB_t) - c_t^2F_tX_t\ dt\\
+			&= F_t\cdot f(t, X_t)\ dt.
+		\end{align*}
+	\end{proof}
+
+	\item Now define
+	\[
+	Y_t(\omega) = F_t(\omega)X_t(\omega)
+	\]
+	so that
+	\[
+	X_t = F_t^{-1}Y_t.
+	\]
+	Deduce that (\ref{5_sde}) gets the form
+	\[
+	\frac{dY_t(\omega)}{dt} = F_t(\omega)\cdot f(t, F_t^{-1}(\omega)Y_t(\omega)),\quad Y_0 = x.
+	\]
+	\begin{proof}
+		By part (a) we have
+		\[
+		\frac{dY_t(\omega)}{dt} = \frac{d(F_t(\omega)X_t(\omega))}{dt} = F_t(\omega)\cdot f(t, X_t) = F_t(\omega)\cdot f(t, F_t^{-1}(\omega)Y_t(\omega)).
+		\]
+		Since $F_0 = 1$, we have $Y_0 = x$.
+	\end{proof}
+
+	\item Apply this method to solve the SDE
+	\[
+	dX_t = \frac{1}{X_t}\ dt + \alpha X_t\ dB_t,\quad X_0 = x > 0
+	\]
+	where $\alpha$ is constant.
+	\begin{solution}
+		As per part (b), define the integrating factor
+		\[
+		F_t(\omega) = \exp\left(\frac{1}{2}\alpha^2t - \alpha B_t \right).
+		\]
+		Letting $Y_t(\omega) = F_t^{-1}(\omega)$, again by part (b) we have
+		\[
+		\frac{dY_t(\omega)}{dt} = F_t(\omega)\cdot\frac{1}{F_t^{-1}(\omega)Y_t(\omega)} = \frac{F_t(\omega)^2}{Y_t(\omega)}.
+		\]
+		This is a separable ODE. After separating and integrating we obtain
+		\[
+		Y_t^2(\omega)-x^2 = 2\int_0^t\exp(\alpha^2s - 2\alpha B_s)\ ds,
+		\]
+		which gives
+		\[
+		X_t(\omega) = \exp\left(\frac{1}{2}\alpha^2t - \alpha B_t\right)\left[x^2 + 2\int_0^t\exp(\alpha^2s-2\alpha B_s)\ ds\right]^{1/2}.
+		\]
+	\end{solution}
+
+	\item Apply the method to study the solutions of the SDE
+	\[
+	dX_t = X_t^\gamma\ dt + \alpha X_t\ dB_t;\quad X_0 = x>0,
+	\]
+	where $\alpha$ and $\gamma$ are constants. For what values of $\gamma$ do we get explosion?
+	\begin{solution}
+		We use the same integrating factor from part (c). The pathwise ODE we get is
+		\[
+		Y_t^{-\gamma}(\omega)\ dY_t(\omega) = F_t(\omega)^2\ dt.
+		\]
+		The left-hand side is integrable if and only if $\gamma < 1$.
+	\end{solution}
+\end{enumerate}
+
+\noindent\textbf{Problem 6. }
+Explain the terms
+\begin{enumerate}[(a)]
+	\item Martingale
+	\begin{solution}
+		A martingale is an integrable stochastic process $(M_t)_{t\geq 0}$ adapted to a filtration $(\mcal{F}_t)_{t\geq 0}$ whose expected value at a future time is its current value: $\E[X_t\ |\ \mcal{F}_s] = X_s$ a.s. for $s\leq t$.
+	\end{solution}
+
+	\item It\^o process
+	\begin{solution}
+		An It\^o process, $X_t$, is a stochastic process that can be written as a sum of stochastic integrals: one with respect to time and the other with respect to Brownian motion, i.e.
+		\[
+		X_t(\omega) = X_0(\omega) + \int_0^t\mu_t(\omega)\ dt + \int_0^t\sigma_t(\omega)\ dB_t,
+		\]
+		where $\mu$ and $\sigma$ are integrable (in $t$) processes for all $\omega$.
+	\end{solution}
+
+	\item Stopping time
+	\begin{solution}
+		A random variable $T(\omega)$ is a stopping time with respect to the filtration $(\mcal{F}_t)_{t\geq 0}$ if $\{T(\omega)\leq t\}\in \mcal{F}_t$. The intuition is that one should know whether or not $T\leq t$ based on the ``information'' $\mcal{F}_t$.
+	\end{solution}
+
+	\item Quadratic variation
+	\begin{solution}
+		The quadratic variation of a process $(X_t)_{t\geq 0}$, in a sense, measures its ``roughness.'' It is given by
+		\[
+		\langle X\rangle_t = \lim_{\|P\|\to 0}\sum_{k=1}^n(X_{t_k}-X_{t_{k-1}})^2,
+		\]
+		where $P$ ranges over all partitions of $[0,t]$ and the limit is in probability. All finite variation processes have zero quadratic variation, while Brownian motion has infinite total variation and $\langle B\rangle_t = t$.
+	\end{solution}
+
+	\item Kolmogorov backward equation
+	\begin{solution}
+		Loosely speaking, for a diffusion process $X_t$, the Kolmogorov backward equation is a partial differential equation whose solution, $P(x, t)$, is the probability density function:
+		\[
+		\int_BP(x, t)\ dx = \Pr[X_t\in B\ |\ X_T = x],
+		\]
+		where $t\leq T$ and $x$ is fixed. It can be derived from It\^o's lemma.
+	\end{solution}
+\end{enumerate}
+
+\noindent\textbf{Questionnaire}
+The top 3 topics I'd like to see are
+\begin{enumerate}
+	\item Graph-based models
+	\item Large deviations
+	\item It\^o calculus for Hilbert space-valued processes
+\end{enumerate}
+Thank you for asking!
 
 \end{document}

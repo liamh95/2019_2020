@@ -1,0 +1,56 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 130B - More on Joint Random Variables}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item Let $X$ and $Y$ be independent variables having the exponential distribution with parameters $\lambda$ and $\mu$, respectively. Find the density function of $X+Y$.
+
+	\vfill
+
+	\item Let $X$ and $Y$ be independent random variables, $X$ being equally likely to take any value in $\{0, 1, \ldots, m\}$ and $Y$ similarly in $\{0, 1, \ldots, n\}$. Find the mass function of $Z = X+Y$.
+
+	\vfill
+
+	\item Suppose that $n$ points are independently chosen at random on the circumference of a circle, and we want the probability that they all lie in a semicircle. That is, we want the probability that there is a line passing through the center of the circle such that all the points are on one side of that line.\\
+
+	\noindent Let $P_1, \ldots, P_n$ denote the $n$ points. Let $A^{(n)}$ denote the event that all the points are contained in some semicircle, and let $A^{(n)}_i$ be the event that all the points lie in the semicircle beginning at the point $P_i$ and going clockwise for $180^\circ$, $i = 1, \ldots, n$.
+	\begin{enumerate}
+		\item Express $A^{(n)}$ in terms of the $A^{(n)}_i$.
+		\item Find $\Pr[A^{(n)}]$ and show that it is $o(1)$.
+	\end{enumerate}
+
+	\vfill
+
+
+\end{enumerate}
+
+\end{document}

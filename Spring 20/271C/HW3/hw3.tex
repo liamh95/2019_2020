@@ -1,0 +1,374 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate,hyperref}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\theoremstyle{definition}
+\newtheorem{claim}{Claim}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{May 17, 2020} }
+\begin{center}
+{\bf \Large 271C - Homework 3}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\section*{\O ksendal 7.6}
+Let $F(x, t, r, \omega) = X_r^{t, x}(\omega)$, where
+\[
+X_r^{t, x} = x + \int_t^rb(X_u^{t, x})\ du + \int_t^r\sigma(X_u^{t, r})\ dB_u,
+\]
+and $b: \reals^n\to \reals^n$ and $\sigma: \reals^n\to \reals^{n\times m}$ are Lipschitz continuous. Let $g(x, \omega) = f\circ F(x, t, t+h, \omega)$ where $f:\reals\to \reals$ is continuous.
+\begin{enumerate}[(a)]
+	\item Prove that the map $x\mapsto g(x, \cdot)$ is continuous from $\reals^n$ into $L^2(P)$.
+	\begin{proof}
+		Take $x,y\in \reals^n$ and let $v(t) = E[|X_t^x - X_t^y|^2]$ for all $t\leq T$. In the proof of theorem 5.2.1 in \O ksendal, it is shown that
+		\[
+		v(t) \leq F + A\int_0^tv(s)\ ds,
+		\]
+		where $F= 3E[|x-y|^2]$ and $A = 3(1+T)D^2$. Here, $D$ is the Lipschitz constant of $b$ and $\sigma$. Since $x$ and $y$ are deterministic, we have $E[|x-y|^2] = |x-y|^2$. By Gronwall we have
+		\[
+		E[|X_t^x - X_t^y|^2] = v(t) \leq Fe^{At} = 3|x-y|^2e^{At}.
+		\]
+		In particular, we have that $x\mapsto X_t^x$ is continuous. Consequently, the function $F(x, t, r, \omega)$ is continuous in its first argument. The map $x\mapsto g(x, \cdot) = f\circ F(x, t, t+h, \omega)$ is then a composition of continuous function, and thus continuous.
+	\end{proof}
+
+	\item For simplicity assume that $n=1$. Prove that $(x, \omega)\mapsto g(x, \omega)$ is measurable.
+	\begin{proof}
+		For each $m = 1, 2, \ldots$, set $\xi_k = \xi_k^{(m)} = k\cdot 2^{-m}$, $k = 1, 2, \ldots$. Let
+		\[
+		g^{(m)}(x, \cdot) = \sum_kg(\xi_k, \cdot)\cdot \chi_{[\xi_k, \xi_{k+1})}(x).
+		\]
+		We break our strategy up into a couple of claims.
+		\begin{claim}\label{each_x}
+			$g^{(m)}(x, \cdot)$ converges to $g(x, \cdot)$ in $L^2(P)$ for each $x$.
+		\end{claim}
+		From this we deduce the following.
+		\begin{claim}\label{product}
+			$g^{(m)}\to g$ in the product space $L^2(dm_R\times dP)$ for all $R$, where $dm_R$ is the Lebesgue measure on $\{|x|\leq R\}$.
+		\end{claim}
+		From this claim, we deduce that there is a subsequence of $g^{(m)}(x, \omega)$ that converges to $g(x, \omega)$ for almost all $(x, \omega)$.
+	\end{proof}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\section*{\O ksendal 7.9}
+Let $X_t$ be a geometric Brownian motion, i.e.
+\[
+dX_t = rX_t\ dt + \alpha X_t\ dB_t,\quad X_0 = x>0,
+\]
+where $B_t\in \reals$ and $r,\alpha$ are constants.
+\begin{enumerate}[(a)]
+	\item Find the generator $A$ of $X_t$ and compute $Af(x)$ when $f(x) = x^\gamma$, $x>0$, $\gamma$ a constant.
+	\begin{solution}
+		By \O ksendal theorem 7.3.3, the generator of an It\^o diffusion
+		\[
+		dX_t = b(X_t)\ dt + \sigma(X_t)\ dB_t
+		\]
+		for $f\in C_0^2(\reals^n)$ is given by
+		\[
+		Af(x) = \left[ \sum_i b_i(x)\partial_{x_i}+ \frac{1}{2}\sum_{i,j}(\sigma\sigma^T)_{i,j}(x)\partial_{x_i}\partial_{x_j}\right]f(x).
+		\]
+		In our case, we have only one spatial variable, so we have
+		\[
+		Af(x) = \left[rx\partial_x + \frac{1}{2}\alpha^2x^2\partial^2_{x}\right]f(x).
+		\]
+		Setting $f(x) = x^\gamma$ gives
+		\begin{align*}
+			Af(x) &= rx\cdot \gamma x^{\gamma-1} + \frac{1}{2}\alpha^2x^2\cdot \gamma(\gamma-1)x^{\gamma-2}\\
+			&= \left(r\gamma + \frac{1}{2}\alpha^2\gamma(\gamma-1)\right)x^\gamma.
+		\end{align*}
+		In particular, we have that $x^\gamma$ is an eigenfunction of the generator.
+	\end{solution}
+
+	\item Suppose $r<\frac{1}{2}\alpha^2$. What is the probability $p$ that $X_t$, when starting from $x<R$, ever hits the value $R$? Use Dynkin's formula with $f(x) = x^{\gamma_1}$, $\gamma_1 = 1-\frac{2r}{\alpha^2}$ to prove that
+	\[
+	p = \left(\frac{x}{R}\right)^{\gamma_1}.
+	\]
+	\begin{proof}
+		We more or less follow example 7.4.2, which is the same question but for a regular Brownian motion instead of a geometric one. Fix any $r$ with $0<r<X<R$ and let $\tau$ be the stopping time $\tau = \inf\{t: X_t\notin (r, R)\}$. Set $\nu_k = \min(k , \tau)$. By Dynkin and part (a) we have by our choice of $\gamma_1$
+		\begin{align*}
+			E^x[f(X_{\nu_k})] &= f(x) + E^x\left[\int_0^{\nu_k}Af(X_s)\ ds\right]\\
+			&= f(x).
+		\end{align*}
+		Since $r<\frac{1}{2}\alpha^2$, $X_t\to 0$ a.s., so $\nu_k< \infty$ a.s. Taking the limit on both sides of the above equation and applying the bounded convergence theorem gives
+		\begin{align*}
+			f(x) &= E[f(X_\tau)]\\
+			&= f(r)[1-p_r] + f(R)p_r,
+		\end{align*}
+		where $p_r$ is the probability that $X_t$ exits $(r, R)$ by hitting $R$ first. Solving for $p_r$ gives
+		\begin{align*}
+			p_r &= \frac{f(x)-f(r)}{f(R)-f(r)}\\
+			&= \frac{x^{\gamma_1}-r^{\gamma_1}}{R^{\gamma_1} - r^{\gamma_1}}.
+		\end{align*}
+		Taking the limit $r\to 0$ establishes the desired result.
+	\end{proof}
+
+
+	\item If $r>\frac{1}{2}\alpha^2$ then $X_t\to \infty$ a.s. $Q^x$. Put
+	\[
+	\tau = \inf\{t>0: X_t\geq R\}.
+	\]
+	Use Dynkin's formula with $f(x)  = \log x$, $x>0$ to prove that
+	\[
+	E^x[\tau] = \frac{\log(R/x)}{r - \alpha^2/2}.
+	\]
+\end{enumerate}
+
+
+\section*{\O ksendal 7.14}
+Let $B_t$ be an $n$-dimensional Brownian motion, $D\subseteq \reals^n$ a bounded open set and $h>0$ a harmonic function on $D$. Let $X_t$ be the solution of the SDE
+\[
+dX_t = \nabla (\log h)(X_t)\ dt+dB_t.
+\]
+More precisely, choose an increasing sequence $\{D_k\}$ of open subsets of $D$ such that $\overline{D}_k\subset D$ and $\cup_{k=1}^\infty D_k = D$. Then for each $k$ the equation above can be solved (strongly) for $t<\tau_{D_k}$. This gives in a natural way a solution for $t<\tau := \lim_{k\to \infty}\tau_{D_k}$.
+\begin{enumerate}[(a)]
+	\item Show that the generator $A$ of $X_t$ satisfies
+	\[
+	Af= \frac{\Delta (hf)}{2h},
+	\]
+	for $f\in C_0^2(D)$. In particular, if $f= \frac{1}{h}$, then $Af = 0$.
+	\begin{proof}
+		Let's dig into both sides of the desired inequality and meet in the middle. We have that $X_t$ is an It\^o diffusion with drift $b(x) = \nabla(\log h)(x)$ and diffusion $\sigma(x) = I_n$. Now the generator is given by
+		\begin{align*}
+			Af(x) &= (b\cdot \nabla f)(x) + \frac{1}{2}\sum_{i,j}(\sigma\sigma^T)_{i,j}(x)\partial_{x_i}\partial_{x_j}f\\
+			&= \frac{1}{h}\sum_i(\partial_{x_i}h)(\partial_{x_i}f) + \frac{1}{2}\Delta f.
+		\end{align*}
+		On the other hand, we have
+		\begin{align*}
+			\Delta(hf) &= \sum_i\partial^2_{x_i}(hf)\\
+			&= \sum_i(\partial^2_{x_i}h)f + 2(\partial_{x_i}h)(\partial_{x_i}f) + h(\partial^2_{x_i}f)\\
+			&= 2 \nabla h\cdot \nabla f + h\Delta f.
+		\end{align*}
+		Dividing this last equation through by $2h$ establishes the claim.
+	\end{proof}
+
+	\item Use (a) to show that if there exists $x_0\in \partial D$ such that
+	\[
+	\lim_{x\to y\in \partial D}h(x) = \begin{cases}
+		0&\text{if }y\neq x_0\\
+		\infty&\text{if }y = x_0
+	\end{cases}
+	\]
+	then
+	\[
+	\lim_{t\to \tau}X_t = x_0\text{ a.s.}
+	\]
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\section*{\O ksendal 7.20}
+Consider the equation
+\[
+dX_t = rX_t(K-X_t)\ dt + \alpha X_t(K-X_t)\ db_t;\quad X_0 = x\geq 0.
+\]
+This equation does not satisfy the conditions for existence and uniqueness in Theorem 5.2.1. However, we can still prove that a unique strong solution exists by proceeding as follows.
+\begin{enumerate}[(a)]
+	\item For $n = 1, 2, \ldots$ define
+	\[
+	b_n(y) = \begin{cases}
+		y(K-y)&\text{if }0\leq y\leq n\\
+		n(K-n)&\text{if }y>n
+	\end{cases}
+	\]
+	and
+	\[
+	\sigma_n(y) = \begin{cases}
+		\alpha y(K-y)&\text{if }0\leq y\leq n\\
+		\alpha n(K-n)&\text{if }y>n
+	\end{cases}
+	\]
+	and let $X_t = X^{(n)}_t$ be the unique solution of
+	\[
+	dX_t = b_n(X_t)\ dt + \sigma_n(X_t)\ dB_t;\quad X_0 = x.
+	\]
+	Define
+	\[
+	\tau_n = \inf\{t>0: X_t^{(n)} = n\}.
+	\]
+	Show that
+	\[
+	X^{(n)}_t = X^{(n+1)}_t\quad\text{for all }t<\tau_n
+	\]
+	and use this to find a unique strong solution $X_t$ for $t<\tau_\infty:= \lim_{n\to \infty} \tau_n$.
+	\begin{proof}
+		Even though the coefficient functions in $dX_t$ do not satisfy our theorem for existence and uniqueness of strong solutions, the truncated coefficients $b_n$ and $\sigma_n$ do. Consequently, there is a unique strong solution for $X_t^{(n)}$ for all $t$. Since $X^{(n)}$ and $X^{(n+1}$ satisfy the same SDE for $X_t^{(n)}, X_t^{(n+1)}\leq n$, which holds for all $t<\tau_n$, strong uniqueness implies that $X_t^{(n)} = X_t^{(n+1)}$ for all $t<\tau_n$. Loosely speaking, $X^{(n)}$ and $X^{(n+1)}$ agree with each other for $t<\tau_n$, so they can be ``glued'' together here.\\
+
+		\noindent Now since $X_t$ must hit $n$ before it hits $n+1$ by continuity, the compatibility discussed above implies that
+		\[
+		\tau_n = \inf\{t>0: X_t^{(n)}=n\} \leq \inf\{t>0: X_t^{(n+1)} = n+1\} = \tau_{n+1}.
+		\]
+		Consequently, $\tau_n$ is an increasing sequence of stopping times, so it has an a.s. limit by the monotone convergence theorem. The compatibility of $X^{(n)}$ and $X^{(n+1)}$ then allows us to glue these truncated solutions together in the limit, so there is a unique strong solution $X_t$ for $t<\tau_\infty$.
+	\end{proof}
+
+
+	\item Prove that $\tau_\infty =\infty$ a.s.
+	\begin{proof}
+		We assume that the claims put forth in part (c) hold. Part (i) of (c) says that if $X$ starts at zero, it stays there. Consequently, $\tau_n = \infty$ a.s. for all $n\geq 1$ since $X$ will never reach $n$ a.s. in this case. We then have $\tau_\infty = \infty$ a.s. here. The same reasoning applies if $X$ starts at $K$: it gets stuck there so $\tau_\infty = \infty$ a.s.\\
+
+		\noindent If $X_0$ starts in $(0, K)$, then part (iii) of (c) says that $X$ will stay there for all time. We then have $\tau_n = \infty$ a.s. for all $n>K$, so $\tau_\infty = \infty$ a.s.\\
+
+		\noindent The only unintuitive case is when $X_0>K$ (I'm stealing this argument from the 1997 \href{https://reader.elsevier.com/reader/sd/pii/S0025556497000291?token=351C47C91AE312A241ADEE389E279E76737C9DA9ECED317F8963BDBCD3F22534CBC4612DEB95F032348FF7F1641792FA}{paper} by Lungu and \O ksendal). We take the expectation of both sides of the integral form of our SDE and use the strong Markov property on the stopping time $t\land \tau_n$:
+		\[
+		E^x[X_{t\land \tau_n}] = x + rE^x\left[\int_0^{t\land \tau_n}X_s(K-X_s)\ ds\right]\leq x.
+		\]
+		We've established that $\lim_{n\to \infty}\tau_n$ exists, so we can compute the pointwise limit
+		\[
+		\lim_{n\to \infty}X_{t\land \tau_n} = \begin{cases}
+			X_t&\text{if }t<\tau_\infty\\
+			\infty&\text{if }t\geq \tau_\infty.
+		\end{cases}
+		\]
+		By Fatou's lemma we then have
+		\[
+		E^x\left[\lim_{n\to \infty}X_{t\land\tau_n}\right] \leq \liminf_{n\to \infty}E^x[X_{t\land \tau_n}].
+		\]
+		Since the right-hand side was just shown to be bounded by $x$, we must have that $\Pr[t\geq \tau_\infty] = 0$. Since this holds for all $t$, we must have $\tau_\infty = \infty$.
+	\end{proof}
+
+	\item Prove that
+	\begin{enumerate}[(i)]
+		\item $X_0 = 0 \implies X_t = 0$ for all $t$.
+		\begin{proof}
+			If $X_0 = 0$, then $dX_0 = 0$. By strong uniqueness, since $X_t = 0$ for all $t$ solves the SDE with this initial condition, it must be \textit{the} solution.
+		\end{proof}
+
+		\item $X_0 = K\implies X_t= K$ for all $t$.
+		\begin{proof}
+			The same reasoning used in (i) applies here. Since $dX_0 = 0$ and solves the SDE with this condition, it must be the solution by strong uniqueness.
+		\end{proof}
+
+		\item $0<X_0<K\implies 0<X_t<K$ for all $t$.
+		\begin{proof}
+			Intuitively, if $X_t$ ever hits 0 or $K$, since the governing SDE is autonomous, the shift $t-\tau_K$, say, puts us in the setting of part (ii). Strong uniqueness then lets us extend the $X_{t-\tau_K} = K$ solution back in time to $X_t = K$ for all $t$. But if this were the case, then $X$ couldn't have started in $(0, K)$. We conclude that if $X$ starts in $(0, K)$, it must stay there.
+		\end{proof}
+
+		\item $X_0>K\implies X_t>K$ for all $t$.
+		\begin{proof}
+			We use the same reasoning as in part (iii). If $X$ starts above $K$ and somehow hits the ``floor'' that is $K$, autonomy of the SDE lets us shift the time origin to the instant we hit the floor. Part (ii) says that if $X_{t-\tau_K}$ starts at $K$, it stays there. Strong uniqueness lets us extend this solution back in time to say that $X_t$ started at $K$, which contradicts the assumption that $X$ started above $K$.
+		\end{proof}
+	\end{enumerate}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\section*{\O ksendal 8.2}
+Show that the solution $u(t, x)$ of the IVP
+\begin{align*}
+\partial_t u &= \frac{1}{2}\beta^2x^2\partial^2_xu + \alpha x\partial_x u;\quad t>0, x\in \reals\\
+u(0, x) &= f(x)\quad (f\in C_0^2(\reals)\text{ given})
+\end{align*}
+can be expressed as follows:
+\begin{align*}
+	u(t,x) &= E[f(x\cdot \exp\{\beta B_t + (\alpha - \frac{1}{2}\beta^2)t\})]\\
+	&= \frac{1}{\sqrt{2\pi t}}\int_\reals f(x\cdot \exp\{\beta y + (\alpha - \frac{1}{2}\beta^2)t\})\exp\left(-\frac{y^2}{2t}\right)\ dy;\quad t>0.
+\end{align*}
+\begin{proof}
+	We apply Kolmogorov's backward equation, which states that if $u(t, x)$ satisfies
+	\begin{align*}
+		\partial_t u &= Au,\quad t>0, x\in \reals^n\\
+		u(0, x) &= f(x),\quad x\in \reals^n,
+	\end{align*}
+	where $A$ is the generator of some diffusion process, $X_t$, then
+	\[
+	u(t, x) = E^x[f(X_t)].
+	\]
+	Basically, we have to identify that RHS of the given PDE as the generator of a diffusion process and the integral as the expectation with respect to an appropriate probability measure.\\
+
+	\noindent Some combing through \O ksendal shows that the RHS of the PDE is indeed the generator of a geometric Brownian motion:
+	\[
+	dX_t = \alpha X_t\ dt + \beta X_t\ dB_t,\quad X_0 = x>0.
+	\]
+	We've seen that the solution to this SDE is
+	\[
+	X_t = xe^{(\alpha -\frac{\beta^2}{2})t + \beta B_t}.
+	\]
+	That definitely explains the first line in the desired form of $u(t, x)$, but I'm not sure why the relevant probability measure implicit in the expectation is Gaussian. Do you get this by looking at Kolmogorov's forward equation?
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section*{Karatzas and Shreve 1.2.23}
+Show that if $\{T_n\}_{n=1}^\infty$ is a sequence of optional times and $T = \inf_{n\geq 1}T_n$, then $\mcal{F}_{T^+} = \cap_{n=1}^\infty \mcal{F}_{T_n^+}$. Besides, if each $T_n$ is a positive stopping time and $T<T_n$ on $\{T<\infty\}$, then we have $\mcal{F}_{T^+} = \cap_{n=1}^\infty \mcal{F}_{T_n}$.
+\begin{proof}
+	By Lemma 2.11 in the text, $T$ is an optional time. Consequently, we have that $A\in \mcal{F}_{T^+}$ if and only if $A\cap \{T\leq t\}\in \mcal{F}_{t^+}$. By the definition of the infimum we have that $A\cap \{T_n\leq t\}\in \mcal{F}_{t^+}$ as well for all $n$, so $A\in \mcal{F}_{T_n}$ too. We then have that $\mcal{F}_{T^+}\subseteq \cap_{n=1}^\infty \mcal{F}_{T_n^+}$. Conversely, suppose $A\cap \{T_n<t\}\in \mcal{F}_t$ for all $n$ and $t$. Again by the definition of the infimum, we have
+	\[
+	A\cap \{T<t\} = A\cap \left(\bigcup_{n=1}^\infty\{T_n<t\}\right) = \bigcup_{n=1}^\infty(A\cap \{T_n<t\})\in \mcal{F}_t,
+	\]
+	so $\cap_{n=1}^\infty \mcal{F}_{T_n^+}\subseteq \mcal{F}_{T^+}$.\\
+
+	\noindent As for the second claim, by Problem 2.22, since $T_n$ is positive and $T<T_n$ on $\{T<\infty\}$, then $\mcal{F}_{T^+} \subseteq \mcal{F}_{T_n}$ for each $n$, so $\mcal{F}_{T^+}\subseteq \cap_{n=1}^\infty \mcal{F}_{T_n}$. The other inclusion follows from the above discussion.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section*{Karatzas and Shreve 1.5.24(i)}
+Let $M = \{M_t, \mcal{F}_t: 0\leq t<\infty\}$ be a process in $\mcal{M}_2\cup \mcal{M}^{c, loc}$ and assume that its quadratic variation process $\langle M\rangle$ is integrable: $E\langle M\rangle_\infty<\infty$. Show that $M$ is a martingale, and that $M$ and the submartingale $M^2$ are both uniformly integrable. In particular, show that $M_\infty = \lim_{t\to \infty}M_t$ exists a.s. $P$ and $EM_\infty^2 = E\langle M\rangle_\infty$.
+\begin{proof}
+	If $M\in \mcal{M}_2$, then it's clearly a martingale. Since it's square integrable, it is uniformly integrable by Cauch-Schwartz. We also have
+	\[
+	E[M_t^2] = E\langle M\rangle_t \leq E\langle M\rangle_\infty,
+	\]
+	so the submartingale $M^2$ is also uniformly integrable. The martingale convergence theorem for uniformly integrable martingales implies that $M$ converges a.s.
+\end{proof}
+
+\end{document}

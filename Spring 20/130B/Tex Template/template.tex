@@ -1,0 +1,78 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Name\hfill{Date} }
+\begin{center}
+{\bf \Large Class - Homework N}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\section*{Problem 1}
+Prove the following theorem.
+\begin{theorem}[Markov's Inequality]
+	If $X:\Omega\to \reals$ is a random variable and $E[|X|]<\infty$, then for all $a\geq 0$
+	\begin{equation}\label{Markov}
+		\Pr[|X|\geq a] \leq \frac{E[|X|]}{a}.
+	\end{equation}
+\end{theorem}
+
+\begin{solution}
+	Define the random variable $Y$ by
+	\[
+	Y(\omega) = \begin{cases}
+		0,&\text{if }|X(\omega)|<a\\
+		a,&\text{if }|X(\omega)|\geq a
+	\end{cases}.
+	\]
+	Note that $Y(\omega)\leq |X(\omega)|$ for all $\omega\in \Omega$. This gives
+	\begin{align*}
+		E[|X|] &\geq E[Y]\\
+		&= a\cdot \Pr[|X|\geq a].
+	\end{align*}
+	Dividing through by $a$ establishes (\ref{Markov}).
+\end{solution}
+
+
+\section*{Problem 2}
+Prove that
+\begin{equation}\label{Gauss}
+	1 + 2 + \cdots + n = \frac{n(n+1)}{2}.
+\end{equation}
+
+\begin{solution}
+	You could prove this by induction, but that's pretty boring. Check out this argument allegedly due to Gauss. Call the left-hand side of (\ref{Gauss}) $S$ then write it forward and backwards.
+	\begin{align*}
+		S &= 1 + 2 + 3 + \cdots + n\\
+		S &= n + (n-1) + (n-2) + \cdots +1
+	\end{align*}
+	The first terms in both rows sum to $n+1$, the second terms in both rows also sum to $n+1$, and so on. There are $n$ terms in each row, so adding these rows together gives $n(n+1)$ on the right-hand side and $2S$ on the left. Dividing by 2 establishes (\ref{Gauss}).
+\end{solution}
+
+\end{document}

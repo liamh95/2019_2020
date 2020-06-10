@@ -1,0 +1,63 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 130B - Homework 3}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+
+\begin{enumerate}
+	\item Let $Z$ be a standard normal random variable and let $g$ be a differentiable function with derivative $g'$.
+	\begin{enumerate}
+		\item Show that $E[g'(Z)] = E[Zg(Z)]$. What assumptions do you need in order for this to be true?
+		\item Show that $E[Z^{n+1}] = nE[Z^{n-1}]$.
+		\item Find $E[Z^4]$.
+		\item Find $E[Z^{2n}]$ and $E[Z^{2n+1}]$.
+		\item Let $X\sim \mcal{N}(\mu, \sigma^2)$. Show that $E[(X-\mu)g(X)] = \sigma^2E[g'(X)]$ when both sides exist.
+	\end{enumerate}
+
+	\item Let $\phi(x)$ be the standard normal density and let $\Phi(x)$ be the standard normal cdf. Show that $\phi'(x) + x\phi(x) = 0$. Deduce that
+	\[
+	\frac{1}{x} - \frac{1}{x^3} < \frac{1-\Phi(x)}{\phi(x)} < \frac{1}{x} - \frac{1}{x^3} + \frac{3}{x^5},\quad x>0.
+	\]
+	This inequality is useful since it helps estimate $\Phi(x)$, which doesn't have a closed-form expression.
+
+	\item Four witnesses, Alice, Bob, Carol, and Dave, at a trial each tell the truth with probability $\frac{1}{3}$ independent of each other. In their testimonies, Alice claimed that Bob denied that Carol declared that Dave lied. What is the conditional probability that Dave told the truth?
+
+	\item Consider a stick of unit length. Break the stick at two points chosen uniformly at random. What is the probability that you can form a triangle from the three pieces that remain.
+
+	\item A roulette wheel has 38 slots: 18 red, 18 black, and 2 green. A ball is tossed into the wheel and eventually settles in a slot at random. You play many games, betting \$1 on red each time. If the ball lands in a red slot you win \$1, otherwise you lose the dollar you bet. After $n$ games, what is the probability that you have more money than you started with? Give (approximate) numerical answers for $n=100$ and $n=1000$. How would the answer change if there were no green slots?
+
+	\item How many times do you need to toss a fair coin in order to get 100 heads with probability at least 0.9?
+
+\end{enumerate}
+
+
+
+\end{document}

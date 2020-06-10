@@ -1,0 +1,53 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 130B - Normal Distribution}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item The annual rainfall (in inches) in a certain region is normally distributed with $\mu = 40$ and $\sigma = 4$. What is the probability that starting with this year, it will take more than 10 years before a year occurs having a rainfall of more than 50 inches? What assumptions are you making?
+
+	\vfill
+
+	\item Every day Jo practices her tennis serve by continually serving until she has had a total of 50 successful serves. If each of her serves is, independently of previous ones, successful with probability 0.4, approximately what is the probability that she will need more than 100 serves to accomplish her goal? Use the normal approximation.
+
+	\vfill
+
+	\item Let $Z$ be a standard normal random variable $Z$, and let $g$ be a differentiable function with derivative $g'$.
+	\begin{enumerate}[(a)]
+		\item Show that $E[g'(Z)] = E[Zg(Z)]$.
+		\item Show that $E[Z^{n+1}] = nE[Z^{n-1}]$.
+		\item Find $E[Z^4]$.
+	\end{enumerate}
+
+	\vfill
+\end{enumerate}	
+
+\end{document}

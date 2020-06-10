@@ -1,0 +1,69 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 130B - Continuous Random Variables}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item For what values of $C$ are the following functions probability density functions?
+	\begin{enumerate}[(a)]
+		\item $f(x) = C[x(1-x)]^{-1/2}$, $x\in (0, 1)$.
+		\item $f(x) = C\exp(-x-e^{-x})$, $x\in \reals$.
+		\item $f(x) = C/(1+x^2)$, $x\in \reals$.
+	\end{enumerate}
+
+	\item For what values of $\alpha$ is $E[|X|^{\alpha}]$ finite if $X$ has the density $f$. (This is called the $\alpha$-th moment of $X$).
+	\begin{enumerate}[(a)]
+		\item $f(x) = e^{-x}$, $x\geq 0$.
+		\item $f(x) = 1/[\pi(1+x^2)]$, $x\in \reals$.
+	\end{enumerate}
+
+	\item You arrive at a bus stop at 10 AM knowing that the bus will arrive at some time uniformly distributed between 10 and 10:30.
+	\begin{enumerate}
+		\item What is the probability that you will have to wait longer than 10 minutes?
+		\item If at 10:15 the bus has not yet arrived, what is the probability that you will have to wait at least an additional 10 minutes?
+	\end{enumerate}
+
+	\item Let $X$ be a random variable that takes on values between 0 and $c$. Show that
+	\[
+	\Var[X] \leq \frac{c^2}{4}.
+	\]
+	One way to do this is to first show that $E[X^2]\leq cE[X]$ and then show that
+	\[
+	\Var[X] \leq c^2[\alpha(1-\alpha)],
+	\]
+	where $\alpha = \frac{E[X]}{c}$.
+
+	\item Say you want to write a computer program that needs to simulate a continuous random variable $X$ whose distribution function is $F$. You don't know how to simulate $X$ directly, but you can simulate uniform random variables just fine. Assuming the distribution function $F$ is strictly increasing, describe a way to simulate $X$.
+
+
+\end{enumerate}
+
+\end{document}

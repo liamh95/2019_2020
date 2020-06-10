@@ -1,0 +1,80 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 180B - Sums of Divisors}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item Recall that a function $f:\naturals\to \complex$ is multiplicative if $f(mn) = f(m)f(n)$ for all $(m,n) = 1$. Prove that if $f$ is multiplicative and not identically zero then $f(1) = 1$.
+
+	\vfill
+
+	\item Let $\sigma(x) = \sum_{d\mid x}d$. Find the smallest positive integer $n$ so that $\sigma(x) = n$ has no solution.
+
+	\vfill
+
+	\item Prove that the number of positive irreducible fractions $\leq 1$ with denominator $\leq n$ is $\phi(1) +\phi(2) + \cdots + \phi(n)$.
+
+	\vfill
+
+	\item Prove that $\sum_{d\mid n}f(d) = \sum_{d\mid n}f(n/d)$.
+
+	\vfill
+
+	\item Define the function $\mu: \naturals \to \{-1, 0, 1\}$ by
+	\[
+	\mu(n) = \begin{cases}
+		1,&\text{if }n\text{ is square-free and has an even number of prime divisors}\\
+		-1,&\text{if }n\text{ is square-free and has an odd number of prime divisors}\\
+		0,&\text{if }n\text{ has a squared prime factor}
+	\end{cases}.
+	\]
+	\begin{enumerate}
+		\item Prove that $\mu(n)$ is multiplicative and
+		\[
+		\sum_{d\mid n}\mu(d) = \begin{cases}
+			1,&\text{if }n=1\\
+			0,&\text{if }n>1
+		\end{cases}.
+		\]
+
+		\vfill
+
+		\item Prove that if $F(n) = \sum_{d\mid n}f(d)$ for every positive integer $n$, then $f(n) = \sum_{d\mid n}\mu(d)F(n/d)$.
+
+		\vfill
+
+		\item Prove the converse to (b): if $f(n) = \sum_{d\mid n}\mu(d)F(n/d)$, then $F(n) = \sum_{d\mid n}f(d)$.
+	\end{enumerate}
+
+	\vfill
+\end{enumerate}
+
+\end{document}

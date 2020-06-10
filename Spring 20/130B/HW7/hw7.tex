@@ -1,0 +1,90 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 130B - Homework 7}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+
+	\item The weak law of large numbers states that, if $X_1, X_2, \ldots$ are iid random variables with mean $\mu$ and variance $\sigma^2$, then for any $\epsilon>0$ we hve
+	\[
+	\Pr\left[ \left| \frac{X_1 + X_2 + \cdots + X_n}{n}-\mu\right|>\epsilon\right] \to 0.
+	\]
+	That is, the sample mean $\frac{1}{n}\sum_{i=1}^nX_i$ converges to the mean $\mu$ \textit{in probability}. Prove the weak law of large numbers.
+
+
+
+
+	\vfill
+
+
+
+	\item Consider a uniformly chosen random function $f:[n]\to [n]$. For any $k \leq n$, denote the preimage of $k$ under $f$ by
+	\[
+	f^{-1}(k) = \{j\in [n]: f(j) = k\}.
+	\]
+	Let $M_f$ be the size of the largest preimage, i.e.
+	\[
+	M_f = \max_{k\in [n]}|f^{-1}(k)|.
+	\]
+	In this exercise we'll show that $M_f = \Theta(\frac{\log n}{\log \log n})$ with high probability.
+	\begin{enumerate}%balls bins example stated differently
+		\item Use Chernoff or Markov to get the upper bound, $M_f = O(\frac{\log n}{\log \log n})$ with high probability. \textit{Hint: Depending on which you choose, you might want to use the inequality $\binom{n}{k}\leq \frac{n^k}{k!}$.}
+
+		\vfill
+
+		\item Come up with a lower bound for the probability $\Pr[|f^{-1}(k)| \geq t]$ (you might want to use the inequality $(1-\frac{1}{n})^n \geq 1/e$). Conclude that we expect $\Omega(n^{2/3})$ elements of $[n]$ to have at least $\frac{\log n}{3\log \log n}$ preimages. Explain why this statement about the expectation isn't enough to show that $M_f = \Omega(\frac{\log n}{\log \log n})$.
+		\vfill
+
+		\item Let $X$ be the number of elements of $[n]$ with at least $\frac{\log n}{3\log \log n}$ preimages (we just showed $E[X] = \Omega(n^{2/3})$). Use Chebyshev's inequality to get an upper bound on $\Pr[X=0]$ and get the lower bound, $M_f = \Omega(\frac{\log n}{\log \log n})$.
+	\end{enumerate}
+	\vfill\pagebreak
+
+
+
+	\item Alice and Bob are playing a game on a $d$-regular graph $G$ that has $n$ vertices and $d = C\log^2n$ for some large constant $C$. They take turns claiming edges of $G$. Once an edge is claimed, it can't be reclaimed by the other player. Alice is trying to maximize the minimum degree of the subgraph made from her edges and Bob is trying to minimize the minimum degree of Alice's graph.
+	\begin{enumerate}
+		\item How large a minimum degree do you expect Alice to make? (This question isn't rigorously phrased, so you don't need to give a rigorous answer.)
+
+		\vfill
+
+		\item Consider this randomized strategy for Alice. She starts by letting Bob go first. Say Bob chooses the edge $\{x,y\}$. Now Alice flips a coin. If it comes up heads, she claims a random edge $\{x, z\}$ incident to $x$ (if one is still available). If it comes up tails, she claims one incident to $y$, $\{z, y\}$. If there are no available edges to choose in this way, she just picks a random available edge. She does this on every one of her turns until the game is over (assume all of her random choices are made independently).\\
+
+		Fix a vertex $v$ in $G$. Come up with a lower bound on $E[\deg(v)]$, the expected degree of $v$ in Alice's subgraph.
+
+		\vfill 
+
+		\item Fix $\epsilon>0$. Use Chernoff to show that the minimum degree of Alice's graph is at least $(1-\epsilon)\frac{d}{3}$ with high probability.
+		\vfill
+	\end{enumerate}
+
+\end{enumerate}
+
+\end{document}

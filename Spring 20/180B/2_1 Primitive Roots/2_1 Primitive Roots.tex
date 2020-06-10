@@ -1,0 +1,61 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 180B - Primitive Roots}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	\item Let $p$ be an odd prime. Prove that $a$ has order 2 mod $p$ if and only if $p\equiv -1 \pmod{p}$.
+	\vfill
+
+	\item Prove that a quadratic residue is never a primitive root mod $p$ for $p$ and odd prime. \textit{Recall: $a$ is a quadratic residue mod $p$ if $a \equiv b^2\pmod{p}$ for some $b$.}
+	\vfill
+
+	\item Suppose that $a$ has order $h$ mod $p$, and that $a\bar{a} \equiv 1\pmod{p}$. Show that $\bar{a}$ also has order $h$. Suppose that $g$ is a primitive root mod $p$ and that $a \equiv g^i\pmod{p}$, $0\leq i < p-1$. Show that $\bar{a} \equiv g^{p-1-i}\pmod{p}$.
+	\vfill
+
+	\item Show that if $g$ and $g'$ are primitive roots modulo and odd prime $p$, then $gg'$ is not a primitive root mod $p$.
+	\vfill
+
+	\item Let $p$ be a prime such that $q = \frac{1}{2}(p-1)$ is also prime. Suppose that $g$ is an integer satisfying
+	\[
+	g\not\equiv 0\pmod{p}\quad\text{and} g\not\equiv \pm 1\pmod{p}\quad\text{and} g^q\not\equiv 1\pmod{p}.
+	\]
+	Prove that $g$ is a primitive root modulo $p$.
+	\vfill
+
+	\item Prove that if $a$ has order 3 modulo a prime $p$, then $1+a+a^2 \equiv 0\pmod{p}$, and that $1+a$ has order 6.
+	\vfill
+
+	\item Prove that the sequence $1^1, 2^2, 3^3, \ldots$, considered mod $p$ is periodic with least period $p(p-1)$.
+	\vfill
+\end{enumerate}
+
+\end{document}

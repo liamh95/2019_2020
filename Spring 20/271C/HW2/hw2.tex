@@ -1,0 +1,381 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm, bbm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\Exp}{\mathcal{E}}
+\newcommand{\sgn}{\text{sgn}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{April 25, 2020} }
+\begin{center}
+{\bf \Large 271C - Homework 2}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\noindent\textbf{Problem 1. }
+Show that if $a,b$ are deterministic and of class I$^*$ then
+\begin{enumerate}[(a)]
+	\item if
+	\[
+	dX_t = a(t)\ dt + b(t)\ dB_t,
+	\]
+	then $X(t)$ is a Gaussian process with independent increments.
+	\begin{proof}
+		We have that
+		\[
+		X_t = X_0 + \int_0^ta_s\ ds + \int_0^tb_s\ dB_s.
+		\]
+		On a previous homework assignment, we've shown that $\int_0^tb_s\ dB_s\to g$ in $L^2$, where $g\sim \mcal{N}(0, \int_0^tb^2_s\ ds)$ (the idea in that proof is to look at the limit definition of the It\^o integral). In particular, we have that
+		\[
+		X_t \sim \mcal{N}\left( A_t,\ \int_0^t b^2_s\ ds\right),
+		\]
+		where $A_t = X_0 + \int_0^ta_s\ ds$. Thus, $X_t$ is a Gaussian random variable for each $t$. To show that the process is Gaussian, fix some integer $k$ and consider times $t_1, \ldots, t_k$ and let $\mathbf{s} = (s_1, \ldots, s_k)$, $\mathbf{X} = (X_{t_1}, \ldots, X_{t_k})$, and $\mathbf{A} = (A_{t_1}, \ldots, A_{t_k})$. Consider the characteristic function of $\mathbf{X}$.
+		\begin{align*}
+			E[e^{i\mathbf{s}\cdot \mathbf{X}}] &= E\exp\left[i\sum_{j=1}^ks_j\left(A_{t_j} + \int_0^{t_j}b_s\ dB_s \right) \right]\\
+			&= e^{i\mathbf{s}\cdot \mathbf{A}}\cdot E\exp\left[i\sum_{j=1}^ks_j\int_0^{t_j}b_s\ dB_s \right].
+		\end{align*}
+		We need to show that this simplifies to the characteristic function of a multivariate Gaussian.
+	\end{proof}
+
+	\item If
+	\[
+	dX_t = a_tX_t\ dt + b_tX_t\ dB_t,
+	\]
+	then $X_t$ is a log-normal process.
+	\begin{proof}
+		Dividing the given equation through by $X_t$ gives
+		\[
+		\frac{dX_t}{X_t} = a_t\ dt + b_t\ dB_t.
+		\]
+		Now by It\^o's lemma we have
+		\begin{align*}
+		d(\log X_t) &= \frac{dX_t}{X_t} - \frac{d\langle X\rangle_t}{X_t^2}\\
+		&= (a_t\ dt + b_t\ dB_t) - (b_t^2\ dt)\\
+		&= (a_t - b_t^2)dt + b_t\ dB_t.
+		\end{align*}
+		By part (a), $\log X_t$ is then a Gaussian process, so $X_t$ is itself a log-normal process.
+	\end{proof}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\noindent\textbf{Problem 2. }
+Solve the SDE
+\begin{equation}\label{2: sde}
+	dX_t = B_tX_t\ dt + B_tX_t\ dB_t,\quad X_0 = 1.
+\end{equation}
+\begin{solution}
+	We divide by $X_t$ to obtain
+	\[
+	\frac{dX_t}{X_t} = B_t\ dt + B_t\ dB_t.
+	\]
+	By It\^o we then have
+	\begin{align*}
+		d(\log X_t) &= \frac{dX_t}{X_t} - \frac{d\langle X\rangle_t}{X_t^2}\\
+		&= (B_t\ dt +  B_t\ dB_t) - B_t^2\ dt\\
+		&= (B_t - B_t^2)dt + B_t\ dB_t.
+	\end{align*}
+	Using the fact that $X_0= 1$, we exponentiate and obtain
+	\[
+	X_t = \exp\left(\int_0^t(B_s - B_s^2)ds + \int_0^tB_s\ dB_s \right).
+	\]
+\end{solution}
+
+
+
+
+
+
+
+
+
+
+\noindent\textbf{Problem 3. }
+Find the stochastic exponential
+\[
+\mcal{E}(B_t^2 + t).
+\]
+\begin{solution}
+	Let $X_t = B_t^2 + t$. The stochastic exponential of $X_t$ is given by
+	\[
+	\Exp(X_t) = \exp(X_t - X_0 - \frac{1}{2}\langle X\rangle_t).
+	\]
+	We then need to compute $\langle B_t^2 + t\rangle$. To this end, we use It\^o to compute $d(X_t^2)$.
+	\begin{align*}
+		dY_t &= 2X_t\ dX_t + d\langle X\rangle_t\\
+		&= 2(B_t^2 + t)\cdot d(B_t^2 + t) + d\langle B_t^2 + t\rangle.
+	\end{align*}
+	From this we deduce
+	\[
+	d\langle B_t^2 + t\rangle = d[(B_t^2+t)^2]  - 2(B_t^2+t)\cdot d(B_t^2 + t).
+	\]
+	Applying It\^o again gives
+	\[
+	d(B_t^2+t) = 2dt + 2B_t\ dB_t,
+	\]
+	from which we get
+	\[
+	d\langle B_t^2+t\rangle = d[(B_t^2+t)^2] - 4(B_t^2+t)dt - 4B_t(B_t^2+t)dB_t.
+	\]
+	Putting it all together gives
+	\[
+	\Exp(B_t^2 + t) = \exp\left(B_t^2 + t -\frac{1}{2}(B_t^2 + t)^2 + 2\int_0^t(B_s^2 + s)dt + 2\int_0^tB_s(B_s^2 + s)dB_s\right).
+	\]
+\end{solution}
+
+
+
+
+
+
+
+
+
+
+\noindent\textbf{Problem 4. }
+Prove Thomas' Lemma: Let $X, Y, Z\in \mcal{M}^{c,\ loc}$. Then
+\[
+X_t\circ (Y_t\circ dZ_t) = (X_tY_t)\circ dZ_t.
+\]
+\begin{proof}
+	For ease of notation, write
+	\begin{align*}
+		dX_t &= \mu^{(X)}_t\ dt + \sigma^{(X)}_t\ dB_t\\
+		dY_t &= \mu^{(Y)}_t\ dt + \sigma^{(Y)}_t\ dB_t\\
+		dZ_t &= \mu^{(Z)}_t\ dt + \sigma^{(Z)}_t\ dB_t.
+	\end{align*}
+	(Is assuming $X,Y,Z\in \mcal{M}^{c, loc}$ enough to let us write this?) Let $W_t$ be defined by
+	\[
+	W_t = Y_0 + \int_0^tY_s\circ dZ_s.
+	\]
+	With this definition, we have $X_t\circ (Y_t\circ dZ_t) = X_t\circ W_t$. Let's convert from Stratonovich to It\^o.
+	\[
+	dW_t = Y_t\circ dZ_t = Y_t\ dZ_t + \frac{1}{2}d\langle Y, Z\rangle_t.
+	\]
+	From this we deduce
+	\begin{align*}
+		X_t\circ dW_t &= X_t\circ \left(Y_t\ dZ_t + \frac{1}{2}d\langle Y, Z\rangle_t\right)\\
+		&= X_t\circ (Y_t\ dZ_t) + \frac{1}{2}X_t\circ d\langle Y, Z\rangle_t.
+	\end{align*}
+	Now $\langle Y, Z\rangle_t$ has finite total variation, so $X_t\circ d\langle Y, Z\rangle_t = X_t\ d\langle Y, Z\rangle_t$. This gives
+	\[
+	X_t\circ dW_t = X_tY_t\ dZ_t + \frac{1}{2}d\left\langle X_t, \int_0^tY_s\ dZ_s\right\rangle + \frac{1}{2}X_t\ d\langle Y, Z\rangle_t.
+	\]
+	Now if we could show that
+	\[
+	d\left\langle X_t, \int_0^tY_s\ dZ_s\right\rangle = Y_t\ d\langle X, Z\rangle_t,
+	\]
+	then we'd have 
+	\begin{align*}
+		X_t\circ dW_t &= X_tY_t\ dZ_t + \frac{1}{2}Y_t\ d\langle X, Z\rangle_t + \frac{1}{2}X_t\ d\langle Y, Z\rangle_t.
+	\end{align*}
+	Then if we could show that
+	\[
+	\frac{1}{2}Y_t\ d\langle X, Z\rangle_t + \frac{1}{2}X_t\ d\langle Y, Z\rangle_t = \frac{1}{2}d\langle XY, Z\rangle_t,
+	\]
+	then we'd have
+	\[
+	X_t\circ dW_t  = X_tY_t\ dZ_t + \frac{1}{2}d\langle XY, Z\rangle_t = X_tY_t\circ dZ_t.
+	\]
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\noindent\textbf{\O ksendal Problem 4.10}
+Let $g(x) = |x|$ and define $g_\epsilon(x)$ by
+\[
+g_\epsilon(x) = \begin{cases}
+	|x|&\text{if }|x|\geq \epsilon\\
+	\frac{1}{2}(\epsilon + x^2/\epsilon)&\text{if }|x|<\epsilon,
+\end{cases}
+\]
+for $\epsilon>0$.
+\begin{enumerate}[(a)]
+	\item Show that
+	\[
+	g_\epsilon(B_t) = g_\epsilon(B_0) + \int_0^tg'_\epsilon(B_s)\ dB_s + \frac{1}{2\epsilon}\cdot m(E_\epsilon),
+	\]
+	where $m(\cdot)$ is the Lebesgue measure and $E_\epsilon$ is defined by
+	\[
+	E_\epsilon = \{s\in [0,t]: B_s\in (-\epsilon, \epsilon)\}.
+	\]
+	\begin{proof}
+		First, we claim that
+		\[
+		g_\epsilon(B_t) = g_\epsilon(B_0) + \int_0^tg'_\epsilon(B_s)\ dB_s + \frac{1}{2}\int_0^tg_\epsilon''(B_s)\ ds.
+		\]
+		The desired result easily follows from this since
+		\[
+		g_\epsilon''(x) = \frac{1}{\epsilon}\ind_{\{|x|<\epsilon\}}(x).
+		\]
+		To prove our claim, first note that $g_\epsilon$ is $C^1$ everywhere and $C^2$ except for at $\pm \epsilon$. We also have that $|g_\epsilon''(x)|\leq 1/\epsilon$ outside of $x=\pm \epsilon$. Choose $f_k\in C^2$ such that $f_k\to g_\epsilon$ uniformly, $f'_k\to g_\epsilon'$ uniformly, $|f_k''|\leq 1/\epsilon$, and $f_k''\to g_\epsilon''$ outside of $x=\pm \epsilon$. That such a sequence exists follows from an approximation argument that can be found in Appendix D of \O ksendal. It\^o's lemma tells us that
+		\[
+		f_k(B_t)= f_k(B_0) + \int_0^tf_k'(B_s)\ dB_s + \frac{1}{2}\int_0^t f_k''(B_s)\ ds.
+		\]
+		The sequence $f_k$ was chosen such that taking $k\to \infty$ on both sides of the equation above establishes the claim.
+	\end{proof}
+
+	\item Prove that
+	\[
+	\int_0^tg'_\epsilon(B_s)\cdot \ind_{B_s\in (-\epsilon, \epsilon)}dB_s = \int_0^t\frac{B_s}{\epsilon}\cdot \ind_{B_s\in (-\epsilon, \epsilon)}dB_s \to 0
+	\]
+	in $L^2(\Pr)$ as $\epsilon\to 0$.
+	\begin{proof}
+		The equality of the two integrals follows immediately from the definition of $g_\epsilon$. Now by the It\^o isometry we have
+		\begin{align*}
+			E\left[\left( \int_0^t\frac{B_s}{\epsilon}\cdot \ind_{B_s\in (-\epsilon, \epsilon)}dB_s \right)^2\right] &= E\left[\int_0^t\frac{B_s^2}{\epsilon^2}\cdot \ind_{B_s\in (-\epsilon, \epsilon)}ds \right]\\
+			&\leq E[m(\{s: B_s\in (-\epsilon, \epsilon)\})].
+		\end{align*}
+		By Fubini, this quantity is 
+		\[
+		\int_0^t\Pr[B_s\in (-\epsilon, \epsilon)]\ ds.
+		\]
+		Since $B_s\sim \mcal{N}(0, s)$, this quantity goes to zero by the monotone convergence theorem and the result follows.
+	\end{proof}
+
+	\item By letting $\epsilon\to 0$, prove that
+	\[
+	|B_t| = |B_0| + \int_0^t \sgn(B_s)\ dB_s + L_t(\omega),
+	\]
+	where
+	\[
+	L_t = \lim_{\epsilon\to 0}\frac{1}{2\epsilon}\cdot m(E_\epsilon)\quad\text{(limit is in $L^2(\Pr)$)}
+	\]
+	and
+	\[
+	\sgn(x) = \begin{cases}
+		-1&\text{for }x\leq 0\\
+		1&\text{for }x>0.
+	\end{cases}
+	\]
+	\begin{proof}
+		By part (a) we have
+		\begin{align*}
+		g_\epsilon(B_t) &= g_\epsilon(B_0) + \int_0^tg_\epsilon'(B_s)\cdot \ind_{B_s\in (-\epsilon, \epsilon)}dB_s + \int_0^tg_\epsilon'(B_s)\cdot \ind_{B_s\not\in (-\epsilon, \epsilon)}dB_s + \frac{1}{2\epsilon}\cdot m(E_\epsilon)\\
+		&= g_\epsilon(B_0) + \int_0^tg'_\epsilon(B_s)\cdot \ind_{B_s\in (-\epsilon, \epsilon)}dB_s + \int_0^t\sgn(B_s)\cdot \ind_{B_s\not\in (-\epsilon, \epsilon)}dB_s + \frac{1}{2\epsilon}\cdot m(E_\epsilon).
+		\end{align*}
+		By part (b), the second integral goes to zero in $L^2(\Pr)$ as $\epsilon\to 0$ and the claim follows.
+	\end{proof}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\noindent\textbf{Problem 6. }
+Prove that Tanaka's equation
+\begin{equation}\label{Tanaka}
+dX_t = \sgn(X_t)\ dB_t,\quad X_0 = 0
+\end{equation}
+has no strong solution.
+\begin{proof}
+	This argument comes from \O ksendal. Let $\hat{B}_t$ be a Brownian motion generating the filtration $\hat{\mcal{F}}_t$ and let
+	\[
+	Y_t = \int_0^t \sgn(\hat{B}_s)\ d\hat{B}_s.
+	\]
+	By the previous exercise, we have
+	\[
+	Y_t = |\hat{B}_s| - |\hat{B}_0| - \hat{L}_t(\omega).
+	\]
+	From this equation, we deduce that $Y_t$ is measurable with respect to the filtration generated by $|\hat{B}_s|$, $s\leq t$, which itself is contained in $\hat{\mcal{F}}_t$. In particular, the filtration generated by $Y_s$, $s\leq t$ is strictly contained in $\hat{\mcal{F}}_t$.\\
+
+	Suppose (\ref{Tanaka}) has strong solution $X_t$ adapted to the filtration $\mcal{F}_t$ generated by $B_s$, $s\leq t$. By Theorem 8.4.2 in \O ksendal, since $\sgn^2(X_t) = 1$, $X_t$ is a Brownian motion with respect to the underlying probability measure. Suppose $X_s$, $s\leq t$ generates the filtration $\mcal{G}_t$. Note that by rearranging (\ref{Tanaka}), we have
+	\[
+	dB_t = \sgn(X_t)\ dX_t.
+	\]
+	Now we also have that
+	\[
+	dY_t = \sgn(\hat{B}_s)\ d\hat{B}_s.
+	\]
+	Combining these and using the argument above, we have that $\mcal{F}_t$ is strictly contained in $\mcal{G}_t$. But in order for $X_t$ to be a strong solution, it must be $\mcal{F}_t$ adapted and $\mcal{G}_t\subseteq \mcal{F}_t$ -- a contradiction.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\noindent\textbf{\O ksendal Problem 5.11 }
+For fixed $a,b\in \reals$, consider the following 1-dimensional equation
+\[
+dY_t = \frac{b-Y_t}{1-t}dt + dB_t;\quad 0\leq t<1,\ Y_0 = a.
+\]
+Verify that
+\[
+Y_t = a(1-t) + bt + (1-t)\int_0^t\frac{dB_s}{1-s};\quad 0\leq t<1
+\]
+solves the equation and prove that $\lim_{t\to 1}Y_t = b$ a.s.
+\begin{proof}
+	By It\^o we have
+	\begin{align*}
+	dY_t &= b-a + (1-t)\cdot d\left(\int_0^t\frac{dB_s}{1-s}\right) + \left(\int_0^t\frac{dB_s}{1-s}\right)\cdot d(1-t) + \frac{1}{2}d\left\langle 1-t, \int_0^t\frac{dB_s}{1-s}\right\rangle.
+	\end{align*}
+	Since $1-t$ is absolutely continuous, that quadratic variation term is zero. After some simplification, we obtain the desired
+	\[
+	dY_t = \frac{b-Y_t}{1-t}dt + dB_t.
+	\]
+	To show the limit, first note that $M_t = \int_0^t\frac{dB_s}{1-s}$ is a martingale and $(1-t)M_t$ is a submartingale. By Doob's submartingale inequality we have for any $\epsilon>0$
+	\begin{align*}
+		\Pr[\sup_{t\in [1-2^{-n}, 1+2^{-n}]}(1-t)|M_t|>\epsilon] &\leq \frac{E[M_{1\pm 2^{-n}}^2]}{\epsilon^2}2^{-2n}.
+	\end{align*}
+	By the It\^o isometry, we then have
+	\[
+	\Pr[\sup_{t\in [1-2^{-n}, 1+2^{-n}]}(1-t)|M_t|>\epsilon] \leq 2\epsilon^{-2}\cdot 2^{-n}.
+	\]
+	Setting $\epsilon = 2^{-n/4}$, we obtain a summable sequence, so by Borel-Cantelli, for almost every $\omega$ there is some $n(\omega)$ such that $n\geq n(\omega)$ implies that
+	\[
+	\omega\notin \{\omega: \sup_{t\in [1\pm 2^{-n}]}(1-t)|M_t| > 2^{-n/4}\}.
+	\]
+	Consequently,
+	\[
+	\lim_{t\to 1}(1-t)\int_0^t\frac{dB_s}{1-s} = 0,
+	\]
+	and the desired result follows.
+\end{proof}
+
+\end{document}

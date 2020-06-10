@@ -1,0 +1,212 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{April 13, 2020} }
+\begin{center}
+{\bf \Large 271C - Homework 1}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\noindent\textbf{Problem 1. }
+Find the solution to
+\begin{align*}
+	dX^{(1)}_t &= X^{(2)}_tdt + \sigma^{(1)}dB^{(1)}_t\\
+	dX^{(2)}_t &= X^{(1)}_tdt + \sigma^{(2)}dB^{(2)}_t\\
+	X^{(1)}_0 &= 1,\quad X^{(2)}_0=0,
+\end{align*}
+with $B$ correlated Brownian motions: $d\langle B^{(1)}, B^{(2)}\rangle_t = \rho$ and $\sigma^{(j)}$ constants.
+\begin{solution}
+	We write the SDE in matrix-vector form
+	\begin{equation}\label{1:sde}
+	dX_t = AX_t\ dt + \Sigma\ dB_t,\quad X_0 = [1\ 0]^T,
+	\end{equation}
+	where
+	\[
+	A = \begin{bmatrix}
+		0&1\\
+		1&0
+	\end{bmatrix},\quad \Sigma = \begin{bmatrix}
+		\sigma^{(1)} & 0\\
+		0 & \sigma^{(2)}
+	\end{bmatrix}.
+	\]
+	We multiply (\ref{1:sde}) through by the integrating factor $\exp(-At)$.
+	\begin{equation}\label{1: factor}
+	e^{-At}dX_t = e^{-At}AX_t\ dt + e^{-At}\Sigma\ dB_t.
+	\end{equation}
+	Now by It\^o we have
+	\[
+	d(e^{-At}X_t) = -Ae^{-At}X_t\ dt + e^{-At}\ dX_t.
+	\]
+	Substituting this into (\ref{1: factor}) and integrating gives
+	\[
+	e^{-At}X_t - X_0 = \int_0^te^{-As}\Sigma\ dB_s.
+	\]
+	From this we deduce
+	\[
+	X_t = e^{At}X_0 + \int_0^te^{A(t-s)}\Sigma\ dB_s.
+	\]
+
+\end{solution}
+
+
+\noindent\textbf{Problem 2. }
+Consider a geometric Brownian motion $X$ solving
+\[
+X_t = x_0 + \mu\int_0^tX_s\ ds + \sigma\int_0^tX_s\ dB_s,
+\]
+with $x_0>0$. Show that we have a strong solution satisfying:
+\begin{enumerate}[(i)]
+	\item if $\mu<\sigma^2/2$ then $\lim_{t\to \infty}X_t = 0$, $\sup_{0\leq t<\infty}X_t<\infty$ a.s.
+	\item if $\mu>\sigma^2/2$ then $\inf_{0\leq t<\infty}X_t>0$, $\lim_{t\to \infty}X_t = \infty$ a.s.
+	\item if $\mu=\sigma^2/2$ then $\inf_{0\leq t< \infty}X_t = 0$, $\sup_{0\leq t<\infty}X_t =\infty$ a.s.
+\end{enumerate}
+\begin{proof}
+	Differentiating the given integral equation gives
+	\[
+	dX_t = \mu X_t\ dt + \sigma X_t\ dB_t.
+	\]
+	By It\^o's lemma we have
+	\begin{align*}
+		d(\log X_t) &= \frac{1}{X_t}\ dX_t - \frac{1}{2}\cdot\frac{1}{X_t^2}\ d\langle X\rangle_t\\
+		&= \left(\mu - \frac{1}{2}\sigma^2\right)dt + \sigma\ dB_t
+	\end{align*}
+	Integrating through gives
+	\[
+	X_t = x_0\exp\left[\left(\mu-\frac{1}{2}\sigma^2\right)t + \sigma B_t \right].
+	\]
+	Since 
+	\[
+	|\mu x| + |\sigma x| \leq (|\mu| + |\sigma|)|x|
+	\]
+	and
+	\[
+	|\mu x - \mu y| + |\sigma x - \sigma y| \leq (|\mu|+|\sigma|)|x-y|,
+	\]
+	our SDE has a unique strong solution. Now the law of the iterated logarithm states that
+	\[
+	\limsup_{t\to \infty}\frac{B_t}{\sqrt{2t\log\log t}} = 1\quad\text{and}\quad \liminf_{t\to \infty}\frac{B_t}{\sqrt{2t\log\log t}} = -1\text{ a.s.}
+	\]
+	If $\mu\neq \sigma^2/2$, then the $(\mu - \sigma^2/2)t$ term will dominate the $\sigma B_t$ term asymptotically. If $\mu<\sigma^2/2$ then the exponential will tend to zero a.s. Continuity then implies that $\sup_{0\leq t<\infty}X_t<\infty$ a.s. If $\mu > \sigma^2/2$ then the exponential will tend to infinity a.s. Continuity then implies that $\inf_{0\leq t<\infty}X_t>0$. Finally, if $\mu=\sigma^2/2$, then since $B_t$ almost surely attains arbitrarily large positive and negative values, $\inf_{0\leq t<\infty}X_t=0$ and $\sup_{0\leq t<\infty}X_t = \infty$.
+\end{proof}
+
+
+\noindent\textbf{Problem 3. }
+Let $u(t, x)$ be the smooth solution of the terminal PDE
+\[
+\begin{cases}
+	\partial_tu(t,x) + \frac{1}{2}\sigma^2(x)\partial^2_xu(t,x) + \mu(x)\partial_xu(t,x)+c(x)u(t,x)=0\\
+	u(T,x) = h(x)
+\end{cases},\quad t<T,\ x\in \reals,
+\]
+with $\mu$, $\sigma$, $c$, $h$ bounded and smooth. Let $X_t$ be the It\^o process defined by
+\[
+X_t = x + \int_0^t\mu(X_s)\ ds + \int_0^t\sigma(X_s)\ dB_s.
+\]
+Show that
+\[
+Y_t = \exp\left[\int_0^tc(X_s)\ ds\right]u(t,X_t)
+\]
+is a martingale. Deduce that
+\[
+u(t, X_t) = E\left\{\exp\left[\int_t^Tc(X_s)\ ds  \right]h(X_T)\mid \mcal{F}_t \right\}.
+\]
+
+\begin{proof}
+	By It\^o we have
+	\begin{align*}
+	dY_t &= e^{\int_0^tc(X_s)ds}\left[(c(X_t)u(t,X_t)+\partial_tu(t, X_t))dt + \partial_xu(t, x_t)\ dX_t + \frac{1}{2}\partial^2_xu(t, X_t)\ d\langle X\rangle_t\right]\\
+	&= e^{\int_0^tc(X_s)ds}\left[\left(c(X_t)u(t,X_t) + \partial_tu(t, X_t) + \mu(X_t)\partial_xu(t, X_t) + \frac{1}{2}\sigma^2(X_t)\partial^2_xu(t, X_t)\right)dt\right.\\
+	&+\sigma(X_t)\partial_xu(t, X_t)\ dB_t\bigg]\\
+	&= e^{\int_0^tc(X_s)ds}\sigma(X_t)\partial_xu(t, X_t)\ dB_t.
+	\end{align*}
+	Since $\sigma$ and $c$ are bounded and smooth and $u$ is smooth, the quantity in front of the $dB_t$ is in class I, so $Y_t$ is a martingale.\\
+
+	\noindent Now since $Y_t$ is a martingale we have
+	\begin{align*}
+		E\left\{\exp\left[\int_t^Tc(X_s)\ ds  \right]h(X_T)\mid \mcal{F}_t \right\} &= E\left\{\exp\left[\int_0^Tc(X_s)\ ds  \right]\exp\left[-\int_0^tc(X_s)\ ds  \right]u(T, x)\mid \mcal{F}_t \right\}\\
+		&= \exp\left[-\int_0^tc(X_s)\ ds  \right]E\left\{\exp\left[\int_0^Tc(X_s)\ ds  \right]u(T, x)\mid \mcal{F}_t \right\}\\
+		&= \exp\left[-\int_0^tc(X_s)\ ds  \right]\exp\left[\int_0^tc(X_s)\ ds  \right]u(t,x)\\
+		&= u(t, x).
+	\end{align*}
+\end{proof}
+
+
+\noindent\textbf{\O ksendal 5.15}
+Consider the nonlinear SDE
+\begin{equation}\label{5.15: sde}
+	dX_t = rX_t(K-X_t)\ dt + \beta X_t\ dB_t;\quad X_0 = x>0.
+\end{equation}
+Verify that
+\begin{equation}\label{5.15: solution}
+	X_t = \frac{\exp[(rK-\frac{1}{2}\beta^2)t + \beta B_t]}{x^{-1} + r\int_0^t\exp[(rK-\frac{1}{2}\beta^2)s + \beta B_s]\ ds};\quad t\geq 0
+\end{equation}
+is the unique strong solution of (\ref{5.15: sde}).
+\begin{proof}
+	% Set $Y_t = \frac{1}{X_t}$ and divide the SDE (\ref{5.15: sde}) through by $-X_t^2$ to obtain
+	% \begin{equation*}
+	% -\frac{dX_t}{X_t^2} = -\frac{rK}{X_t}dt + r\ dt- \frac{\beta}{X_t}dB_t
+	% \end{equation*}
+	% By It\^o we have
+	% \begin{align*}
+	% 	dY_t &= -\frac{dX_t}{X_t^2} + \frac{d\langle X\rangle_t}{X_t^3}\\
+	% 	&=-\frac{rK}{X_t}dt + r\ dt- \frac{\beta}{X_t}dB_t + \frac{\beta^2X_t^2}{X_t^3}dt\\
+	% 	&= [(\beta^2-rK)Y_t + r]dt - \beta Y_t\ dB_t.
+	% \end{align*}
+	% Now since $(\beta^2-rK)x+r$ and $-\beta x$ are sublinear at infinity and Lipschitz in $x$, the above SDE has a unique strong solution for $Y_t$. Since $Y_t = 1/X_t$, our original SDE must also have a unique strong solution for $X_t$. It remains to show that this solution is indeed (\ref{5.15: solution}).\\
+
+	% \noindent We define the integrating factor $F_t = \exp(\frac{1}{2}\beta^2t + \beta B_t)$. 
+
+	We follow \O ksendall 5.16, which we proved on our final exam last quarter. Define the integrating factor $F_t = \exp(\frac{1}{2}\beta^2t - \beta B_t)$ and set $Y_t = F_tX_t$. By exercise 5.16 we have
+	\[
+	dY_t = d(F_tX_t) = F_t[rX_t(K-X_t)]\ dt = F_t\left[r\frac{Y_t}{F_t}\left(K - \frac{Y_t}{F_t}\right) \right]\ dt.
+	\]
+	Dividing through by $-Y_t^2$ we get
+	\[
+	-\frac{dY_t}{Y_t^2} = \left(-\frac{rK}{Y_t} + \frac{r}{F_t} \right)dt.
+	\]
+	Since $dY_t$ has no martingale term, we have
+	\[
+	d\left(\frac{1}{Y_t}\right) = -\frac{1}{Y_t^2}\ dY_t = \left(-\frac{rK}{Y_t} + \frac{r}{F_t} \right)dt.
+	\]
+	This is a linear ODE in $\frac{1}{Y_t}$, so it has a unique strong solution. Since $X_t = Y_t/F_t$, we have a unique strong solution for $X_t$ as well. It remains to show that the solution is indeed (\ref{5.15: solution}).\\
+
+	\noindent To deal with the $rK$ factor, we introduce the integrating factor $e^{rKt}$.
+	\begin{align*}
+		d\left( \frac{e^{rKt}}{Y_t}\right) &= \frac{rKe^{rKt}}{Y_t}\ dt - \frac{e^{rKt}}{Y_t^2}\ dY_t\\
+		&= \frac{re^{rKt}}{F_t}\ dt.
+	\end{align*}
+	From this we deduce that
+	\[
+	\frac{e^{rKt}}{Y_t} = \frac{1}{Y_0}+ r\int_0^t \exp\left[\left(rk-\frac{1}{2}\beta^2 \right)t + \beta B_s \right]\ ds.
+	\]
+	Using $X_t = Y_t/F_t$ gives (\ref{5.15: solution}).
+\end{proof}
+
+
+\end{document}

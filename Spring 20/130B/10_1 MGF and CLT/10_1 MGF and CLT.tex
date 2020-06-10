@@ -1,0 +1,67 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 130B - Moment Generating Functions and the Central Limit Theorem}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\begin{enumerate}
+	%mitz 97
+	\item Use moment generating functions to prove that the sum of finitely many independent Poisson random variables is also a Poisson random variable.
+
+	\vfill
+
+	\item Here we use moment generating functions to derive a neat tail bound. Let $X$ be a random variable. Suppose the MGF of $X^2$ satisfies
+	\[
+	M_{X^2}(\lambda^2)\leq e^{C_1^2\lambda^2}\quad\text{for all $\lambda$ such that }|\lambda|\leq \frac{1}{C_1},
+	\]
+	where $C_1$ is some positive constant. Deduce that the MGF of $X^2$ is bounded at some point, namely that
+	\[
+	E[\exp(X^2/C_2^2)]\leq 2
+	\]
+	for some positive constant $C_2$. Use this to prove the following tail bound for all $t\geq 0$
+	\[
+	\Pr\big[|X|\geq t\big]\leq 2\exp\big(-t^2/C_3^2\big),
+	\]
+	where $C_3$ is some positive constant. \textit{Hint: look back at the proof of Chernoff.}
+
+	\vfill
+
+	\item Fifty numbers are rounded off to the nearest integer then summed. If the individual round-off errors are uniformly distributed over $(-.5, .5)$, approximate the probability that the resultant sum differs from the exact sum by more than 3.
+
+	\vfill
+
+	\item Let $X_1, X_2, \ldots$ be a sequence of iid random variables having finite mean and variance. While the central limit theorem says that $\sum_{i=1}^nX_i$ approaches a normal distribution as $n\to \infty$, it doesn't say how fast, i.e. it doesn't say how large $n$ needs to be in order for the normal approximation to be any good.\\
+
+	It happens that the normal approximation was pretty good in the last example. In lots of applications, the normal approximation is good enough when $n\geq 20$ or even smaller. Come up with a distribution for the $X_i$'s so that $\sum_{i=1}^{100}X_i$ isn't close to a normal distribution. \textit{Hint: problem 1.}
+	\vfill
+\end{enumerate}
+
+
+\end{document}

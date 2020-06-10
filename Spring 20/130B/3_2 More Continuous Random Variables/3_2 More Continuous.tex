@@ -1,0 +1,63 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 130B - More Continuous Random Variables}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+
+\begin{enumerate}
+	\item Let $X$ be a random variable that takes on values between 0 and $c$. Show that
+	\[
+	\Var[X] \leq \frac{c^2}{4}.
+	\]
+	One way to do this is to first show that $E[X^2]\leq cE[X]$ and then show that
+	\[
+	\Var[X] \leq c^2[\alpha(1-\alpha)],
+	\]
+	where $\alpha = \frac{E[X]}{c}$.
+
+	\item Say you want to write a computer program that needs to simulate a continuous random variable $X$ whose distribution function is $F$. You don't know how to simulate $X$ directly, but you can simulate uniform random variables just fine. Assuming the distribution function $F$ is strictly increasing, describe a way to simulate $X$.
+
+	\item If $X$ is an exponential random variable with mean $1/\lambda$, show that
+	\[
+	E[X^k] = \frac{k!}{\lambda^k},\quad k = 1, 2, \ldots
+	\]
+
+	\item If $X$ is an exponential random variable with parameter $\lambda = 1$< compute the probability density function of the random variable $Y$ defined by $Y = \log X$.
+
+	\item The time in hours required to repair a machine is an exponentially distributed random variable with parameter $\lambda = \frac{1}{2}$. What is
+	\begin{enumerate}[(a)]
+		\item The probability that a repair time exceeds 2 hours?
+		\item The conditional probability that a repair takes at least 10 hours, given that that its duration exceeds 9 hours?
+	\end{enumerate}
+\end{enumerate}
+
+
+\end{document}

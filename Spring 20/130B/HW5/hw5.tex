@@ -1,0 +1,84 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{property}[theorem]{Property}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{exercises}[theorem]{Exercises}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{examples}[theorem]{Examples}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\begin{center}
+{\bf \Large Math 130B - Homework 5}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+%6.11 self test
+\begin{enumerate}
+	\item Let $X_1, X_2, \ldots$ be a sequence of independent uniform $(0,1)$ random variables. For a fixed constant $c$, define the random variable $N$ by
+	\[
+	N = \min\{n: X_n>c\}.
+	\]
+	That is, $N$ is the first time $X_n$ passes $c$. Is $N$ independent of $X_N$? That is, does knowing the value of the first random variable that is greater than $c$ affect the probability distribution of when this random variable occurs? Give an intuitive explanation of your answer.
+
+
+	\item You and three other people are to place bids for an object, with the high bid winning. If you win, you plan to sell the object immediately for \$10000. How much should you bid to maximize your expected profit if you believe that the bids of the others can be regarded as being independent and uniformly distributed between \$7000 and \$10000?
+
+	\item We discussed the Ramsey numbers in  section 7.3.2 of the lecture notes. There we start by showing that among any six people, there are three, any two of whom are friends, or three, no two of whom are friends (i.e. $R(3,3) = 6$). Then we use probabilistic techniques to show that in general, $R(s, s) \geq 2^{s/2}$. Here we investigate what happens in a \textit{random} graph.
+
+	\begin{definition}
+		For given $n$ and $p\in [0,1]$, a graph $G$ sampled from $\mcal{G}(n, p)$ is a graph with labeled set of vertices $V(G) = \{1, 2, \ldots, n\}$, obtained by joining any two vertices with an edge with probability $p$, independently.
+	\end{definition}
+
+	Show that a graph $G\sim \mcal{G}(n, \frac{1}{2})$ has no independent set or clique of size $2\log_2(n) + 1$ with probability $1-o(1)$. \textit{Hint: Let $X$ be the number of cliques of size $t = 2\log_2(n)+1$. Show that $E[X] = o(1)$. You may use the fact that $\binom{n}{t}\leq \frac{n^t}{t!}$.}
+
+
+	\item In this problem we show that for every $k$ there exists a constant $C_k$ such that every graph on $n$ vertices with minimum degree $\delta \geq C_k\log n$ must contain a cycle of length divisible by $k$.
+	\begin{enumerate}
+		\item Fix $k$ numbered colors (color 1, color 2, etc.). Randomly color each vertex with one of these colors. Show that there exists a coloring for which each vertex colored $i$ has a neighbor colored $i+1 \pmod{k}$. \textit{Hint: $1-x\leq e^{-x}$.}
+
+		\item Now orient the edges between vertices colored $i$ and $i+i$ so that they point from the one colored $i$ to the one colored $i+1$. Delete the rest of the edges. Show that the resulting graph must contain a directed cycle. Argue that this cycle has length divisible by $k$.
+	\end{enumerate}
+
+
+	\item 1600 anteaters have formed 16000 clubs of 80 anteaters each. Prove that there are two clubs with at least four anteaters in common.
+
+
+\end{enumerate}
+
+\end{document}

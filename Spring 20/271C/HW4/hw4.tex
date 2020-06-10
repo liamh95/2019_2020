@@ -1,0 +1,320 @@
+\documentclass[11pt,letterpaper]{report}
+\usepackage{amssymb,amsfonts,color,graphicx,amsmath,enumerate}
+\usepackage{amsthm,hyperref}
+
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Cov}{\text{Cov}}
+
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+\voffset=-3cm
+\hoffset=-2.25cm
+\textheight=24cm
+\textwidth=17.25cm
+\addtolength{\jot}{8pt}
+\linespread{1.3}
+
+\begin{document}
+\noindent{\em Liam Hardiman\hfill{June 3, 2020} }
+\begin{center}
+{\bf \Large 271C - Homework 4}
+\vspace{0.2cm}
+\hrule
+\end{center}
+
+\section*{Karatzas and Shreve Problem 2.8.6}
+Derive the transition density for Brownian motion absorbed at the origin, $\{B_{t\land T_0}, \mcal{F}_t; 0\leq t<\infty\}$, by verifying that
+\begin{align*}
+P^x[B_t\in dy, T_0>t] &= p_-(t;x,y)dy\\
+&:= \big[p(t;x,y)-p(t;x,-y)\big]dy;\quad t>0,\ x,y,>0.
+\end{align*}
+Here, $p$ is the Gaussian kernel
+\[
+p(t; x,y) = \frac{1}{\sqrt{2\pi t}}e^{-(x-y)^2/2t},\quad t>0,\ x,y\in \reals.
+\]
+\begin{proof}
+	Fix $x>0$. By symmetry, we can start our Brownian motion at $-x$ and kill it when it reaches the origin. Let $T_0$ denote the stopping time $T_0 = \inf\{t\geq 0: B_t = 0,\ B_0 = -x\}$.  Let's compute the distribution function. For $y\leq 0$ we have
+	\begin{align*}
+		P^x[B_{t\land T_0} \leq y] &= P^x\left[B_t \leq y,\ \max_{0\leq s\leq t}B_s <0 \right]\\
+		&= P^x[B_t\leq y] - P^x\left[B_t\leq y,\ \max_{0\leq s\leq t}B_s\geq 0\right]\\
+		&= P^x[B_t\leq y] - P^x[B_t\leq y,\ T_0 \leq t].
+	\end{align*}
+	By the reflection principle,
+	\[
+	P^x[B_t\leq y,\ T_0\leq t] = P^x[B_t \geq -y,\ T_0\leq t] = \Pr[B_t\geq -y].
+	\]
+	We then have 
+	\[
+	P^x[B_{t\land T_0} \leq y]= P^x[B_t\leq y] + P^x[B_t\geq -y].
+	\]
+	Differentiating with respect to $t$ gives the desired density.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section*{Karatzas and Shreve Problem 2.8.7}
+Show that under $P^0$, reflected Brownian motion, $|B| = \{|B_t|, \mcal{F}_t; 0\leq t<\infty\}$ is a Markov process with transition density
+\begin{align*}
+	P^0\big[|B_{t+s}|\in dy\mid |B_t| = x\big] &= p_+(s;x,y)dy\\
+	&:= [p(s;x,y)+p(s;x,-y)]dy;\quad s>0,t\geq 0,\ x,y\geq 0.
+\end{align*}
+\begin{proof}
+	To show that $|B|$ satisfies the Markov property, we'll show that
+	\begin{equation}\label{markov_prop}
+		P^x\big[|B_s|\in A\big] = P^0\big[|B|_{t+s}\in A\mid |B_t| = x\big].
+	\end{equation}
+	Let's split up the condition
+	\begin{align*}
+		P^0\big[|B_{t+s}|\in A\mid |B_t|=x\big] &= P^0\big[|B_{t+s}|\in A\mid B_t = x\big]P^0\big[B_t=x\mid |B_t|=x\big]\\
+		&+ P^0\big[|B_{t+s}|\in A\mid B_t = -x\big]P^0\big[B_t=-x\mid |B_t|=x\big].
+	\end{align*}
+	Since the distribution of $B_t$ is symmetric, each of those second factors is $1/2$.
+	\begin{align*}
+		P^0\big[|B_{t+s}|\in A\mid |B_t|=x\big] &= \frac{1}{2}P^0\big[|B_{t+s}|\in A\mid B_t = x\big] + \frac{1}{2}P^0\big[|B_{t+s}|\in A\mid B_t = -x\big]\\
+		&= \frac{1}{2}P^x\big[|B_s|\in A\big] + \frac{1}{2}P^{-x}\big[|B_s|\in A\big]\\
+		&= P^x\big[|B_s|\in A\big].
+	\end{align*}
+	Thus, the process satisfies the Markov property. As for the transition density, we start by computing its distribution function.
+	\begin{align*}
+		P^0\big[|B_{t+s}|\leq y\mid |B_t| = x\big] &= P^0\big[|B_{t+s}|\leq y\mid B_t = x\big]P^0\big[B_t = x\mid |B_t| = x\big]\\
+		&+P^0\big[|B_{t+s}|\leq y\mid B_t = -x\big]P^0\big[B_t = -x\mid |B_t| = x\big]\\
+		&= \frac{1}{2}P^0\big[|B_{t+s}|\leq y\mid B_t = x\big] + \frac{1}{2}P^0\big[|B_{t+s}|\leq y \mid B_t = -x\big]\\
+		&= \frac{1}{2}P^x\big[|B_s|\leq y\big] + \frac{1}{2}P^{-x}\big[|B_s|\leq y\big]\\
+		&= P^x\big[|B_s|\leq y\big]\\
+		&= \int_{-y}^yp(s;x,t)\ dt.
+	\end{align*}
+	Differentiating with respect to $y$ establishes the desired result.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\section*{Karatzas and Shreve Problem 2.8.8}
+Define $Y_t = M_t - B_t$, $0\leq t<\infty$, where $M_t = \max_{0\leq s\leq t}B_s$ is the running maximum. Show that under $P^0$, the process $Y = \{Y_t, \mcal{F}_t, 0\leq t<\infty\}$ is Markov and has transition density
+\[
+P^0[Y_{t+s}\in dy\mid Y_t = x]=p_+(s; x,y)dy;\quad s>0,\ t\geq 0,\ x,y\geq 0.
+\]
+Conclude that under $P^0$ the processes $|B|$ and $Y$ have the same finite dimensional distributions.
+\begin{proof}
+	%https://www.stat.berkeley.edu/~aldous/205B/bmbook.pdf
+	(This argument comes from page 55 in a \href{https://www.stat.berkeley.edu/~aldous/205B/bmbook.pdf}{book} by M\"orters and Peres) Fix $s\geq 0$ and let $\tilde{B}_t$ be our original Brownian motion $B_t$ ``started anew'' at $t=s$:
+	\[
+	\tilde{B}_t = B_{t+s} - B_s.
+	\]
+	We showed ages ago that $\tilde{B}_t$ is also a Brownian motion. Similarly, define $\tilde{M}_t = \max_{s\leq t}\tilde{B}_s$. If we can show that, conditional on $\mcal{F}_s$, the process $Y_{s+t}$ has the same distribution as $|Y(s)+\tilde{B}_t| = |B_{s+t}|$, then since the reflected Brownian motion is Markovian, we will have shown that $Y$ is also Markovian with the same transition density.\\
+
+	\noindent $M(s+t)$ is the larger between the running maximum of $B$ before $s$ or between $s$ and $s+t$. We can write the latter as $B_s + \tilde{M}_t$, so we have
+	\[
+	M_{s+t} = M_s\lor (B_s + \tilde{M}_t).
+	\]
+	From this we deduce
+	\[
+	Y_{s+t} = M_{s+t}-B_{s+t} = (M_s\lor (B_s + \tilde M_t)) - (B_s + \tilde B_t) = (Y_s\lor \tilde M_t) - \tilde B_t.
+	\]
+	From here, it suffices to show that $(y\lor \tilde M_t) - \tilde B_t$ has the same distribution as $|y+\tilde B_t|$ for any $y\geq 0$. For any $a\geq 0$ we can write
+	\begin{align*}
+		\Pr[(y\lor \tilde M_t) - \tilde B_t > a] &= \Pr[y-\tilde B_t>a] + \Pr[y-\tilde B_t\leq a,\ \tilde M_t - \tilde B_t > a]\\
+		&= p_1 + p_2.
+	\end{align*}
+	Since the distribution of $\tilde{B}_t$ is symmetric, we have $p_1 = \Pr[y+\tilde B_t > a]$. The plan is to use the reflection principle on $p_2$. To this end, define the time reversed Brownian motion $W$ by
+	\[
+	W_u = \tilde B_{t-u}-\tilde B_t,\quad 0\leq u\leq t.
+	\]
+	Similarly, let $(M_W)_t = \max_{0\leq u\leq t}W_t$ be its running maximum. Clearly, we have that $(M_W)_t = \tilde M_t - \tilde B_t$. Since $W_t = -\tilde B_t$, we have
+	\[
+	p_2 = \Pr[y + W_t\leq a,\ (M_W)_t > a].
+	\]
+	By the reflection principle, we have
+	\[
+	p_t = \Pr[y+\tilde B_t \leq -a].
+	\]
+	Adding $p_1$ and $p_2$ gives the desired
+	\[
+	\Pr[y\lor \tilde M_t - \tilde B_t > a] = \Pr[|y+\tilde B_t|>a].
+	\]
+\end{proof}
+
+
+
+
+
+
+
+
+
+\section*{\O ksendal Problem 8.15}
+Let $f\in C_0^2(\reals^n)$ and $\alpha(x) = (\alpha_1(x), \ldots, \alpha_n(x))$ with $\alpha_i\in C_0^2(\reals^n)$ be given functions and consider the PDE
+\[
+\begin{cases}
+	\partial_t u = \left(\sum_{i=1}^n\alpha_i(x)\partial_{x_i} + \frac{1}{2}\sum_{i=1}^n\partial^2_{x_i}\right)u;\quad t>0,\ x\in \reals^n\\
+	u(0,x) = f(x);\quad x\in \reals^n.
+\end{cases}
+\]
+\begin{enumerate}[(a)]
+	\item Use the Girsanov theorem to show that the unique bounded solution $u(t,x)$ of this equation can be expressed by
+	\[
+	u(t, x) = E^x\left[\exp\left(\int_0^t\alpha(B_s)\cdot dB_s-\frac{1}{2}\int_0^t|\alpha(B_s)|^2ds\right)f(B_t)\right],
+	\]
+	where $E^x$ is the expectation w.r.t. $P^x$.
+	\begin{proof}
+		We follow the lead of example 8.6.9. The PDO in the above PDE is the generator of the diffusion whose SDE is given by
+		\[
+		dX_t = \alpha(X_t)\ dt + dB_t.
+		\]
+		By theorem 8.1.1 (Kolmogorov's backward equation), the solution to this boundary value problem is unique and given by
+		\[
+		u(t,x) = E^x[f(X_t)].
+		\]
+		Since $f\in C_0^2$, the solution is bounded. Define the measure $Q$ by $dQ(\omega) = M_T(\omega)dP(\omega)$, where $M_t$ is given by
+		\[
+		M_t = \exp\left(\int_0^t\alpha(B_s)\cdot dB_s - \frac{1}{2}\int_0^t|\alpha(B_s)|^2ds\right).
+		\]
+		By Girsanov's theorem, $\tilde{B}_t$ given by
+		\[
+		\tilde B_t = B_t - \int_0^t\alpha(B_s)\ ds
+		\]
+		is a Brownian motion w.r.t. $Q$ for $t\leq T$. As per example 8.6.9, $B_t$ satisfies the SDE
+		\[
+		dB_t = \alpha(B_t)\ dt + d\tilde{B}_t.
+		\]
+		The solution is then given by
+		\[
+		E^x_Q[f(B_t)] = E^x\left[\exp\left(\int_0^t\alpha(B_s)\cdot dB_s - \frac{1}{2}\int_0^t|\alpha(B_s)|^2ds\right)f(B_t)\right].
+		\]
+	\end{proof}
+
+	\item Now assume that $\alpha$ is a gradient, i.e., that there exists $\gamma\in C^1(\reals^n)$ such that
+	\[
+	\nabla \gamma = \alpha.
+	\]
+	Assume for simplicity that $\gamma\in C_0^2(\reals^n)$. Use It\^o's formula to prove that
+	\[
+		u(t,x) = \exp[-\gamma(x)]E^x\left[\exp\left(-\frac{1}{2}\int_0^t\left(\nabla\gamma^2(B_s)+\Delta\gamma(B_s)\right)ds\right)\exp[\gamma(B_t)]f(B_t)\right].
+	\]
+	\begin{proof}
+		We substitute $\alpha = \nabla \gamma$ into what we got in part (a).
+		\begin{align*}
+			\exp\left[\int_0^t\alpha(B_s)\cdot dB_s - \frac{1}{2}\int_0^t|\alpha(B_s)|^2ds\right] &= \exp\left[\int_0^t\nabla \gamma(B_s)\ dB_s -\frac{1}{2}\int_0^t|\nabla \gamma(B_s)|^2\ ds\right]\\
+			&= \exp\left[\gamma(B_t)-\gamma(B_0) - \frac{1}{2}\int_0^t\Delta \gamma(B_s)\ ds -\frac{1}{2}\int_0^t|\nabla \gamma(B_s)|^2\ ds\right].
+		\end{align*}
+		Assuming $B_0 = x$, we get what we want.
+	\end{proof}
+
+	\item Put $v(t,x) = \exp[\gamma(x)]u(t,x)$. Use the Feynman-Kac formula to show that $v(t,x)$ satisfies the PDE
+	\[
+	\begin{cases}
+		\partial_t v = -\frac{1}{2}\left(|\nabla \gamma|^2 + \Delta \gamma\right)\cdot v + \frac{1}{2}\Delta v;\quad t>0,\ x\in \reals^n\\
+		v(0,x) = \exp[\gamma(x)]f(x);\quad x\in \reals^n.
+	\end{cases}
+	\]
+	\begin{proof}
+		This follows directly from Feynman-Kac. We have that
+		\[
+		v(t,x) = E^x\left[\exp\left(-\int_0^t\left(\nabla\gamma^2(B_s) + \Delta\gamma(B_s)\right)ds\right)e^{\gamma(B_t)}f(B_t)\right].
+		\]
+		If we call the integrand in the exponent $q$, then Feynman-Kac says that
+		\[
+		\begin{cases}
+			\partial_t v = Av - qv;\quad t>0,\ x\in \reals^n\\
+			v(0,x) = e^{\gamma(x)}f(x);\quad x\in \reals^n,
+		\end{cases}
+		\]
+		where $A$ is the generator of $B_t$. The generator of Brownian motion is the Laplacian, so $A = \Delta$ and we're done.
+	\end{proof}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\section*{\O ksendal 8.16}
+Let $B_t$ denote Brownian motion in $\reals^n$ and consider the diffusion $X_t$ in $\reals^n$ defined by
+\[
+dX_t = \nabla h(X_t)dt + dB_t;\quad X_0 = x\in \reals^n,
+\]
+where $h\in C_0^1(\reals^n)$.
+\begin{enumerate}[(a)]
+	\item Prove that for $f\in C_0(\reals^n)$ we have
+	\begin{equation}\label{soln}
+	E^x[f(X_t)] = E^x\left[\exp\left(-\int_0^tV(B_s)\ ds\right)\cdot \exp[h(B_t)-h(x)]\cdot f(B_t)\right],
+	\end{equation}
+	where
+	\[
+	V(x) = \frac{1}{2}|\nabla h(x)|^2 + \frac{1}{2}\Delta h(x).
+	\]
+	\begin{proof}
+		As per \O ksendal's hint, we use Girsanov on the LHS of (\ref{soln}) to write it in terms of $B_t$. We again follow the example 8.6.9. Define $M_t$ by
+		\[
+		M_t = \exp\left[\int_0^t \nabla h(B_s)\cdot B_s - \frac{1}{2}\int_0^t|\nabla h(B_s)|^2\ ds\right].
+		\]
+		Since $h\in C_0^1$, it satisfies the Novikov condition and $M_t$ is a Martingale. Define the measure $Q$ by $dQ = M_t\ dP$ for some $T<\infty$. Then $\tilde B_t$ given by
+		\[
+		\tilde B_t = -\int_0^t\nabla(B_s)\ ds + B_t
+		\]
+		is a Brownian motion w.r.t. $Q$ and
+		\[
+		dB_t = \nabla h(B_s)dt + d\tilde B_t.
+		\]
+		Now we can rewrite that expectation.
+		\begin{align*}
+			E^x_P[f(X_t)] &= E^x_Q[M_t^{-1}f(X_t)]\\
+			&= E_Q^x\left[\exp\left(\int_0^t\nabla h(X_s)\cdot dB_s - \frac{1}{2}\int_0^t|\nabla h(X_s)|^2ds\right)f(X_t)\right]\\
+			&= E^x_P\left[\exp\left(\int_0^t\nabla h(B_s)\cdot dB_s - \frac{1}{2}\int_0^t|\nabla h(B_s)|^2ds\right)f(X_t)\right]
+		\end{align*}
+		Now by It\^o we have
+		\[
+		h(B_t) - h(B_0) = \int_0^t\nabla h(B_s)\cdot dB_s + \frac{1}{2}\int_0^t \Delta h(B_s)\ ds.
+		\]
+		Solving for that first integral and plugging it into the last line of the previous computation establishes the desired result.
+	\end{proof}
+
+	\item Use Feynman-Kac to restate (\ref{soln}) as follows (assuming $V\geq 0$):
+	\[
+	T_t^X(f,x) = \exp[-h(x)]\cdot T_t^Y(f\cdot \exp h, x),
+	\]
+	where $T_t^X$ and $T_t^Y$ denote the transition operators of the process $X$ and $Y$, respectively, i.e.
+	\[
+	T_t^X(f,x) = E^x[f(X_t)].
+	\]
+	\begin{proof}
+		There's a remark in \O ksendal that says that if $Y$ is the process obtained from killing $B_t$ at the rate $V$, then $Y$ has transition operator
+		\[
+		T_t^Y(f,x) = E^x\left[\exp\left(-\int_0^tV(B_s)\ ds\right)f(B_t)\right]
+		\]
+		If we just pull the $e^{-h(x)}$ out of the expectation in (\ref{soln}), then we can write it as
+		\[
+		T_t^X(f,x) = e^{-h(x)}T_t^Y(f\cdot \exp h, x).
+		\]
+	\end{proof}
+\end{enumerate}
+
+
+\end{document}
